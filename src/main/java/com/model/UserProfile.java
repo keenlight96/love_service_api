@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -33,4 +34,6 @@ public class UserProfile {
     private Account account;
     @ManyToOne
     private Zone zone;
+    @ManyToMany
+    private List<Supply> supply;
 }
