@@ -22,6 +22,7 @@ public class UserProfile {
     private String address;
     private double balance;
     private String phoneNumber;
+    private int price;
     private String idCard;
     private String gender;
     private String height;

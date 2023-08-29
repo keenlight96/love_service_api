@@ -16,6 +16,7 @@ public class Bill {
     private String address;
     private Date dateStart;
     private Date dateEnd;
+    private int price;
     private double total;
     private int hour;
     @ManyToOne
