@@ -19,7 +19,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
     }
 
     @Override
-    public UserProfile getById(int id) {
+    public UserProfile getById(long id) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

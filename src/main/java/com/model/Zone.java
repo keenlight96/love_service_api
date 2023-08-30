@@ -12,6 +12,6 @@ public class Zone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String city;
+    private String zone;
     private Boolean isActive;
 }

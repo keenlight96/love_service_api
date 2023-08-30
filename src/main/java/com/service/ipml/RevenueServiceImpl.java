@@ -21,7 +21,7 @@ public class RevenueServiceImpl implements IRevenueService {
     }
 
     @Override
-    public Revenue getById(int id) {
+    public Revenue getById(long id) {
         return null;
     }
 
@@ -36,7 +36,7 @@ public class RevenueServiceImpl implements IRevenueService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }
