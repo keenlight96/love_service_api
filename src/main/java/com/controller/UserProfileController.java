@@ -6,12 +6,10 @@ import com.service.ipml.UserProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -22,5 +20,9 @@ public class UserProfileController {
     @GetMapping
     public ResponseEntity<List<UserProfile>> getAll(){
         return new ResponseEntity<>(userProfileService.getAll(), HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<UserProfile>> findOne(@PathVariable long id) {
+        return new ResponseEntity<>(userProfileService.findOne(id), HttpStatus.OK);
     }
 }
