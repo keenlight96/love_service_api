@@ -1,23 +1,21 @@
 package com.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Data
-public class Review {
+@NoArgsConstructor
+public class LogActivity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private Date date;
+    private long id;
     @ManyToOne
-    private Account accountCCDV;
-    @ManyToOne
-    private Account accountUser;
-    private int rating;
-    @Lob
-    private String content;
+    private Account account;
+    private Date time;
     private Boolean isActive;
+    private String content;
 }

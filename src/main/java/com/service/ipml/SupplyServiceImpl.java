@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Supply;
 import com.repository.ISupplyRepository;
 import com.service.ISupplyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,27 +9,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class Supply implements ISupplyService {
+public class SupplyServiceImpl implements ISupplyService {
     @Autowired
     ISupplyRepository iSupplyRepository;
 
     @Override
-    public List<com.model.Supply> getAll() {
+    public List<Supply> getAll() {
         return null;
     }
 
-    @Override
-    public com.model.Supply getById(long id) {
-        return null;
+
+    public Supply getById(long id) {
+        return iSupplyRepository.findById(id).get();
     }
 
     @Override
-    public com.model.Supply create(com.model.Supply supply) {
-        return null;
+    public Supply create(Supply supply) {
+        return iSupplyRepository.save(supply);
     }
 
     @Override
-    public com.model.Supply edit(com.model.Supply supply) {
+    public Supply edit(Supply supply) {
         return null;
     }
 

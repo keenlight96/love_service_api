@@ -35,6 +35,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public void deleteById(long id) {
+
         iUserProfileRepository.deleteById(id);
     }
 
