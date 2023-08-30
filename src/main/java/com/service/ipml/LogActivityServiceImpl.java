@@ -1,6 +1,7 @@
 package com.service.ipml;
 
 import com.model.LogActivity;
+import com.repository.ILogActivityRepository;
 import com.service.ILogActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public class LogActivityServiceImpl implements ILogActivityService {
     @Autowired
-    ILogActivityService iLogActivityService;
+    ILogActivityRepository iLogActivityRepository;
     @Override
     public List<LogActivity> getAll() {
         return null;
