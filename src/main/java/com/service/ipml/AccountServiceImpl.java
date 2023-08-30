@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
@@ -20,27 +21,32 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public List<Account> getAll() {
-        return null;
+        return iAccountRepository.findAll();
     }
 
     @Override
     public Account getById(long id) {
-        return null;
+        Optional<Account> account = iAccountRepository.findById(id);
+        if (account.isPresent()) {
+            return account.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Account create(Account account) {
-        return null;
+        return iAccountRepository.save(account);
     }
 
     @Override
     public Account edit(Account account) {
-        return null;
+        return iAccountRepository.save(account);
     }
 
     @Override
     public void deleteById(long id) {
-
+        iAccountRepository.deleteById(id);
     }
 
     @Override

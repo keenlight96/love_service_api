@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Comment;
 import com.model.UserProfile;
 import com.repository.IUserProfileRepository;
 import com.service.IUserProfileService;
@@ -24,12 +25,17 @@ public class UserProfileServiceImpl implements IUserProfileService {
     }
     @Override
     public UserProfile getById(long id) {
-        return iUserProfileRepository.findById(id).get();
+        Optional<UserProfile> userProfile = iUserProfileRepository.findById(id);
+        if (userProfile.isPresent()) {
+            return userProfile.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public UserProfile create(UserProfile userProfile) {
-        return null;
+        return iUserProfileRepository.save(userProfile);
     }
 
     @Override
@@ -39,7 +45,6 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public void deleteById(long id) {
-
         iUserProfileRepository.deleteById(id);
     }
 
