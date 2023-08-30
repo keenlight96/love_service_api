@@ -1,6 +1,6 @@
 package com.service;
 
-import com.model.Like;
+import com.model.Likes;
 
-public interface ILikeService extends ICrudService<Like>{
+public interface ILikeService extends ICrudService<Likes>{
 }

@@ -1,6 +1,6 @@
 package com.service.ipml;
 
-import com.model.Like;
+import com.model.Likes;
 import com.repository.ILikeRepository;
 import com.service.ILikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +13,22 @@ public class LikeServiceImpl implements ILikeService {
     @Autowired
     ILikeRepository iLikeRepository;
     @Override
-    public List<Like> getAll() {
+    public List<Likes> getAll() {
         return null;
     }
 
     @Override
-    public Like getById(long id) {
+    public Likes getById(long id) {
         return null;
     }
 
     @Override
-    public Like create(Like like) {
+    public Likes create(Likes likes) {
         return null;
     }
 
     @Override
-    public Like edit(Like like) {
+    public Likes edit(Likes likes) {
         return null;
     }
 
