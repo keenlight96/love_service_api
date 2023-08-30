@@ -7,5 +7,5 @@ public interface ICrudService<E> {
     E getById(long id);
     E create(E e);
     E edit (E e);
-    void deleteById(int id);
+    void deleteById(long id);
 }

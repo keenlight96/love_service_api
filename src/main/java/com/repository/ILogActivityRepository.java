@@ -1,9 +1,9 @@
 package com.repository;
 
-import com.model.Likes;
+import com.model.LogActivity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ILikeRepository extends JpaRepository<Likes,Long> {
+public interface ILogActivityRepository extends JpaRepository<LogActivity,Long> {
 }

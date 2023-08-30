@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Comment;
 import com.model.Zone;
 import com.repository.IZoneRepository;
 import com.service.IZoneService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ZoneServiceImpl implements IZoneService {
@@ -15,26 +17,31 @@ public class ZoneServiceImpl implements IZoneService {
 
     @Override
     public List<Zone> getAll() {
-        return null;
+        return iZoneRepository.findAll();
     }
 
     @Override
     public Zone getById(long id) {
-        return null;
+        Optional<Zone> zone = iZoneRepository.findById(id);
+        if (zone.isPresent()) {
+            return zone.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Zone create(Zone zone) {
-        return null;
+        return iZoneRepository.save(zone);
     }
 
     @Override
     public Zone edit(Zone zone) {
-        return null;
+        return iZoneRepository.save(zone);
     }
 
     @Override
-    public void deleteById(int id) {
-
+    public void deleteById(long id) {
+        iZoneRepository.deleteById(id);
     }
 }

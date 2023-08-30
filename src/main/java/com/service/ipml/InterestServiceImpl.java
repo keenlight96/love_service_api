@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Comment;
 import com.model.Interest;
 import com.repository.IInterestRepository;
 import com.service.IInterestService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InterestServiceImpl implements IInterestService {
@@ -19,21 +21,26 @@ public class InterestServiceImpl implements IInterestService {
 
     @Override
     public Interest getById(long id) {
-        return null;
+        Optional<Interest> interest = iInterestRepository.findById(id);
+        if (interest.isPresent()) {
+            return interest.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Interest create(Interest interest) {
-        return null;
+        return iInterestRepository.save(interest);
     }
 
     @Override
     public Interest edit(Interest interest) {
-        return null;
+        return iInterestRepository.save(interest);
     }
 
     @Override
-    public void deleteById(int id) {
-
+    public void deleteById(long id) {
+        iInterestRepository.deleteById(id);
     }
 }

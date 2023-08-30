@@ -14,8 +14,10 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String address;
+    private Date dateCreate;
     private Date dateStart;
     private Date dateEnd;
+    private int price;
     private double total;
     private int hour;
     @ManyToOne
