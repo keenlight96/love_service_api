@@ -15,12 +15,12 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public List<UserProfile> getAll() {
-        return null;
+        return iUserProfileRepository.findAll();
     }
 
     @Override
-    public UserProfile getById(int id) {
-        return null;
+    public UserProfile getById(long id) {
+        return iUserProfileRepository.findById(id).get();
     }
 
     @Override
@@ -30,11 +30,12 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public UserProfile edit(UserProfile userProfile) {
-        return null;
+        return iUserProfileRepository.save(userProfile);
     }
 
     @Override
-    public void deleteById(int id) {
-
+    public void deleteById(long id) {
+        iUserProfileRepository.deleteById(id);
     }
+
 }

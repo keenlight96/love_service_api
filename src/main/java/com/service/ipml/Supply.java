@@ -18,7 +18,7 @@ public class Supply implements ISupplyService {
     }
 
     @Override
-    public com.model.Supply getById(int id) {
+    public com.model.Supply getById(long id) {
         return null;
     }
 
@@ -33,7 +33,7 @@ public class Supply implements ISupplyService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

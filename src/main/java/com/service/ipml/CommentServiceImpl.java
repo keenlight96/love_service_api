@@ -19,7 +19,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public Comment getById(int id) {
+    public Comment getById(long id) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

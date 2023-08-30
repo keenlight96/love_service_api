@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IAccountService extends UserDetailsService {
     List<Account> getAll();
-    Account getById(int id);
+    Account getById(long id);
     Account create(Account account);
     Account edit(Account account);
-    void deleteById (int id);
+    void deleteById (long id);
 }

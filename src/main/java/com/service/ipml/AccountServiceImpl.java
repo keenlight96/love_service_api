@@ -24,7 +24,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Account getById(int id) {
+    public Account getById(long id) {
         return null;
     }
 
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 

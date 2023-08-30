@@ -18,7 +18,7 @@ public class ReportServiceImpl implements IReportService {
     }
 
     @Override
-    public Report getById(int id) {
+    public Report getById(long id) {
         return null;
     }
 
@@ -33,7 +33,7 @@ public class ReportServiceImpl implements IReportService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

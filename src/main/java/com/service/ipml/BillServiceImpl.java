@@ -19,9 +19,10 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public Bill getById(int id) {
+    public Bill getById(long id) {
         return null;
     }
+
 
     @Override
     public Bill create(Bill bill) {
@@ -34,7 +35,7 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

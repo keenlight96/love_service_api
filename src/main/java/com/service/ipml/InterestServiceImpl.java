@@ -18,7 +18,7 @@ public class InterestServiceImpl implements IInterestService {
     }
 
     @Override
-    public Interest getById(int id) {
+    public Interest getById(long id) {
         return null;
     }
 
@@ -33,7 +33,7 @@ public class InterestServiceImpl implements IInterestService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }
