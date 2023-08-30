@@ -18,7 +18,7 @@ public class InterestServiceImpl implements IInterestService {
     }
 
     @Override
-    public Interest getById(int id) {
+    public Interest getById(long id) {
         return null;
     }
 

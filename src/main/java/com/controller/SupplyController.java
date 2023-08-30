@@ -1,10 +1,16 @@
 package com.controller;
 
+import com.model.Account;
+import com.model.Supply;
+import com.model.UserProfile;
 import com.service.ISupplyService;
+import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -12,7 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class SupplyController {
     @Autowired
     ISupplyService iSupplyService;
+    @Autowired
+    IUserProfileService iUserProfileService;
 
 
+    @GetMapping("/getAllSupply")
+    public ResponseEntity<List<Supply>> getAllSupply() {
+        List<Supply> list = iSupplyService.getAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/createSupply")
+    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id) {
+        UserProfile userProfile = iUserProfileService.getById(id);
+        userProfile.setSupply(supplyList);
+        iUserProfileService.edit(userProfile);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

@@ -1,9 +1,7 @@
 package com.service.ipml;
 
-import com.model.Report;
 import com.model.Revenue;
 import com.repository.IRevenueRepository;
-import com.service.IReportService;
 import com.service.IRevenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ public class RevenueServiceImpl implements IRevenueService {
     }
 
     @Override
-    public Revenue getById(int id) {
+    public Revenue getById(long id) {
         return null;
     }
 

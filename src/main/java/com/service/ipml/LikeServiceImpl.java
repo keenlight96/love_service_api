@@ -18,7 +18,7 @@ public class LikeServiceImpl implements ILikeService {
     }
 
     @Override
-    public Like getById(int id) {
+    public Like getById(long id) {
         return null;
     }
 

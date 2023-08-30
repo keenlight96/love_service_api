@@ -19,7 +19,7 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public Bill getById(int id) {
+    public Bill getById(long id) {
         return null;
     }
 

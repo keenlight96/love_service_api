@@ -19,7 +19,7 @@ public class ImageServiceImpl implements IImageService {
     }
 
     @Override
-    public Image getById(int id) {
+    public Image getById(long id) {
         return null;
     }
 

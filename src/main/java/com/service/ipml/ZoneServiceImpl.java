@@ -19,7 +19,7 @@ public class ZoneServiceImpl implements IZoneService {
     }
 
     @Override
-    public Zone getById(int id) {
+    public Zone getById(long id) {
         return null;
     }
 

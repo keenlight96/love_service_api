@@ -19,7 +19,7 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public Role getById(int id) {
+    public Role getById(long id) {
         return null;
     }
 
