@@ -11,11 +11,5 @@ import java.util.List;
 
 @Repository
 public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> {
-//    @Query("SELECT u FROM UserProfile u WHERE u.gender = 'Nam' ORDER BY u.price DESC")
-//    List<UserProfile> findTopMaleRenters();
-//
-//    @Query("SELECT u FROM UserProfile u WHERE u.gender = 'Nữ' ORDER BY u.price DESC")
-//    List<UserProfile> findTopFemaleRenters();
-//    @Query("SELECT u FROM UserProfile u JOIN FETCH u.account a JOIN FETCH u. b GROUP BY u.id ORDER BY COUNT(b) DESC")
-//    List<UserProfile> findTopRentersByBillCount();
+
 }
