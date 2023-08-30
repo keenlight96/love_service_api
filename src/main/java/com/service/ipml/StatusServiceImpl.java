@@ -19,7 +19,7 @@ public class StatusServiceImpl implements IStatusService {
     }
 
     @Override
-    public Status getById(int id) {
+    public Status getById(long id) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class StatusServiceImpl implements IStatusService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

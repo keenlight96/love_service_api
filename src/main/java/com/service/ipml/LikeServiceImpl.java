@@ -18,7 +18,7 @@ public class LikeServiceImpl implements ILikeService {
     }
 
     @Override
-    public Like getById(int id) {
+    public Like getById(long id) {
         return null;
     }
 
@@ -33,7 +33,7 @@ public class LikeServiceImpl implements ILikeService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

@@ -18,7 +18,7 @@ public class ReviewServiceImpl implements IReviewService {
     }
 
     @Override
-    public Review getById(int id) {
+    public Review getById(long id) {
         return null;
     }
 
@@ -33,7 +33,7 @@ public class ReviewServiceImpl implements IReviewService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

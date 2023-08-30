@@ -19,7 +19,7 @@ public class ChatServiceImpl implements IChatService {
     }
 
     @Override
-    public Chat getById(int id) {
+    public Chat getById(long id) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class ChatServiceImpl implements IChatService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 }

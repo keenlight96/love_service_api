@@ -1,34 +1,32 @@
 package com.service.ipml;
 
-import com.model.Interest;
-import com.repository.IInterestRepository;
-import com.service.IInterestService;
+import com.model.LogActivity;
+import com.service.ILogActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
-public class InterestServiceImpl implements IInterestService {
+public class LogActivityServiceImpl implements ILogActivityService {
     @Autowired
-    IInterestRepository iInterestRepository;
+    ILogActivityService iLogActivityService;
     @Override
-    public List<Interest> getAll() {
+    public List<LogActivity> getAll() {
         return null;
     }
 
     @Override
-    public Interest getById(long id) {
+    public LogActivity getById(long id) {
         return null;
     }
 
     @Override
-    public Interest create(Interest interest) {
+    public LogActivity create(LogActivity logActivity) {
         return null;
     }
 
     @Override
-    public Interest edit(Interest interest) {
+    public LogActivity edit(LogActivity logActivity) {
         return null;
     }
 
