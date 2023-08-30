@@ -20,8 +20,8 @@ public class UserProfileServiceImpl implements IUserProfileService {
         return iUserProfileRepository.findAll();
     }
 
-    public Optional<UserProfile> findOne(long integer) {
-        return iUserProfileRepository.findById(integer);
+    public Optional<UserProfile> findOne(long id) {
+        return iUserProfileRepository.findById(id);
     }
     @Override
     public UserProfile getById(long id) {

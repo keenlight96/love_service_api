@@ -1,7 +1,6 @@
 package com.controller;
 
 import com.model.UserProfile;
-import com.service.IUserProfileService;
 import com.service.ipml.UserProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
