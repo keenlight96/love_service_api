@@ -46,4 +46,8 @@ public class ImageServiceImpl implements IImageService {
     }
 
 
+    @Override
+    public List<Image> getAllImageByAccountId(long id) {
+        return iImageRepository.getImageByAccount_Id(id);
+    }
 }
