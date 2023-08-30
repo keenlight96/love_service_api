@@ -6,7 +6,9 @@ import com.model.UserProfile;
 import com.repository.IRoleRepository;
 import com.service.IAccountService;
 import com.service.IRoleService;
+import com.service.IStatusService;
 import com.service.IUserProfileService;
+import com.sun.org.apache.xerces.internal.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ public class AccountController {
     IAccountService iAccountService;
     @Autowired
     IRoleService iRoleService;
+    @Autowired
+    IStatusService iStatusService;
 
     @Autowired
     IUserProfileService iUserProfileService;
@@ -28,6 +32,8 @@ public class AccountController {
         account.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
         Role role = iRoleService.findByName("ROLE_USER");
         account.setRole(role);
+        Status status = iStatusService;
+        account.setStatus(status);
         iAccountService.create(account);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }

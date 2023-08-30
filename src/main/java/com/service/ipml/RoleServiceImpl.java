@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Comment;
 import com.model.Role;
 import com.repository.IRoleRepository;
 import com.service.IRoleService;
@@ -8,6 +9,7 @@ import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements IRoleService {
@@ -21,7 +23,12 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Role getById(long id) {
-        return iRoleRepository.findById(id).get();
+        Optional<Role> role = iRoleRepository.findById(id);
+        if (role.isPresent()) {
+            return role.get();
+        } else {
+            return null;
+        }
     }
     public Role findByName(String name){
         return  iRoleRepository.findByNameRole(name);

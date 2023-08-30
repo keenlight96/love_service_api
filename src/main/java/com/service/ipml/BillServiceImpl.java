@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Account;
 import com.model.Bill;
 import com.repository.IBillRepository;
 import com.service.IBillService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillServiceImpl implements IBillService {
@@ -15,26 +17,31 @@ public class BillServiceImpl implements IBillService {
 
     @Override
     public List<Bill> getAll() {
-        return null;
+        return iBillRepository.findAll();
     }
 
     @Override
     public Bill getById(long id) {
-        return null;
+        Optional<Bill> bill = iBillRepository.findById(id);
+        if (bill.isPresent()) {
+            return bill.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Bill create(Bill bill) {
-        return null;
+        return iBillRepository.save(bill);
     }
 
     @Override
     public Bill edit(Bill bill) {
-        return null;
+        return iBillRepository.save(bill);
     }
 
     @Override
     public void deleteById(long id) {
-
+        iBillRepository.deleteById(id);
     }
 }

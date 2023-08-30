@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Comment;
 import com.model.Status;
 import com.repository.IStatusRepository;
 import com.service.IStatusService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StatusServiceImpl implements IStatusService {
@@ -15,26 +17,31 @@ public class StatusServiceImpl implements IStatusService {
 
     @Override
     public List<Status> getAll() {
-        return null;
+        return iStatusRepository.findAll();
     }
 
     @Override
     public Status getById(long id) {
-        return null;
+        Optional<Status> status = iStatusRepository.findById(id);
+        if (status.isPresent()) {
+            return status.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Status create(Status status) {
-        return null;
+        return iStatusRepository.save(status);
     }
 
     @Override
     public Status edit(Status status) {
-        return null;
+        return iStatusRepository.save(status);
     }
 
     @Override
     public void deleteById(long id) {
-
+        iStatusRepository.deleteById(id);
     }
 }
