@@ -1,6 +1,7 @@
 package com.model.dto;
 
 import com.model.Role;
+import com.model.Status;
 
 public class AccountToken {
     private long id;
@@ -10,4 +11,5 @@ public class AccountToken {
     private String avatar;
     private long balance;
     private Role role;
+    private Status status;
 }

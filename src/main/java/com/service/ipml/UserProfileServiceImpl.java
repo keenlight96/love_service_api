@@ -52,4 +52,9 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public UserProfile getUserProfileById(long id) {
         return iUserProfileRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public UserProfile getByAccountId(long id) {
+        return iUserProfileRepository.getByAccount_Id(id);
+    }
 }
