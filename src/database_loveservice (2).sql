@@ -79,28 +79,28 @@ VALUES
     
     
 
-INSERT INTO user_profile (last_name, first_name, birthday, country, address, balance, phone_number, price, id_card, gender, height, width, basic_request, facebook_link, isvip, is_active, account_id, zone_id)
+INSERT INTO user_profile (last_name, first_name, birthday, country, address, balance, phone_number, price, id_card, gender, height, weigh, basic_request, facebook_link, isvip, is_active, account_id, zone_id,views,date_create,describes)
 VALUES
-    ('Doe', 'John', '1990-05-15', 'Việt nam', '123 Tố Hữu', 1000.50, '555-1234', 500, '123456789', 'nam', '180 cm', '75 kg', 'Basic request', 'https://facebook.com/johndoe', true, true, 1, 1),
-    ('Smith', 'Mike', '1988-02-20', 'Việt nam', '456 Phạm Văn Đồng', 750.75, '555-9876', 300, '987654321', 'nam', '175 cm', '70 kg', 'Intermediate request', 'https://facebook.com/mikesmith', false, true, 2, 2),
-    ('Johnson', 'David', '1995-09-30', 'Việt nam', '789 Cô Lô Nhuê Home Stay', 1200.00, '555-5678', 600, '345678901', 'nam', '190 cm', '80 kg', 'Advanced request', 'https://facebook.com/davidjohnson', true, true, 3, 1),
-    ('Brown', 'Christopher', '1992-08-10', 'Việt nam', '567 Thái Bình', 900.25, '555-2345', 400, '567890123', 'nam', '175 cm', '70 kg', 'Standard request', 'https://facebook.com/chrisbrown', false, true, 4, 2),
-    ('Wilson', 'James', '1987-11-25', 'Việt nam', '890 Cầu Giấy', 1500.00, '555-8765', 700, '678901234', 'nam', '185 cm', '80 kg', 'Premium request', 'https://facebook.com/jameswilson', true, true, 5, 1),
-    ('Martinez', 'Robert', '1993-04-05', 'Việt nam', '123 Phạm Ngọc Thạch', 1100.50, '555-6789', 550, '789012345', 'nam', '180 cm', '75 kg', 'Basic request', 'https://facebook.com/robertmartinez', false, true, 6, 2),
-    ('Garcia', 'Daniel', '1985-06-18', 'Việt nam', '456 lô TT01 23', 800.00, '555-3456', 350, '890123456', 'nam', '170 cm', '65 kg', 'Intermediate request', 'https://facebook.com/danielgarcia', true, true, 7, 1),
-    ('Brown', 'Joseph', '1991-09-03', 'Việt nam', '789 HD Mon', 1200.25, '555-9876', 600, '901234567', 'nam', '180 cm', '70 kg', 'Advanced request', 'https://facebook.com/josephbrown', true, true, 8, 2),
-    ('Johnson', 'William', '1989-02-12', 'Việt nam', '890 Eco Park', 1400.75, '555-2345', 700, '012345678', 'nam', '188 cm', '85 kg', 'Premium request', 'https://facebook.com/williamjohnson', false, true, 9, 1),
-    ('Davis', 'Charles', '1994-07-27', 'Việt nam', '567 Sài Gòn', 950.00, '555-8765', 450, '123456789', 'nam', '182 cm', '77 kg', 'Standard request', 'https://facebook.com/charlesdavis', true, true, 10, 2),
-    ('Williams', 'Emma', '1995-05-15', 'Việt nam', '123 Đà Nẵng', 1050.50, '555-1234', 550, '123456789', 'nữ', '165 cm', '55 kg', 'Basic request', 'https://facebook.com/emmawilliams', true, true, 11, 2),
-    ('Smith', 'Olivia', '1998-02-20', 'Việt nam', '456 Bình Định', 720.75, '555-9876', 290, '987654321', 'nữ', '170 cm', '60 kg', 'Intermediate request', 'https://facebook.com/oliviasmith', false, true, 12, 1),
-    ('Johnson', 'Ava', '1994-09-30', 'Việt nam', '789 Phú Quốc', 1150.00, '555-5678', 590, '345678901', 'nữ', '160 cm', '50 kg', 'Advanced request', 'https://facebook.com/avajohnson', true, true, 13, 2),
-    ('Brown', 'Sophia', '1992-08-10', 'Việt nam', '567 Hà Nội', 850.25, '555-2345', 390, '567890123', 'nữ', '162 cm', '55 kg', 'Standard request', 'https://facebook.com/sophiabrown', false, true, 14, 1),
-    ('Martinez', 'Isabella', '1987-11-25', 'Việt nam', '890 Vũng Tàu', 1400.00, '555-8765', 690, '678901234', 'nữ', '168 cm', '58 kg', 'Premium request', 'https://facebook.com/isabellamartinez', true, true, 15, 2),
-    ('Garcia', 'Mia', '1993-04-05', 'Việt nam', '123 Hưng Yên', 1050.50, '555-6789', 500, '789012345', 'nữ', '158 cm', '52 kg', 'Basic request', 'https://facebook.com/miagarcia', false, true, 16, 1),
-    ('Rodriguez', 'Emily', '1985-06-18', 'Việt nam', '456 Thái Nguyên', 780.00, '555-3456', 310, '890123456', 'nữ', '163 cm', '54 kg', 'Intermediate request', 'https://facebook.com/emilyrodriguez', true, true, 17, 2),
-    ('Wilson', 'Abigail', '1991-09-03', 'Việt nam', '789 Nam Định', 1150.25, '555-9876', 590, '901234567', 'nữ', '165 cm', '56 kg', 'Advanced request', 'https://facebook.com/abigailwilson', true, true, 18, 1),
-    ('Anderson', 'Harper', '1989-02-12', 'Việt nam', '890 Hải Phòng', 1300.75, '555-2345', 670, '012345678', 'nữ', '170 cm', '58 kg', 'Premium request', 'https://facebook.com/harperanderson', false, true, 19, 2),
-    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910.00, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 20, 1);
+    ('Doe', 'John', '1990-05-15', 'Việt nam', '123 Tố Hữu', 1000, '555-1234', 500, '123456789', 'nam', '180 cm', '75 kg', 'Basic request', 'https://facebook.com/johndoe', true, true, 1, 1,10,'2023-03-04','mô tả 1'),
+    ('Smith', 'Mike', '1988-02-20', 'Việt nam', '456 Phạm Văn Đồng', 750, '555-9876', 300, '987654321', 'nam', '175 cm', '70 kg', 'Intermediate request', 'https://facebook.com/mikesmith', false, true, 2, 2,30,'2023-03-05','mô tả 2'),
+    ('Johnson', 'David', '1995-09-30', 'Việt nam', '789 Cô Lô Nhuê Home Stay', 1200.00, '555-5678', 600, '345678901', 'nam', '190 cm', '80 kg', 'Advanced request', 'https://facebook.com/davidjohnson', true, true, 3, 1,20,'2023-03-06','mô tả 1'),
+    ('Brown', 'Christopher', '1992-08-10', 'Việt nam', '567 Thái Bình', 900.25, '555-2345', 400, '567890123', 'nam', '175 cm', '70 kg', 'Standard request', 'https://facebook.com/chrisbrown', false, true, 4, 2,54,'2023-03-07','mô tả 1'),
+    ('Wilson', 'James', '1987-11-25', 'Việt nam', '890 Cầu Giấy', 1500, '555-8765', 700, '678901234', 'nam', '185 cm', '80 kg', 'Premium request', 'https://facebook.com/jameswilson', true, true, 5, 1,27,'2023-04-04','mô tả 1'),
+    ('Martinez', 'Robert', '1993-04-05', 'Việt nam', '123 Phạm Ngọc Thạch', 1100.50, '555-6789', 550, '789012345', 'nam', '180 cm', '75 kg', 'Basic request', 'https://facebook.com/robertmartinez', false, true, 6, 2,30,'2023-04-06','mô tả 1'),
+    ('Garcia', 'Daniel', '1985-06-18', 'Việt nam', '456 lô TT01 23', 800, '555-3456', 350, '890123456', 'nam', '170 cm', '65 kg', 'Intermediate request', 'https://facebook.com/danielgarcia', true, true, 7, 1,45,'2023-04-07','mô tả 1'),
+    ('Brown', 'Joseph', '1991-09-03', 'Việt nam', '789 HD Mon', 1200.25, '555-9876', 600, '901234567', 'nam', '180 cm', '70 kg', 'Advanced request', 'https://facebook.com/josephbrown', true, true, 8, 2,44,'2023-05-05','mô tả 1'),
+    ('Johnson', 'William', '1989-02-12', 'Việt nam', '890 Eco Park', 1400, '555-2345', 700, '012345678', 'nam', '188 cm', '85 kg', 'Premium request', 'https://facebook.com/williamjohnson', false, true, 9, 1,57,'2023-05-06','mô tả 1'),
+    ('Davis', 'Charles', '1994-07-27', 'Việt nam', '567 Sài Gòn', 950, '555-8765', 450, '123456789', 'nam', '182 cm', '77 kg', 'Standard request', 'https://facebook.com/charlesdavis', true, true, 10, 2,90,'2023-05-07','mô tả 1'),
+    ('Williams', 'Emma', '1995-05-15', 'Việt nam', '123 Đà Nẵng', 1050, '555-1234', 550, '123456789', 'nữ', '165 cm', '55 kg', 'Basic request', 'https://facebook.com/emmawilliams', true, true, 11, 2,22,'2023-06-07','mô tả 1'),
+    ('Smith', 'Olivia', '1998-02-20', 'Việt nam', '456 Bình Định', 720, '555-9876', 290, '987654321', 'nữ', '170 cm', '60 kg', 'Intermediate request', 'https://facebook.com/oliviasmith', false, true, 12, 1,43,'2023-06-08','mô tả 1'),
+    ('Johnson', 'Ava', '1994-09-30', 'Việt nam', '789 Phú Quốc', 1150, '555-5678', 590, '345678901', 'nữ', '160 cm', '50 kg', 'Advanced request', 'https://facebook.com/avajohnson', true, true, 13, 2,54,'2023-06-09','mô tả 1'),
+    ('Brown', 'Sophia', '1992-08-10', 'Việt nam', '567 Hà Nội', 850, '555-2345', 390, '567890123', 'nữ', '162 cm', '55 kg', 'Standard request', 'https://facebook.com/sophiabrown', false, true, 14, 1,67,'2023-06-10','mô tả 1'),
+    ('Martinez', 'Isabella', '1987-11-25', 'Việt nam', '890 Vũng Tàu', 1400, '555-8765', 690, '678901234', 'nữ', '168 cm', '58 kg', 'Premium request', 'https://facebook.com/isabellamartinez', true, true, 15, 2,90,'2023-07-04','mô tả 1'),
+    ('Garcia', 'Mia', '1993-04-05', 'Việt nam', '123 Hưng Yên', 1050, '555-6789', 500, '789012345', 'nữ', '158 cm', '52 kg', 'Basic request', 'https://facebook.com/miagarcia', false, true, 16, 1,91,'2023-07-07','mô tả 1'),
+    ('Rodriguez', 'Emily', '1985-06-18', 'Việt nam', '456 Thái Nguyên', 780, '555-3456', 310, '890123456', 'nữ', '163 cm', '54 kg', 'Intermediate request', 'https://facebook.com/emilyrodriguez', true, true, 17, 2,80,'2023-07-08','mô tả 1'),
+    ('Wilson', 'Abigail', '1991-09-03', 'Việt nam', '789 Nam Định', 1150, '555-9876', 590, '901234567', 'nữ', '165 cm', '56 kg', 'Advanced request', 'https://facebook.com/abigailwilson', true, true, 18, 1,65,'2023-07-09','mô tả 1'),
+    ('Anderson', 'Harper', '1989-02-12', 'Việt nam', '890 Hải Phòng', 1300, '555-2345', 670, '012345678', 'nữ', '170 cm', '58 kg', 'Premium request', 'https://facebook.com/harperanderson', false, true, 19, 2,22,'2023-08-05','mô tả 1'),
+    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 20, 1,29,'2023-08-07','mô tả 1');
 
 
 -- bảng phụ 
@@ -130,21 +130,36 @@ VALUES
    
    INSERT INTO Bill (id,address, date_create,date_start, date_end, price, total, hour, accountccdv_id, account_user_id, status_id, is_active)
 VALUES
-    (1,'123 ngõ cửa thiên đường','2023-07-23','2023-08-01', '2023-08-02', 100, 500, 5, 1, 21, 6, true),
+	(1,'123 ngõ cửa thiên đường','2023-07-23','2023-08-01', '2023-08-02', 100, 500, 5, 1, 21, 6, true),
     (2,'Tại Gia','2023-07-17', '2023-08-03', '2023-08-05', 150, 400, 8, 2, 21, 6, true),
-    (3,'Phú Quốc','2023-07-18', '2023-08-06', '2023-08-07', 80, 320, 4, 3, 21, 6, true),
+	(3,'Phú Quốc','2023-07-18', '2023-08-06', '2023-08-07', 80, 320, 4, 3, 21, 6, true),
     (4,'Hạ Long','2023-07-19', '2023-08-08', '2023-08-10', 200, 2000, 10, 4, 21, 6, true),
     (5,'Nha Trang','2023-07-20', '2023-08-11', '2023-08-12', 120, 720, 6, 5, 21, 6, true),
     (6,'Phong Nha Kẻ Bàng','2023-07-21', '2023-08-13', '2023-08-15', 180, 1620, 9, 6, 21, 6, true),
-    (7,'Côn Sơn','2023-07-21', '2023-08-16', '2023-08-17', 90, 360, 4, 7, 21, 6, true),
-    (8,'Côn Đảo','2023-07-22', '2023-08-18', '2023-08-20', 150, 1050, 7, 8, 21, 6, true),
-    (9,'Cắm Trại','2023-07-22', '2023-08-21', '2023-08-23', 100, 500, 5, 9, 21, 6, true),
+	(7,'Côn Sơn','2023-07-21', '2023-08-16', '2023-08-17', 90, 360, 4, 7, 21, 6, true),
+	(8,'Côn Đảo','2023-07-22', '2023-08-18', '2023-08-20', 150, 1050, 7, 8, 21, 6, true),
+	(9,'Cắm Trại','2023-07-22', '2023-08-21', '2023-08-23', 100, 500, 5, 9, 21, 6, true),
     (10,'45678agsvd','2023-07-22', '2023-08-24', '2023-08-25', 130, 780, 6, 10, 21, 6, true),
-    (11,'địa ngục trần gian','2023-07-23', '2023-08-26', '2023-08-27', 110, 550, 5, 11, 21, 6, true),
-    (12,'fghjkl','2023-07-23', '2023-08-28', '2023-08-30', 170, 1360, 8, 12, 21, 6, true),
-    (13,'789 phố Wal','2023-07-23', '2023-08-31', '2023-09-02', 90, 360, 4, 13, 21, 6, true),
-    (14,'567 dsadsad','2023-07-24', '2023-09-03', '2023-09-05', 220, 2200, 10, 14, 21, 6, true),
-    (15,'890 Elm St','2023-07-25', '2023-09-06', '2023-09-07', 130, 780, 6, 15, 21, 6, true);
+	(11,'địa ngục trần gian','2023-07-23', '2023-08-26', '2023-08-27', 110, 550, 5, 11, 21, 6, true),
+	(12,'fghjkl','2023-07-23', '2023-08-28', '2023-08-30', 170, 1360, 8, 12, 21, 6, true),
+	(13,'789 phố Wal','2023-07-23', '2023-08-31', '2023-09-02', 90, 360, 4, 13, 21, 6, true),
+	(14,'567 dsadsad','2023-07-24', '2023-09-03', '2023-09-05', 220, 2200, 10, 14, 21, 6, true),
+    (15,'890 Elm St','2023-07-25', '2023-09-06', '2023-09-07', 130, 780, 6, 15, 21, 6, true),
+	(16,'Côn Sơn','2023-07-26', '2023-08-18', '2023-08-18', 90, 360, 4, 7, 21, 6, true),
+    (17,'Côn Đảo','2023-07-27', '2023-08-19', '2023-08-19', 150, 1050, 7, 6, 21, 6, true),
+    (18,'Cắm Trại','2023-07-28', '2023-08-21', '2023-08-23', 100, 500, 5, 7, 22, 6, true),
+    (19,'45678agsvd','2023-07-28', '2023-08-24', '2023-08-25', 130, 780, 6, 15, 22, 6, true),
+    (20,'địa ngục trần gian','2023-07-29', '2023-08-26', '2023-08-27', 110, 550, 5, 15, 22, 6, true),
+    (21,'fghjkl','2023-07-29', '2023-08-28', '2023-08-30', 170, 1360, 8, 12, 22, 6, true),
+    (22,'789 phố Wal','2023-07-30', '2023-08-31', '2023-09-02', 90, 360, 4, 12, 21, 6, true),
+    (23,'567 dsadsad','2023-07-30', '2023-09-03', '2023-09-05', 220, 2200, 10, 14, 21, 6, true),
+    (24,'890 Elm St','2023-07-30', '2023-09-06', '2023-09-07', 130, 780, 6, 15, 21, 6, true),
+	(25,'địa ngục trần gian','2023-07-29', '2023-08-26', '2023-08-27', 110, 550, 5, 15, 22, 6, true),
+    (26,'fghjkl','2023-07-29', '2023-08-28', '2023-08-30', 170, 1360, 8, 16, 22, 6, true),
+    (27,'789 phố Wal','2023-08-02', '2023-08-31', '2023-09-02', 90, 360, 4, 17, 21, 6, true),
+    (28,'567 dsadsad','2023-07-03', '2023-09-03', '2023-09-05', 220, 2200, 10, 18, 22, 6, true),
+    (29,'890 Elm St','2023-07-03', '2023-09-06', '2023-09-07', 130, 780, 6, 19, 21, 6, true),
+    (30,'890 Elm St','2023-07-04', '2023-09-06', '2023-09-07', 130, 780, 6, 20, 22, 6, true);
 
    INSERT INTO Image (img,account_id, is_active) VALUES
     ('https://img.thuthuattinhoc.vn/uploads/2019/01/13/anh-dep-ve-tinh-ban_104522290.jpg', 1, true),
@@ -208,5 +223,59 @@ VALUES
     ('https://img.thuthuattinhoc.vn/uploads/2019/01/13/anh-dep-ve-tinh-ban_104522290.jpg', 20, true),
     ('https://img.thuthuattinhoc.vn/uploads/2019/01/13/anh-dep-ve-tinh-ban_104522290.jpg', 20, true);
   
-  
+SELECT b.accountccdv_id, COUNT(b.id)
+FROM bill b
+GROUP BY b.accountccdv_id;
 
+
+
+SELECT u.*
+FROM user_profile u
+JOIN account a ON u.account_id = a.id
+JOIN role r ON a.role_id = r.id
+JOIN status s ON a.status_id = s.id
+JOIN bill b ON a.id = b.accountCCDV_id
+WHERE u.gender = 'nam' AND r.name_role = 'ROLE_CCDV';
+
+SELECT
+    u.last_name,
+    u.account_id,
+    u.basic_request,
+    u.price,
+    COUNT(b.id) AS billCount,
+    u.account_id
+FROM user_profile u
+JOIN Account a ON u.account_id = a.id
+JOIN Role r ON a.role_id = r.id
+JOIN Status s ON a.status_id = s.id
+JOIN Review rs ON a.id = rs.accountCCDV_id
+JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
+WHERE u.gender = 'Nam' AND r.name_role = 'ROLE_CCDV' AND s.name_status = 'complete'
+GROUP BY u.account_id
+ORDER BY billCount DESC
+LIMIT 4;
+
+
+SELECT
+    u.last_name,
+    u.account_id,
+    u.basic_request,
+    u.price,
+    COUNT(b.id) AS billCount
+FROM
+    user_profile u
+    JOIN Account a ON u.account_id = a.id
+    JOIN Role r ON a.role_id = r.id
+    JOIN Status s ON a.status_id = s.id
+    JOIN Review rs ON a.id = rs.accountCCDV_id
+    JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
+WHERE
+    u.gender = 'nam'
+    AND r.name_role = 'ROLE_CCDV'
+    AND s.name_status ='active'
+    AND s.name_status = 'complete'
+GROUP BY
+    u.last_name, u.account_id, u.basic_request, u.price
+ORDER BY
+    billCount DESC
+LIMIT 4;

@@ -45,7 +45,8 @@ public class InterestServiceImpl implements IInterestService {
         iInterestRepository.deleteById(id);
     }
 
-    public List<Interest> getAllInterestsById(long id) {
+    @Override
+    public List<Interest> getAllInterestByAccountCCDV_Id(long id) {
         return iInterestRepository.getInterestsById(id);
     }
 }

@@ -45,4 +45,9 @@ public class BillServiceImpl implements IBillService {
     public void deleteById(long id) {
         iBillRepository.deleteById(id);
     }
+
+    @Override
+    public List<Bill> getAllByAccountCCDV_Id(long id) {
+        return iBillRepository.getAllByAccountCCDV_Id(id);
+    }
 }
