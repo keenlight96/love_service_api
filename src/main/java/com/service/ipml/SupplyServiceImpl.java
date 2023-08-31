@@ -17,7 +17,7 @@ public class SupplyServiceImpl implements ISupplyService {
 
     @Override
     public List<Supply> getAll() {
-        return null;
+        return iSupplyRepository.findAll();
     }
 
 

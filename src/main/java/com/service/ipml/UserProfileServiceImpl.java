@@ -48,4 +48,8 @@ public class UserProfileServiceImpl implements IUserProfileService {
         iUserProfileRepository.deleteById(id);
     }
 
+    @Override
+    public UserProfile getUserProfileById(long id) {
+        return iUserProfileRepository.findById(id).orElse(null);
+    }
 }

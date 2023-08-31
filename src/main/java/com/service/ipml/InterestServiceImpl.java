@@ -1,6 +1,7 @@
 package com.service.ipml;
 
 import com.model.Comment;
+import com.model.Image;
 import com.model.Interest;
 import com.repository.IInterestRepository;
 import com.service.IInterestService;
@@ -16,7 +17,7 @@ public class InterestServiceImpl implements IInterestService {
     IInterestRepository iInterestRepository;
     @Override
     public List<Interest> getAll() {
-        return null;
+        return iInterestRepository.findAll();
     }
 
     @Override
@@ -42,5 +43,9 @@ public class InterestServiceImpl implements IInterestService {
     @Override
     public void deleteById(long id) {
         iInterestRepository.deleteById(id);
+    }
+
+    public List<Interest> getAllInterestsById(long id) {
+        return iInterestRepository.getInterestsById(id);
     }
 }
