@@ -4,6 +4,7 @@ import com.model.Account;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAccountService extends UserDetailsService {
     List<Account> getAll();
@@ -11,4 +12,6 @@ public interface IAccountService extends UserDetailsService {
     Account create(Account account);
     Account edit(Account account);
     void deleteById (long id);
+    Optional<Account> findByUsername(String username);
+    Optional<Account> findByEmail(String email);
 }

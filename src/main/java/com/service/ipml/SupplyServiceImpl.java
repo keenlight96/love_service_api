@@ -44,4 +44,9 @@ public class SupplyServiceImpl implements ISupplyService {
     public void deleteById(long id) {
         iSupplyRepository.deleteById(id);
     }
+
+    @Override
+    public List<Supply> getByIdList(List<Supply> supply) {
+        return supply;
+    }
 }
