@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> {
 
     UserProfile getByAccount_Id(Long id);
-
+    Optional<UserProfile> getUserProfileByAccount_Id(long id);
 }
