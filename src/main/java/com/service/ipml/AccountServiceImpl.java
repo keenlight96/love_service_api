@@ -50,8 +50,18 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
+    public Optional<Account> findByUsername(String username) {
+        return iAccountRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<Account> findByEmail(String email) {
+        return iAccountRepository.findByEmail(email);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = iAccountRepository.findByUsername(username);
+        Account account = iAccountRepository.findByUsername(username).orElse(null);
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(account.getRole());
         return new User(account.getUsername(), account.getPassword(), roles);
