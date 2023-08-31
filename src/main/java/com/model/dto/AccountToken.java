@@ -8,6 +8,7 @@ public class AccountToken {
     private String token;
     private String nickName;
     private String avatar;
-    private double balance;
+    private long balance;
+
     private Role role;
 }
