@@ -16,7 +16,7 @@ public class ReviewServiceImpl implements IReviewService {
     IReviewRepository iReviewRepository;
     @Override
     public List<Review> getAll() {
-        return null;
+        return iReviewRepository.findAll();
     }
 
     @Override
