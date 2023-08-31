@@ -21,13 +21,14 @@ public class UserProfile {
     private Date birthday;
     private String country;
     private String address;
-    private double balance;
+    private long balance;
     private String phoneNumber;
-    private int price;
+    private long price;
+    private long views;
     private String idCard;
     private String gender;
     private String height;
-    private String width;
+    private String weigh;
     private String basicRequest;
     private String facebookLink;
     private Boolean isVIP;

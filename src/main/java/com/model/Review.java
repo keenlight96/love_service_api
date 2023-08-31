@@ -12,7 +12,7 @@ import java.util.Date;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private Date date;
     @ManyToOne
     private Account accountCCDV;
