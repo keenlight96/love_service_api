@@ -18,7 +18,7 @@ public class Review {
     private Account accountCCDV;
     @ManyToOne
     private Account accountUser;
-    private int rating;
+    private long rating;
     @Lob
     private String content;
     private Boolean isActive;

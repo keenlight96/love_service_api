@@ -29,6 +29,7 @@ public class UserProfile {
     private String gender;
     private String height;
     private String weigh;
+    private String describe;
     private String basicRequest;
     private String facebookLink;
     private Boolean isVIP;
