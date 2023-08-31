@@ -16,6 +16,6 @@ public class Revenue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private double revenue;
+    private long revenue;
     private Date date;
 }

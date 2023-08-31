@@ -11,5 +11,7 @@ import java.util.List;
 
 @Repository
 public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> {
+
     UserProfile getByAccount_Id(Long id);
+
 }

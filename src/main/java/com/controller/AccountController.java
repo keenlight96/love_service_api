@@ -40,16 +40,18 @@ public class AccountController {
         account.setEmail(accountDTO.getEmail());
         account.setPassword(accountDTO.getPassword());
         account.setNickName(accountDTO.getNickName());
-        account.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
-//        accountDTO.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
+        accountDTO.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
+        account.setAvatar(accountDTO.getAvatar());
+
         Role role = iRoleService.findByName("ROLE_USER");
-        account.setRole(role);
-//        accountDTO.setRole(role);
+        accountDTO.setRole(role);
+        account.setRole(accountDTO.getRole());
+
         Status status = iStatusService.getById(3);
-        account.setStatus(status);
-//        accountDTO.setStatus(status);
+        accountDTO.setStatus(status);
+        account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
-//        accountDTO.setIsActive(true);
+
         iAccountService.create(account);
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
