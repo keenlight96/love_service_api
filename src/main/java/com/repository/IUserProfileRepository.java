@@ -16,5 +16,5 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> 
     List<UserProfile> findTopMaleRenters();
     @Query("SELECT b.accountCCDV, COUNT(b) FROM Bill b GROUP BY b.accountCCDV")
     List<Object[]> countBillsByAccountCCDV();
-
+    UserProfile getByAccount_Id(Long id);
 }
