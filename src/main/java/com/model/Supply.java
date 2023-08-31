@@ -13,6 +13,6 @@ public class Supply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nameSupply;
-    private int type;
+    private long type;
     private Boolean isActive;
 }
