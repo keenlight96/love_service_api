@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Comment;
 import com.model.Supply;
 import com.repository.ISupplyRepository;
 import com.service.ISupplyService;
@@ -44,5 +45,8 @@ public class SupplyServiceImpl implements ISupplyService {
         iSupplyRepository.deleteById(id);
     }
 
-
+    @Override
+    public List<Supply> getByIdList(List<Supply> supply) {
+        return supply;
+    }
 }
