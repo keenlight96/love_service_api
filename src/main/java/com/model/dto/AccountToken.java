@@ -16,4 +16,5 @@ public class AccountToken {
     private long balance;
     private Role role;
     private Status status;
+    private Boolean isActive;
 }

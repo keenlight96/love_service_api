@@ -51,7 +51,8 @@ public class LoginController {
                     optionalAccount.get().getAvatar(),
                     userProfile.getBalance(),
                     optionalAccount.get().getRole(),
-                    optionalAccount.get().getStatus()
+                    optionalAccount.get().getStatus(),
+                    optionalAccount.get().getIsActive()
             ), HttpStatus.OK);
         }
     }
