@@ -24,6 +24,7 @@ public class UserProfile {
     private double balance;
     private String phoneNumber;
     private int price;
+    private int minHour;
     private String idCard;
     private String gender;
     private String height;

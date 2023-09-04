@@ -35,9 +35,11 @@ public class SupplyController {
     }
 
     @PostMapping("/createSupply")
-    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id) {
+    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id, @RequestParam int cost, @RequestParam int hour) {
         UserProfile userProfile = iUserProfileService.getById(id);
         userProfile.setSupply(supplyList);
+        userProfile.setPrice(cost);
+        userProfile.setMinHour(hour);
         iUserProfileService.edit(userProfile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
