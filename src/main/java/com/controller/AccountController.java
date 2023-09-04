@@ -39,7 +39,7 @@ public class AccountController {
         account.setUsername(accountDTO.getUsername());
         account.setEmail(accountDTO.getEmail());
         account.setPassword(accountDTO.getPassword());
-        account.setNickName(accountDTO.getNickName());
+        account.setNickname(accountDTO.getNickName());
         accountDTO.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
         account.setAvatar(accountDTO.getAvatar());
 
@@ -55,5 +55,6 @@ public class AccountController {
         iAccountService.create(account);
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
+
 }
 
