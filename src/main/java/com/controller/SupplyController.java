@@ -28,10 +28,10 @@ public class SupplyController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/getSupplyByIdAccount")
-    public ResponseEntity<List<Supply>> getSupplyByIdAccount(@RequestParam long id) {
-        List<Supply> list = iUserProfileService.getById(id).getSupply();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    @GetMapping("/getSupplyByUserID")
+    ResponseEntity<UserProfile> getPriceAndMinHourByID(@RequestParam long id){
+        UserProfile userProfile = iUserProfileService.getByAccountId(id);
+        return new ResponseEntity<>(userProfile,HttpStatus.OK);
     }
 
     @PostMapping("/createSupply")

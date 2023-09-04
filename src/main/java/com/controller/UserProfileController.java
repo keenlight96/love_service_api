@@ -34,11 +34,8 @@ public class UserProfileController {
         Role role = iRoleService.getById(3);
         Account account = iAccountService.getById(id);
         account.setRole(role);
-
-
         Zone zone = iZoneService.getById(userProfile.getZone().getId());
         userProfile.setZone(zone);
-
         userProfile.setIsVIP(false);
         userProfile.setIsActive(true);
         userProfile.setAccount(account);
@@ -50,5 +47,7 @@ public class UserProfileController {
         UserProfile userProfile1 = iUserProfileService.getByAccountId(id);
       return new ResponseEntity<>(userProfile1,HttpStatus.OK);
     }
+
+
 }
 
