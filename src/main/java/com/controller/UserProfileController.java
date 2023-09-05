@@ -70,8 +70,6 @@ public class UserProfileController {
 //        String address = filterUserProfile.getAddress();
 //        long views = filterUserProfile.getViews();
 //        Bill bill = filterUserProfile.getBill();
-//        UserProfile(firstName,lastName,birthDay,gender,address,views,bill);
-//       return new ResponseEntity<>(userProfile,HttpStatus.OK);
 //    }
 
 
