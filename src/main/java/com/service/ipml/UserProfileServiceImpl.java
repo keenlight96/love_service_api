@@ -49,4 +49,11 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public UserProfile getByAccountId(long id) {
         return iUserProfileRepository.getByAccount_Id(id);
     }
+
+    @Override
+    public List<UserProfile> getUserHaveSameGender(String gender) {
+        return null;
+    }
+
+
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,12 +43,18 @@ public class UserProfileController {
         iUserProfileService.create(userProfile);
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
+
     @PostMapping("/registerCCDVs/{id}")
-    ResponseEntity<UserProfile> getUserProfile(@PathVariable Long id){
+    ResponseEntity<UserProfile> getUserProfile(@PathVariable Long id) {
         UserProfile userProfile1 = iUserProfileService.getByAccountId(id);
-      return new ResponseEntity<>(userProfile1,HttpStatus.OK);
+        return new ResponseEntity<>(userProfile1, HttpStatus.OK);
     }
 
-
+    @GetMapping("/listCCDVhaveSameGender")
+    ResponseEntity<List<UserProfile>> listCCDVhaveSameGender(@PathVariable Long id) {
+        String gender = iUserProfileService.getByAccountId(id).getGender();
+        List<UserProfile> listCCDV = new ArrayList<>();
+        return new ResponseEntity<>(listCCDV, HttpStatus.OK);
+    }
 }
 
