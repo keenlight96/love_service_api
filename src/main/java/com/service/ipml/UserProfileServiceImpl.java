@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.UserDTO;
 import com.repository.IUserProfileRepository;
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserProfileServiceImpl implements IUserProfileService {
@@ -73,8 +74,29 @@ public class UserProfileServiceImpl implements IUserProfileService {
         return results;
     }
 
-//    @Override
-//    public List<UserDTO> getNewestCCDVsTest() {
-//        return iUserProfileRepository.getNewestCCDVsTest();
-//    }
+    @Override
+    public List<UserDTO> getBySupplies(List<Supply> supplies) {
+        List<UserDTO> results = new ArrayList<>();
+//        List<UserDTO> resultsDb = entityManager.createQuery("select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) " +
+//                        "from UserProfile u, in (u.supplies) sup " +
+//                        "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
+//                        "where (u.account.role.id = 3) and (u.account.status.id = 1) and (sup in (:list)) " +
+//                        "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
+//                        "group by u.id ")
+//                .setParameter("list", supplies)
+//                .getResultList();
+        List<UserDTO> resultsDb = iUserProfileRepository.getBySupplies(supplies);
+
+        Set<Long> supplySet = supplies.stream().map(Supply::getId).collect(Collectors.toSet());
+
+        for (UserDTO userDto :
+                resultsDb) {
+            List<Long> idList = userDto.getUserProfile().getSupplies().stream().map(Supply::getId).collect(Collectors.toList());
+            if (new HashSet<>(idList).containsAll(supplySet)) {
+                userDto.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(userDto.getUserProfile().getSupplies(), 3)));
+                results.add(userDto);
+            }
+        }
+        return results;
+    }
 }

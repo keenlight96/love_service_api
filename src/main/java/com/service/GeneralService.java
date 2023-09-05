@@ -29,4 +29,18 @@ public class GeneralService {
         }
         return res.toString();
     }
+
+    public static String toStringOfSupplyIds(List<Supply> supplies) {
+        try {
+            String str = "";
+            for (int i = 0; i < supplies.size(); i++) {
+                str += supplies.get(i);
+                if (i != supplies.size() - 1)
+                    str += ", ";
+            }
+            return str;
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

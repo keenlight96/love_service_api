@@ -1,5 +1,6 @@
 package com.service;
 
+import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.UserDTO;
 
@@ -9,5 +10,5 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
 
     UserProfile getByAccountId(long id);
     List<UserDTO> getNewestCCDVs(int qty);
-//    List<UserDTO> getNewestCCDVsTest();
+    List<UserDTO> getBySupplies(List<Supply> supplies);
 }

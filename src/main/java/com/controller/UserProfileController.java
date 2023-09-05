@@ -55,9 +55,9 @@ public class UserProfileController {
         return new ResponseEntity<>(iUserProfileService.getNewestCCDVs(qty), HttpStatus.OK);
     }
 
-//    @GetMapping("/newestCCDVsTest")
-//    public ResponseEntity<List<UserDTO>> getRecentCCDVsTest () {
-//        return new ResponseEntity<>(iUserProfileService.getNewestCCDVsTest(), HttpStatus.OK);
-//    }
+    @PostMapping("/searchBySupplies")
+    public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
+        return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
+    }
 }
 
