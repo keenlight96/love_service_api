@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.model.*;
+import com.model.pojo.FilterUserProfile;
 import com.service.*;
 import com.model.*;
 import com.model.dto.UserProfileIMG;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/userDetail")
+@RequestMapping("/api")
 public class UserProfileController {
     @Autowired
     UserProfileServiceImpl userProfileService;
@@ -35,16 +36,37 @@ public class UserProfileController {
     InterestServiceImpl interestService;
     @Autowired
     BillServiceImpl billService;
-    @GetMapping("/{id}")
-    public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id){
+
+    @GetMapping("/userDetail/{id}")
+    public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
         UserProfile userProfile = userProfileService.getUserProfileById(id);
-        List<Image> img=imageService.getAllImageByAccountId(id);
+        List<Image> img = imageService.getAllImageByAccountId(id);
         Account account = accountService.getById(id);
         List<Interest> interests = interestService.getAllInterestByAccountCCDV_Id(id);
         List<Bill> bills = billService.getAllByAccountCCDV_Id(id);
-        UserProfileIMG userProfileIMG = new UserProfileIMG(userProfile,img,account,interests,bills);
+        UserProfileIMG userProfileIMG = new UserProfileIMG(userProfile, img, account, interests, bills);
         return new ResponseEntity<>(userProfileIMG, HttpStatus.OK);
     }
+
+    @GetMapping("/top6Service")
+    public List<UserProfile> getTop6HotServiceProviders() {
+        return userProfileService.getTop6HotServiceProviders();
+    }
+
+//    @PostMapping("/filter")
+//    public ResponseEntity<List<UserProfile>> getAllUserProfileByFilter(@RequestBody FilterUserProfile filterUserProfile){
+//        String firstName = filterUserProfile.getFirstName();
+//        String lastName = filterUserProfile.getLastName();
+//        int birthDay = filterUserProfile.getBirthday();
+//        String  gender = filterUserProfile.getGender();
+//        String address = filterUserProfile.getAddress();
+//        long views = filterUserProfile.getViews();
+//        Bill bill = filterUserProfile.getBill();
+//        UserProfile(firstName,lastName,birthDay,gender,address,views,bill);
+//       return new ResponseEntity<>(userProfile,HttpStatus.OK);
+//    }
+
+
     DateService dateService;
     @Autowired
     IRoleService iRoleService;
@@ -62,11 +84,8 @@ public class UserProfileController {
         Role role = iRoleService.getById(3);
         Account account = iAccountService.getById(id);
         account.setRole(role);
-
-
         Zone zone = iZoneService.getById(userProfile.getZone().getId());
         userProfile.setZone(zone);
-
         userProfile.setIsVIP(false);
         userProfile.setIsActive(true);
         userProfile.setAccount(account);
