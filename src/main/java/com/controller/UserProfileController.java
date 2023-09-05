@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -45,10 +46,17 @@ public class UserProfileController {
         iUserProfileService.create(userProfile);
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
-    @PostMapping("/registerCCDVs/{id}")
-    ResponseEntity<UserProfile> getUserProfile(@PathVariable Long id){
-        UserProfile userProfile1 = iUserProfileService.getByAccountId(id);
-      return new ResponseEntity<>(userProfile1,HttpStatus.OK);
+    @PostMapping("/registerAutoCCDV/{id}")
+    ResponseEntity<UserProfile> registerAutoCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile){
+        Role role = iRoleService.getById(3);
+        Account account = iAccountService.getById(id);
+        account.setRole(role);
+        Zone zone = iZoneService.getById(userProfile.getZone().getId());
+        userProfile.setZone(zone);
+        userProfile.setAccount(account);
+        userProfile.setDateCreate(new Date());
+        iUserProfileService.create(userProfile);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
     @GetMapping("/newestCCDVs/{qty}")
