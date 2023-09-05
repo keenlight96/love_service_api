@@ -68,7 +68,7 @@ public class UserProfileController {
     public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
         return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
-    @PostMapping("/get4MaleAnd8FemaleCCDVs")
+    @GetMapping("/get4MaleAnd8FemaleCCDVs")
     public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(){
         return new ResponseEntity<>(iUserProfileService.get4MaleAnd8FemaleCCDVs(),HttpStatus.OK);
     }
