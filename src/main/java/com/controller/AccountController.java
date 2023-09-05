@@ -41,7 +41,7 @@ public class AccountController {
         account.setUsername(accountDTO.getUsername());
         account.setEmail(accountDTO.getEmail());
         account.setPassword(accountDTO.getPassword());
-        account.setNickName(accountDTO.getNickName());
+        account.setNickname(accountDTO.getNickName());
         accountDTO.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
         account.setAvatar(accountDTO.getAvatar());
 
@@ -71,7 +71,7 @@ public class AccountController {
         account.setUsername(accountDTO.getUsername());
         account.setEmail(accountDTO.getEmail());
         account.setPassword(accountDTO.getPassword());
-        account.setNickName(accountDTO.getNickName());
+        account.setNickname(accountDTO.getNickName());
         accountDTO.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
         account.setAvatar(accountDTO.getAvatar());
         Role role = iRoleService.findByName("ROLE_USER");
@@ -90,5 +90,6 @@ public class AccountController {
 
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
+
 }
 

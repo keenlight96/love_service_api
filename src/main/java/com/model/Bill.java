@@ -17,9 +17,9 @@ public class Bill {
     private Date dateCreate;
     private Date dateStart;
     private Date dateEnd;
-    private int price;
+    private long price;
     private double total;
-    private int hour;
+    private long hour;
     @ManyToOne
     private Account accountCCDV;
     @ManyToOne

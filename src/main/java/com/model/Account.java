@@ -17,7 +17,7 @@ public class Account {
     private String password;
     private String avatar;
     private String email;
-    private String nickName;
+    private String nickname;
     @ManyToOne
     private Role role;
     @ManyToOne

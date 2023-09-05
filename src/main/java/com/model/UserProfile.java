@@ -28,7 +28,7 @@ public class UserProfile {
     private String idCard;
     private String gender;
     private String height;
-    private String weigh;
+    private String weight;
     private String describes;
     private String basicRequest;
     private String facebookLink;
@@ -39,5 +39,7 @@ public class UserProfile {
     @ManyToOne
     private Zone zone;
     @ManyToMany
-    private List<Supply> supply;
+    private List<Supply> supplies;
+    @ManyToMany
+    private List<Interest> interests;
 }

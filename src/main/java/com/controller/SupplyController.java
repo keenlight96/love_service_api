@@ -18,6 +18,11 @@ import java.util.List;
 public class SupplyController {
     @Autowired
     ISupplyService iSupplyService;
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Supply>> getAll(){
+        return new ResponseEntity<>(iSupplyService.getAll(), HttpStatus.OK);
+    }
     @GetMapping("getSupplyList")
     ResponseEntity<List<Supply>> getSupplyList(){
         List<Supply> supplyList = iSupplyService.getAll();
