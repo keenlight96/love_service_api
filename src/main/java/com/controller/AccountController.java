@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.model.dto.AccountDTOCCDV;
+import com.model.dto.AccountCCDVDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -40,16 +39,6 @@ public class AccountController {
 
     @Autowired
     IUserProfileService iUserProfileService;
-
-    @GetMapping("")
-    public ResponseEntity<List<AccountDTOCCDV>> getAccountCCDVNamAndNu() {
-        List<AccountDTOCCDV> top4MaleAccountCCDV = iBillRepository.findTop4MaleAccountCCDV();
-        List<AccountDTOCCDV> top8FemaleAccountCCDV = iBillRepository.findTop8FemaleAccountCCDV();
-        List<AccountDTOCCDV> top12AccountCCDV = new ArrayList<>();
-        top12AccountCCDV.addAll(top4MaleAccountCCDV);
-        top12AccountCCDV.addAll(top8FemaleAccountCCDV);
-        return ResponseEntity.ok(top12AccountCCDV);
-    }
 
     @PostMapping("/registerUser")
     ResponseEntity<AccountRegisterDTO> createAccountUser(@RequestBody AccountRegisterDTO accountDTO) {
@@ -79,5 +68,6 @@ public class AccountController {
         iAccountService.create(account);
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
+
 }
 
