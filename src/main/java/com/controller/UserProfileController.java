@@ -1,14 +1,13 @@
 package com.controller;
 
 import com.model.*;
+import com.model.dto.UserDTO;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -49,6 +48,16 @@ public class UserProfileController {
     ResponseEntity<UserProfile> getUserProfile(@PathVariable Long id){
         UserProfile userProfile1 = iUserProfileService.getByAccountId(id);
       return new ResponseEntity<>(userProfile1,HttpStatus.OK);
+    }
+
+    @GetMapping("/newestCCDVs/{qty}")
+    public ResponseEntity<List<UserDTO>> getRecentCCDVs (@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.getNewestCCDVs(qty), HttpStatus.OK);
+    }
+
+    @PostMapping("/searchBySupplies")
+    public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
+        return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
 }
 

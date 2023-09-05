@@ -55,5 +55,6 @@ public class AccountController {
         iAccountService.create(account);
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
+
 }
 
