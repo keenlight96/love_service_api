@@ -99,14 +99,6 @@ public class UserProfileServiceImpl implements IUserProfileService {
     @Override
     public List<UserDTO> getBySupplies(List<Supply> supplies) {
         List<UserDTO> results = new ArrayList<>();
-//        List<UserDTO> resultsDb = entityManager.createQuery("select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) " +
-//                        "from UserProfile u, in (u.supplies) sup " +
-//                        "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
-//                        "where (u.account.role.id = 3) and (u.account.status.id = 1) and (sup in (:list)) " +
-//                        "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
-//                        "group by u.id ")
-//                .setParameter("list", supplies)
-//                .getResultList();
         List<UserDTO> resultsDb = iUserProfileRepository.getBySupplies(supplies);
 
         Set<Long> supplySet = supplies.stream().map(Supply::getId).collect(Collectors.toSet());

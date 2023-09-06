@@ -76,7 +76,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> 
     @Query("select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) " +
             "from UserProfile u, in (u.supplies) sup " +
             "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
-            "where (u.account.role.id = 3) and (u.account.status.id = 1) and (sup in (:list)) " +
+            "where (u.account.role.id = 3) and (u.account.status.id = 1) and (sup.isActive = true and sup in (:list)) " +
             "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
             "group by u.id ")
     List<UserDTO> getBySupplies(List<Supply> list);
