@@ -51,7 +51,7 @@ VALUES
     ('Nói lời yêu', true,3);
     
 
-INSERT INTO Account (id,username, password, avatar, email, nick_name, role_id, status_id, is_active)
+INSERT INTO Account (id,username, password, avatar, email, nickname, role_id, status_id, is_active)
 VALUES
     (1,'male1', 'pass123', 'https://internetviettel.vn/wp-content/uploads/2017/05/1-2.jpg', 'male1@example.com', 'Người Nam 1', 3, 1, true),
     (2,'male2', 'pass123', 'https://image.vtc.vn/resize/th/upload/2021/12/20/940-12344105.jpg', 'male2@example.com', 'Người Nam 2', 3, 1, true),
@@ -79,7 +79,7 @@ VALUES
     
     
 
-INSERT INTO user_profile (last_name, first_name, birthday, country, address, balance, phone_number, price, id_card, gender, height, weigh, basic_request, facebook_link, isvip, is_active, account_id, zone_id,views,date_create,describes)
+INSERT INTO user_profile (last_name, first_name, birthday, country, address, balance, phone_number, price, id_card, gender, height, weight, basic_request, facebook_link, isvip, is_active, account_id, zone_id,views,date_create,describes)
 VALUES
     ('Doe', 'John', '1990-05-15', 'Việt nam', '123 Tố Hữu', 1000, '555-1234', 500, '123456789', 'nam', '180 cm', '75 kg', 'Basic request', 'https://facebook.com/johndoe', true, true, 1, 1,10,'2023-03-04','mô tả 1'),
     ('Smith', 'Mike', '1988-02-20', 'Việt nam', '456 Phạm Văn Đồng', 750, '555-9876', 300, '987654321', 'nam', '175 cm', '70 kg', 'Intermediate request', 'https://facebook.com/mikesmith', false, true, 2, 2,30,'2023-03-05','mô tả 2'),
@@ -104,7 +104,7 @@ VALUES
 
 
 -- bảng phụ 
-    INSERT INTO user_profile_supply(user_profile_id,supply_id) 
+    INSERT INTO user_profile_supplies(user_profile_id,supplies_id)
     values
 	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),  
     (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),
@@ -279,3 +279,33 @@ GROUP BY
 ORDER BY
     billCount DESC
 LIMIT 4;
+
+
+SELECT
+    account.username AS name,
+    account.avatar AS image,
+    account.description AS description,
+    GROUP_CONCAT(service.name ORDER BY RAND() LIMIT 3) AS services,
+    account.price_per_hour AS price
+FROM
+    account
+        JOIN
+    service ON account.id = service.provider_id
+GROUP BY
+    account.id
+ORDER BY
+    account.view_count DESC
+    LIMIT
+    6;
+
+select u.id, u.last_name, COUNT(bill.id) AS total_bill
+            from user_profile u
+            join account on account.id = u.account_id
+            join bill on bill.accountccdv_id = account.id
+            where (u.first_name like "a")
+            and (u.last_name like "bb")
+            and (year(u.birthday)= 1999)
+            and (u.gender= "Male")
+            and (u.address= "HN")
+            and (u.views= 100)
+            GROUP BY u.id, u.last_name;

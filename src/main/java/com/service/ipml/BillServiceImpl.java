@@ -30,6 +30,7 @@ public class BillServiceImpl implements IBillService {
         }
     }
 
+
     @Override
     public Bill create(Bill bill) {
         return iBillRepository.save(bill);
@@ -43,5 +44,10 @@ public class BillServiceImpl implements IBillService {
     @Override
     public void deleteById(long id) {
         iBillRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Bill> getAllByAccountCCDV_Id(long id) {
+        return iBillRepository.getAllByAccountCCDV_Id(id);
     }
 }

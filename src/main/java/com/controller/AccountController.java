@@ -8,6 +8,10 @@ import com.model.Role;
 import com.model.Status;
 import com.cofig.filter.JwtAuthenticationFilter;
 import com.model.*;
+import com.model.Account;
+import com.model.Account;
+import com.model.Role;
+import com.model.Status;
 import com.model.dto.AccountRegisterDTO;
 import com.model.dto.AccountToken;
 import com.model.messageErorr.ValidStatus;
@@ -34,6 +38,11 @@ import java.util.Date;
 public class AccountController {
     @Autowired
     IAccountService iAccountService;
+    @GetMapping("/{id}")
+    public ResponseEntity<Account> getAccountById(@PathVariable long id){
+        Account account = iAccountService.getById(id);
+        return new ResponseEntity<>(account, HttpStatus.OK);
+    }
     @Autowired
     IBillRepository iBillRepository;
     @Autowired
