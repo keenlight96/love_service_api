@@ -1,27 +1,16 @@
 package com.controller;
 
 import com.model.*;
-import com.model.pojo.FilterUserProfile;
+import com.model.dto.UserProfileFilterDTO;
+import com.model.pojo.ParamFilterUserProfile;
 import com.model.dto.UserDTO;
 import com.service.*;
-import com.model.*;
 import com.model.dto.UserProfileIMG;
-import com.service.ipml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/userDetail")
@@ -61,16 +50,18 @@ public class UserProfileController {
         return iUserProfileService.getTop6HotServiceProviders();
     }
 
-//    @PostMapping("/filter")
-//    public ResponseEntity<List<UserProfile>> getAllUserProfileByFilter(@RequestBody FilterUserProfile filterUserProfile){
-//        String firstName = filterUserProfile.getFirstName();
-//        String lastName = filterUserProfile.getLastName();
-//        int birthDay = filterUserProfile.getBirthday();
-//        String  gender = filterUserProfile.getGender();
-//        String address = filterUserProfile.getAddress();
-//        long views = filterUserProfile.getViews();
-//        Bill bill = filterUserProfile.getBill();
-//    }
+    @PostMapping("/filter")
+    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile){
+        String firstName = paramFilterUserProfile.getFirstName();
+        String lastName = paramFilterUserProfile.getLastName();
+        int birthDay = paramFilterUserProfile.getBirthday();
+        String  gender = paramFilterUserProfile.getGender();
+        String address = paramFilterUserProfile.getAddress();
+        long views = paramFilterUserProfile.getViews();
+        String order = paramFilterUserProfile.getOrder();
+
+        return new ResponseEntity<>(iUserProfileService.getAllUserProfileByFilter(firstName, lastName, birthDay, gender, address, views, order), HttpStatus.OK);
+    }
 
 
 

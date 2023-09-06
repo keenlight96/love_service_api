@@ -297,3 +297,15 @@ ORDER BY
     account.view_count DESC
     LIMIT
     6;
+
+select u.id, u.last_name, COUNT(bill.id) AS total_bill
+            from user_profile u
+            join account on account.id = u.account_id
+            join bill on bill.accountccdv_id = account.id
+            where (u.first_name like "a")
+            and (u.last_name like "bb")
+            and (year(u.birthday)= 1999)
+            and (u.gender= "Male")
+            and (u.address= "HN")
+            and (u.views= 100)
+            GROUP BY u.id, u.last_name;
