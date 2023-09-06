@@ -14,5 +14,6 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
     Optional<UserProfile> getUserProfileByAccount_Id(long id);
     List<UserDTO> getNewestCCDVs(int qty);
     List<UserDTO> getBySupplies(List<Supply> supplies);
-    List<AccountCCDVDTO> get4MaleAnd8FemaleCCDVs();
+    List<AccountCCDVDTO> get4MaleCCDVs(int qty);
+    List<AccountCCDVDTO> get8FemaleCCDVs(int qty);
 }

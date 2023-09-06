@@ -68,9 +68,13 @@ public class UserProfileController {
     public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
         return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
-    @GetMapping("/get4MaleAnd8FemaleCCDVs")
-    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(){
-        return new ResponseEntity<>(iUserProfileService.get4MaleAnd8FemaleCCDVs(),HttpStatus.OK);
+    @GetMapping("/get4MaleCCDVs/{qty}")
+    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty){
+        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty),HttpStatus.OK);
+    }
+    @GetMapping("/get8FemaleCCDVs/{qty}")
+    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
+        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
     }
 }
 

@@ -45,7 +45,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> 
             "AND (b.status.id = 6) " +
             "AND (u.account.isActive = true) " +
             "AND (rev.isActive = true OR rev IS NULL) " +
-            "AND (u.gender = 'nam')" +
+            "AND (u.gender = 'nu')" +
             "GROUP BY u.id " +
             "ORDER BY COUNT(DISTINCT b.id) DESC")
     List<AccountCCDVDTO> findTop8FemaleAccountCCDV();
