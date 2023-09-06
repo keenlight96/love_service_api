@@ -23,4 +23,9 @@ public class SupplyController {
     public ResponseEntity<List<Supply>> getAllActive(){
         return new ResponseEntity<>(iSupplyService.getAllActive(), HttpStatus.OK);
     }
+    @GetMapping("getSupplyList")
+    ResponseEntity<List<Supply>> getSupplyList(){
+        List<Supply> supplyList = iSupplyService.getAll();
+        return new ResponseEntity<>(supplyList,HttpStatus.OK);
+    }
 }
