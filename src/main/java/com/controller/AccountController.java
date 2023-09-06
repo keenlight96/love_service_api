@@ -1,7 +1,17 @@
 package com.controller;
 
+
+import com.model.dto.AccountCCDVDTO;
+import com.repository.IBillRepository;
+import com.model.Account;
+import com.model.Role;
+import com.model.Status;
 import com.cofig.filter.JwtAuthenticationFilter;
 import com.model.*;
+import com.model.Account;
+import com.model.Account;
+import com.model.Role;
+import com.model.Status;
 import com.model.dto.AccountRegisterDTO;
 import com.model.dto.AccountToken;
 import com.model.messageErorr.ValidStatus;
@@ -10,11 +20,17 @@ import com.service.IRoleService;
 import com.service.IStatusService;
 import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
+
 
 @CrossOrigin("*")
 @RestController
@@ -22,6 +38,13 @@ import java.util.Date;
 public class AccountController {
     @Autowired
     IAccountService iAccountService;
+    @GetMapping("/{id}")
+    public ResponseEntity<Account> getAccountById(@PathVariable long id){
+        Account account = iAccountService.getById(id);
+        return new ResponseEntity<>(account, HttpStatus.OK);
+    }
+    @Autowired
+    IBillRepository iBillRepository;
     @Autowired
     IRoleService iRoleService;
     @Autowired
@@ -36,13 +59,14 @@ public class AccountController {
 
         return new ResponseEntity<>(account1,HttpStatus.OK);
     }
+
     @PostMapping("/registerUser")
     ResponseEntity<AccountRegisterDTO> createAccountUser(@RequestBody AccountRegisterDTO accountDTO) {
-        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
-            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()) {
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED), HttpStatus.OK);
         }
-        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
-            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()) {
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST), HttpStatus.OK);
         }
         Account account = new Account();
         account.setUsername(accountDTO.getUsername());

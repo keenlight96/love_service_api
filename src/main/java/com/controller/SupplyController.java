@@ -19,9 +19,9 @@ public class SupplyController {
     @Autowired
     ISupplyService iSupplyService;
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<Supply>> getAll(){
-        return new ResponseEntity<>(iSupplyService.getAll(), HttpStatus.OK);
+    @GetMapping("/getAllActive")
+    public ResponseEntity<List<Supply>> getAllActive(){
+        return new ResponseEntity<>(iSupplyService.getAllActive(), HttpStatus.OK);
     }
     @GetMapping("getSupplyList")
     ResponseEntity<List<Supply>> getSupplyList(){

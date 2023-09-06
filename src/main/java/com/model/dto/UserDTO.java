@@ -10,11 +10,16 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserDTO {
     private UserProfile userProfile;
     private String randomServices;
     private Double rate;
     private Long countRate;
 
+    public UserDTO(UserProfile userProfile, String randomServices, Double rate, Long countRate) {
+        this.userProfile = userProfile;
+        this.randomServices = randomServices;
+        this.rate = rate;
+        this.countRate = countRate;
+    }
 }
