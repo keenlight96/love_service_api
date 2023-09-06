@@ -30,10 +30,25 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> 
             "AND (b.status.id = 6) " +
             "AND (u.account.isActive = true) " +
             "AND (rev.isActive = true OR rev IS NULL) " +
-            "AND (u.gender = 'nam' OR u.gender = 'nữ') " +
+            "AND (u.gender = 'nam')" +
             "GROUP BY u.id " +
             "ORDER BY COUNT(DISTINCT b.id) DESC")
-    List<AccountCCDVDTO> findTop4MaleAn8FemaleAccountCCDV();
+    List<AccountCCDVDTO> findTop4MaleAccountCCDV();
+    @Query("SELECT new com.model.dto.AccountCCDVDTO(u, a, '', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
+            "FROM UserProfile u " +
+            "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
+            "LEFT JOIN Account a ON a.id = u.account.id " +
+            "LEFT JOIN Bill b ON b.accountCCDV.id = a.id " +
+            "WHERE (u.account.role.id = 3) " +
+            "AND (u.account.status.id = 1) " +
+            "AND (b.isActive = true) " +
+            "AND (b.status.id = 6) " +
+            "AND (u.account.isActive = true) " +
+            "AND (rev.isActive = true OR rev IS NULL) " +
+            "AND (u.gender = 'nam')" +
+            "GROUP BY u.id " +
+            "ORDER BY COUNT(DISTINCT b.id) DESC")
+    List<AccountCCDVDTO> findTop8FemaleAccountCCDV();
 
     @Query("select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) " +
             "from UserProfile u, in (u.supplies) sup " +

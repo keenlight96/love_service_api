@@ -109,7 +109,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public List<AccountCCDVDTO> get4MaleAnd8FemaleCCDVs() {
-        List<AccountCCDVDTO> accountCCDVDTOS = iUserProfileRepository.findTop4MaleAn8FemaleAccountCCDV();
+        List<AccountCCDVDTO> accountCCDVDTOS = iUserProfileRepository.findTop4MaleAccountCCDV();
         for (AccountCCDVDTO accountCCDVDTO: accountCCDVDTOS) {
             accountCCDVDTO.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(accountCCDVDTO.getUserProfile().getSupplies(), 3)));
         }
