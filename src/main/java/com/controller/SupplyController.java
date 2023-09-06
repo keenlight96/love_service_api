@@ -1,6 +1,5 @@
 package com.controller;
 
-import com.model.Account;
 import com.model.Supply;
 import com.model.UserProfile;
 import com.service.ISupplyService;
@@ -11,6 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
@@ -35,13 +39,17 @@ public class SupplyController {
     }
 
     @PostMapping("/createSupply")
-    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id, @RequestParam int cost, @RequestParam int hour) {
+    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id, @RequestParam int cost) {
         UserProfile userProfile = iUserProfileService.getById(id);
-        userProfile.setSupply(supplyList);
+        userProfile.setSupplies(supplyList);
         userProfile.setPrice(cost);
-        userProfile.setMinHour(hour);
         iUserProfileService.edit(userProfile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Supply>> getAll(){
+        return new ResponseEntity<>(iSupplyService.getAll(), HttpStatus.OK);
+    }
 }

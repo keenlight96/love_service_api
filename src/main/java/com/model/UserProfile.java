@@ -21,14 +21,15 @@ public class UserProfile {
     private Date birthday;
     private String country;
     private String address;
-    private double balance;
+    private long balance;
     private String phoneNumber;
-    private int price;
-    private int minHour;
+    private long price;
+    private long views;
     private String idCard;
     private String gender;
     private String height;
-    private String width;
+    private String weight;
+    private String describes;
     private String basicRequest;
     private String facebookLink;
     private Boolean isVIP;
@@ -38,5 +39,8 @@ public class UserProfile {
     @ManyToOne
     private Zone zone;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Supply> supply;
+    private List<Supply> supplies;
+    @ManyToMany
+    private List<Interest> interests;
+
 }
