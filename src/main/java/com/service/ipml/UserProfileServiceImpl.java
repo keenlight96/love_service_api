@@ -1,8 +1,11 @@
 package com.service.ipml;
 
 import com.model.Supply;
+import com.model.Comment;
+import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.UserDTO;
+import com.model.dto.UserProfileFilterDTO;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
 import com.service.IUserProfileService;
@@ -13,6 +16,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserProfileServiceImpl implements IUserProfileService {
@@ -26,6 +33,9 @@ public class UserProfileServiceImpl implements IUserProfileService {
         return iUserProfileRepository.findAll();
     }
 
+    public Optional<UserProfile> findOne(long id) {
+        return iUserProfileRepository.findById(id);
+    }
     @Override
     public UserProfile getById(long id) {
         Optional<UserProfile> userProfile = iUserProfileRepository.findById(id);
@@ -49,6 +59,11 @@ public class UserProfileServiceImpl implements IUserProfileService {
     @Override
     public void deleteById(long id) {
         iUserProfileRepository.deleteById(id);
+    }
+
+    @Override
+    public UserProfile getUserProfileById(long id) {
+        return iUserProfileRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -103,5 +118,33 @@ public class UserProfileServiceImpl implements IUserProfileService {
             }
         }
         return results;
+    }
+
+    @Override
+    public List<UserProfile> getTop6HotServiceProviders() {
+        Random random = new Random();
+        List<UserProfile> userProfiles = iUserProfileRepository.getTop6HotServiceProviders();
+        for (int i = 0; i < userProfiles.size(); i++) {
+            List<Supply> supplies = new ArrayList<>();
+            List<Supply> supplies1 = userProfiles.get(i).getSupplies();
+            List<Integer> uniqueIndexes = new ArrayList<>();
+            while (uniqueIndexes.size() < 3 && uniqueIndexes.size() < supplies1.size()) {
+                int randomIndex = random.nextInt(supplies1.size());
+                if (!uniqueIndexes.contains(randomIndex)) {
+                    uniqueIndexes.add(randomIndex);
+                }
+            }
+            for (int j = 0; j < uniqueIndexes.size(); j++) {
+                int randomIndex = uniqueIndexes.get(j);
+                supplies.add(supplies1.get(randomIndex));
+            }
+            userProfiles.get(i).setSupplies(supplies);
+        }
+        return userProfiles;
+    }
+
+    @Override
+    public List<UserProfileFilterDTO> getAllUserProfileByFilter(String first_name, String last_name, int birthday, String gender, String address, long views, String order) {
+        return iUserProfileRepository.getAllUserProfileByFilter(first_name, last_name, birthday, gender, address, views, order);
     }
 }

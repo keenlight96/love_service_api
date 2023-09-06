@@ -1,6 +1,7 @@
 package com.service.ipml;
 
 import com.model.Comment;
+import com.model.Image;
 import com.model.Interest;
 import com.repository.IInterestRepository;
 import com.service.IInterestService;
@@ -42,5 +43,10 @@ public class InterestServiceImpl implements IInterestService {
     @Override
     public void deleteById(long id) {
         iInterestRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Interest> getAllInterestByAccountCCDV_Id(long id) {
+        return iInterestRepository.getInterestsById(id);
     }
 }
