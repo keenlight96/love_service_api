@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Account;
 import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.UserDTO;
@@ -50,6 +51,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public void deleteById(long id) {
         iUserProfileRepository.deleteById(id);
     }
+
+
+
+
 
     @Override
     public UserProfile getByAccountId(long id) {

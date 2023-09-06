@@ -29,6 +29,13 @@ public class AccountController {
 
     @Autowired
     IUserProfileService iUserProfileService;
+    @PostMapping("/changeAvata/{id}")
+    ResponseEntity<?> changeAvataInProfileByUserLogin(@PathVariable Long id,@RequestBody Account account){
+        Account account1 = iAccountService.getById(id);
+        account1.setAvatar(account.getAvatar());
+
+        return new ResponseEntity<>(account1,HttpStatus.OK);
+    }
     @PostMapping("/registerUser")
     ResponseEntity<AccountRegisterDTO> createAccountUser(@RequestBody AccountRegisterDTO accountDTO) {
         if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){

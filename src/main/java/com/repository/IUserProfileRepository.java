@@ -26,4 +26,5 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile,Long> 
             "group by u.id ")
     List<UserDTO> getBySupplies(List<Supply> list);
 
+
 }
