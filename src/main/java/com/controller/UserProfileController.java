@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -60,10 +58,10 @@ public class UserProfileController {
         return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
 
-    @GetMapping("/listCCDVhaveSameGender")
-    ResponseEntity<List<UserProfile>> listCCDVhaveSameGender(@PathVariable Long id) {
+    @GetMapping("/listCCDVHaveProperGender")
+    ResponseEntity<List<UserDTO>> listCCDVHaveProperGender(@RequestParam Long id) {
         String gender = iUserProfileService.getByAccountId(id).getGender();
-        List<UserProfile> listCCDV = new ArrayList<>();
+        List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
         return new ResponseEntity<>(listCCDV, HttpStatus.OK);
     }
 }

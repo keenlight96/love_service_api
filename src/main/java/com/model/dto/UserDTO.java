@@ -16,5 +16,4 @@ public class UserDTO {
     private String randomServices;
     private Double rate;
     private Long countRate;
-
 }
