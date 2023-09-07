@@ -1,17 +1,19 @@
 package com.service.ipml;
 
+import com.model.*;
 import com.model.Supply;
-import com.model.Comment;
-import com.model.Supply;
-import com.model.UserProfile;
 import com.model.dto.AccountCCDVDTO;
 import com.model.dto.UserDTO;
 import com.model.dto.UserProfileFilterDTO;
 import com.repository.IBillRepository;
+import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
+import com.service.IBillService;
 import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -29,6 +31,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
     EntityManager entityManager;
     @Autowired
     IUserProfileRepository iUserProfileRepository;
+    @Autowired
+    IBillRepository iBillRepository;
+    @Autowired
+    IStatusRepository iStatusRepository;
 
     @Override
     public List<UserProfile> getAll() {
@@ -190,4 +196,19 @@ public class UserProfileServiceImpl implements IUserProfileService {
         return  account8FemaleCCDVs;
     }
 
+    @Override
+    public String receiveMoney(long idBill, long idAccountCCDV) {
+        Optional<UserProfile> optionalUserProfile = getUserProfileByAccount_Id(idAccountCCDV);
+        Optional<Bill> bill = iBillRepository.findById(idBill);
+        Optional<Status> status = iStatusRepository.findById(Long.valueOf(6)); // trạng thái báo cáo
+        if (bill.get().getStatus().equals("reporting") ) {
+            optionalUserProfile.get().setBalance(optionalUserProfile.get().getBalance() + bill.get().getTotal());
+            bill.get().setStatus(status.get());
+            edit(optionalUserProfile.get());
+            iBillRepository.save(bill.get());
+            return "Nhận tiền thành công";
+        }else {
+            return "bạn đã nhận tiền rồi";
+        }
+    }
 }

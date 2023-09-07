@@ -2,9 +2,12 @@ package com.service.ipml;
 
 import com.model.Account;
 import com.model.Bill;
+import com.model.Status;
 import com.repository.IBillRepository;
+import com.repository.IStatusRepository;
 import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.Optional;
 public class BillServiceImpl implements IBillService {
     @Autowired
     IBillRepository iBillRepository;
+    @Autowired
+    IStatusRepository iStatusRepository;
 
     @Override
     public List<Bill> getAll() {
@@ -49,5 +54,23 @@ public class BillServiceImpl implements IBillService {
     @Override
     public List<Bill> getAllByAccountCCDV_Id(long id) {
         return iBillRepository.getAllByAccountCCDV_Id(id);
+    }
+
+    @Override
+    public Optional<List<Bill>> findAllByAccountCCDV_IOrderByIdDesc(long id) {
+        Sort descendingSortById = Sort.by(Sort.Direction.DESC, "id");
+        return iBillRepository.getAllByAccountCCDV_Id(id,descendingSortById);
+    }
+    @Override
+    public String confirmBill(long id) {
+        try {
+            Bill bill = getById(id);
+            Status status = iStatusRepository.findById(5L).get();
+            bill.setStatus(status);
+            edit(bill);
+            return "Xác nhận thành công";
+        } catch (Exception e) {
+            return "Đơn đã được xác nhận rồi";
+        }
     }
 }

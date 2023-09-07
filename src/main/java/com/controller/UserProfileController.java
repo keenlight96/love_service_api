@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/userDetail")
@@ -36,6 +38,8 @@ public class UserProfileController {
     IZoneService iZoneService;
     @Autowired
     ISupplyService iSupplyService;
+    @Autowired
+    IStatusService iStatusService;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
@@ -114,6 +118,10 @@ public class UserProfileController {
     @GetMapping("/get8FemaleCCDVs/{qty}")
     public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
         return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
+    }
+    @PostMapping("/receiveMoney/{idBill}/{idAccountCCDV}")
+    public ResponseEntity<?> receiveMoney(@PathVariable long idBill,@PathVariable long idAccountCCDV) {
+        return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill,idAccountCCDV),HttpStatus.OK);
     }
 }
 
