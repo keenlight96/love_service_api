@@ -49,4 +49,9 @@ public class SupplyServiceImpl implements ISupplyService {
     public List<Supply> getByIdList(List<Supply> supply) {
         return supply;
     }
+
+    @Override
+    public List<Supply> getAllActive() {
+        return iSupplyRepository.findAllActive();
+    }
 }

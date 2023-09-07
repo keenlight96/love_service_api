@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,9 +55,15 @@ public class AccountServiceImpl implements IAccountService {
         return iAccountRepository.findByUsername(username);
     }
 
+
     @Override
     public Optional<Account> findByEmail(String email) {
         return iAccountRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<Account> login(String username, String password) {
+        return iAccountRepository.getAccountByUsernameAndPassword(username,password);
     }
 
     @Override
@@ -66,4 +73,6 @@ public class AccountServiceImpl implements IAccountService {
         roles.add(account.getRole());
         return new User(account.getUsername(), account.getPassword(), roles);
     }
+
+
 }

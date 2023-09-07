@@ -18,8 +18,13 @@ public class Bill {
     private Date dateStart;
     private Date dateEnd;
     private long price;
-    private double total;
+    private long total;
     private long hour;
+    private String firstMessage;
+    private String ccdvMessage;
+    private String userMessage;
+    private String adminMessage;
+    private String supplies;
     @ManyToOne
     private Account accountCCDV;
     @ManyToOne
