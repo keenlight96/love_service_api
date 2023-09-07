@@ -38,8 +38,9 @@ public class UserProfile {
     private Account account;
     @ManyToOne
     private Zone zone;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Supply> supplies;
     @ManyToMany
     private List<Interest> interests;
+
 }

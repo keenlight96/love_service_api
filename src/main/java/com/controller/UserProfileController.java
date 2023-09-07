@@ -119,6 +119,13 @@ public class UserProfileController {
     public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
         return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
     }
+
+    @GetMapping("/listCCDVHaveProperGender")
+    ResponseEntity<List<UserDTO>> listCCDVHaveProperGender(@RequestParam Long id) {
+        String gender = iUserProfileService.getByAccountId(id).getGender();
+        List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
+        return new ResponseEntity<>(listCCDV, HttpStatus.OK);
+    }
     @PostMapping("/receiveMoney/{idBill}/{idAccountCCDV}")
     public ResponseEntity<?> receiveMoney(@PathVariable long idBill,@PathVariable long idAccountCCDV) {
         return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill,idAccountCCDV),HttpStatus.OK);

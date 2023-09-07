@@ -85,6 +85,36 @@ public class UserProfileServiceImpl implements IUserProfileService {
     }
 
     @Override
+    public List<UserDTO> getUserHaveProperGender(String gender) {
+        List<UserDTO> rs = entityManager.createQuery(" select new com.model.dto.UserDTO(up,'',avg(rev.rating),count(rev.rating))from UserProfile up" +
+                        " left outer join Review rev on rev.accountCCDV.id = up.account.id " +
+                        " where (up.account.role.id = 3) and (up.account.status.id = 1)" +
+                        " and (up.isActive = true) and (up.account.isActive = true) and" +
+                        " (up.gender != :gender) " +
+                        "group by up.id " +
+                        " order by up.dateCreate desc  ")
+                .setParameter("gender", "%" + gender + "%")
+                .setMaxResults(5)
+                .getResultList();
+        rs.addAll(entityManager.createQuery(" select new com.model.dto.UserDTO(up,'',avg(rev.rating),count(rev.rating))from UserProfile up" +
+                        " left outer join Review rev on rev.accountCCDV.id = up.account.id " +
+                        " where (up.account.role.id = 3) and (up.account.status.id = 1)" +
+                        " and (up.isActive = true) and (up.account.isActive = true) and" +
+                        " (up.gender != :gender) " +
+                        "group by up.id " +
+                        " order by up.dateCreate asc  ")
+                .setParameter("gender", "%" + gender + "%")
+                .setMaxResults(5)
+                .getResultList());
+        for (UserDTO userDto :
+                rs) {
+            userDto.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(userDto.getUserProfile().getSupplies(), 3)));
+        }
+        return rs;
+    }
+
+
+    @Override
     public List<UserDTO> getNewestCCDVs(int qty) {
         List<UserDTO> results = entityManager.createQuery("select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) from UserProfile u " +
                         "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
