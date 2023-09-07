@@ -3,6 +3,7 @@ package com.service;
 import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.AccountCCDVDTO;
+import com.model.dto.FilterCCDV;
 import com.model.dto.UserDTO;
 import com.model.dto.UserProfileFilterDTO;
 
@@ -25,4 +26,5 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
     List<AccountCCDVDTO> get4MaleCCDVs(int qty);
     List<AccountCCDVDTO> get8FemaleCCDVs(int qty);
     String receiveMoney(long idBill,long idAccountCCDV);
+    List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV);
 }

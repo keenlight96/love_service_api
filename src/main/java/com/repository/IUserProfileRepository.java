@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,12 @@ import java.util.Optional;
 public interface IUserProfileRepository extends JpaRepository<UserProfile, Long> {
 
     UserProfile getByAccount_Id(Long id);
+
     Optional<UserProfile> getUserProfileByAccount_Id(long id);
+
     @Query(nativeQuery = true, value = "select * from user_profile  order by views desc limit 5 ")
     List<UserProfile> getTop6HotServiceProviders();
+
     //filter user_profile
     @Query(nativeQuery = true, value = "select u.id,u.first_name u.last_name,u.birthday,u.gender,u.address,u.views, COUNT(bill.id) AS total_bill" +
             "from user_profile u" +
@@ -34,7 +38,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "and (:address is null or u.address= :address) " +
             "and (:views is null or u.views= :views) " +
             "group by u.id, u.last_name " +
-            "order by total_bill :order " )
+            "order by total_bill :order ")
     List<UserProfileFilterDTO> getAllUserProfileByFilter(@Param("first_name") String first_name,
                                                          @Param("last_name") String last_name,
                                                          @Param("birthday") int birthday,
@@ -42,6 +46,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
                                                          @Param("address") String address,
                                                          @Param("views") long views,
                                                          @Param("order") String order);
+
     @Query("SELECT new com.model.dto.AccountCCDVDTO(u, a, '', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
             "FROM UserProfile u " +
             "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
@@ -57,6 +62,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "GROUP BY u.id " +
             "ORDER BY COUNT(DISTINCT b.id) DESC")
     List<AccountCCDVDTO> findTop4MaleAccountCCDV();
+
     @Query("SELECT new com.model.dto.AccountCCDVDTO(u, a, '', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
             "FROM UserProfile u " +
             "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
@@ -93,5 +99,20 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "group by u.id ")
     List<UserDTO> getBySupplies(List<Supply> list);
 
+    @Query("SELECT new com.model.dto.UserDTO(u, '', AVG(rev.rating), COUNT(rev.rating)) " +
+            "FROM UserProfile u " +
+            "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
+            "WHERE u.account.role.id = 3 " +
+            "AND u.account.status.id = 1 " +
+            "AND (:lastNameParam is null OR u.lastName like :lastNameParam) " +
+            "AND (:firstNameParam is null OR u.firstName like :firstNameParam) " +
+            "AND (:zoneParam is null OR u.zone.zone like :zoneParam) " +
+            "AND (:genderParam is null OR u.gender = :genderParam) " +
+            "AND (:birthdayParam is null OR YEAR(u.birthday) = :birthdayParam) GROUP BY u.id")
+    List<UserDTO> getAllCCDVByFilter(@Param("lastNameParam") String lastName,
+                                            @Param("firstNameParam") String firstName,
+                                            @Param("zoneParam") String zone,
+                                            @Param("genderParam") String gender,
+                                            @Param("birthdayParam") Integer birthday);
 
 }

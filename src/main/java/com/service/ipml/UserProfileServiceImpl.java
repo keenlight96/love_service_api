@@ -3,6 +3,7 @@ package com.service.ipml;
 import com.model.*;
 import com.model.Supply;
 import com.model.dto.AccountCCDVDTO;
+import com.model.dto.FilterCCDV;
 import com.model.dto.UserDTO;
 import com.model.dto.UserProfileFilterDTO;
 import com.repository.IBillRepository;
@@ -44,6 +45,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public Optional<UserProfile> findOne(long id) {
         return iUserProfileRepository.findById(id);
     }
+
     @Override
     public UserProfile getById(long id) {
         Optional<UserProfile> userProfile = iUserProfileRepository.findById(id);
@@ -181,25 +183,25 @@ public class UserProfileServiceImpl implements IUserProfileService {
     @Override
     public List<AccountCCDVDTO> get4MaleCCDVs(int qty) {
         List<AccountCCDVDTO> accountMaleCCDVs = entityManager.createQuery("SELECT new com.model.dto.AccountCCDVDTO(u, a, '', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
-                "FROM UserProfile u " +
-                "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
-                "LEFT JOIN Account a ON a.id = u.account.id " +
-                "LEFT JOIN Bill b ON b.accountCCDV.id = a.id " +
-                "WHERE (u.account.role.id = 3) " +
-                "AND (u.account.status.id = 1) " +
-                "AND (b.isActive = true) " +
-                "AND (b.status.id = 6) " +
-                "AND (u.account.isActive = true) " +
-                "AND (rev.isActive = true OR rev IS NULL) " +
-                "AND (u.gender = 'nam')" +
-                "GROUP BY u.id " +
-                "ORDER BY COUNT(DISTINCT b.id) DESC")
+                        "FROM UserProfile u " +
+                        "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
+                        "LEFT JOIN Account a ON a.id = u.account.id " +
+                        "LEFT JOIN Bill b ON b.accountCCDV.id = a.id " +
+                        "WHERE (u.account.role.id = 3) " +
+                        "AND (u.account.status.id = 1) " +
+                        "AND (b.isActive = true) " +
+                        "AND (b.status.id = 6) " +
+                        "AND (u.account.isActive = true) " +
+                        "AND (rev.isActive = true OR rev IS NULL) " +
+                        "AND (u.gender = 'nam')" +
+                        "GROUP BY u.id " +
+                        "ORDER BY COUNT(DISTINCT b.id) DESC")
                 .setMaxResults(qty)
                 .getResultList();
-        for (AccountCCDVDTO accountCCDVDTO: accountMaleCCDVs) {
+        for (AccountCCDVDTO accountCCDVDTO : accountMaleCCDVs) {
             accountCCDVDTO.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(accountCCDVDTO.getUserProfile().getSupplies(), 3)));
         }
-        return  accountMaleCCDVs;
+        return accountMaleCCDVs;
     }
 
     @Override
@@ -220,10 +222,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         "ORDER BY COUNT(DISTINCT b.id) DESC")
                 .setMaxResults(qty)
                 .getResultList();
-        for (AccountCCDVDTO accountCCDVDTO: account8FemaleCCDVs) {
+        for (AccountCCDVDTO accountCCDVDTO : account8FemaleCCDVs) {
             accountCCDVDTO.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(accountCCDVDTO.getUserProfile().getSupplies(), 3)));
         }
-        return  account8FemaleCCDVs;
+        return account8FemaleCCDVs;
     }
 
     @Override
@@ -231,14 +233,25 @@ public class UserProfileServiceImpl implements IUserProfileService {
         Optional<UserProfile> optionalUserProfile = getUserProfileByAccount_Id(idAccountCCDV);
         Optional<Bill> bill = iBillRepository.findById(idBill);
         Optional<Status> status = iStatusRepository.findById(Long.valueOf(6)); // trạng thái báo cáo
-        if (bill.get().getStatus().equals("reporting") ) {
+        if (bill.get().getStatus().equals("reporting")) {
             optionalUserProfile.get().setBalance(optionalUserProfile.get().getBalance() + bill.get().getTotal());
             bill.get().setStatus(status.get());
             edit(optionalUserProfile.get());
             iBillRepository.save(bill.get());
             return "Nhận tiền thành công";
-        }else {
+        } else {
             return "bạn đã nhận tiền rồi";
         }
+    }
+
+    @Override
+    public List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV) {
+        String lastName = "%" + filterCCDV.getLastName() + "%" ;
+        String fistName = "%" + filterCCDV.getFirstName() + "%";
+        String zone = "%" + filterCCDV.getZone() + "%" ;
+        String gender = filterCCDV.getGender();
+        Integer birthday = filterCCDV.getYear();
+        System.out.printf(fistName);
+        return iUserProfileRepository.getAllCCDVByFilter(lastName, fistName, zone, gender, birthday);
     }
 }

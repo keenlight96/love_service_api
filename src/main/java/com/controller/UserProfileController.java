@@ -1,12 +1,9 @@
 package com.controller;
 
 import com.model.*;
-import com.model.dto.UserProfileFilterDTO;
+import com.model.dto.*;
 import com.model.pojo.ParamFilterUserProfile;
-import com.model.dto.AccountCCDVDTO;
-import com.model.dto.UserDTO;
 import com.service.*;
-import com.model.dto.UserProfileIMG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -129,6 +126,11 @@ public class UserProfileController {
     @PostMapping("/receiveMoney/{idBill}/{idAccountCCDV}")
     public ResponseEntity<?> receiveMoney(@PathVariable long idBill,@PathVariable long idAccountCCDV) {
         return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill,idAccountCCDV),HttpStatus.OK);
+    }
+    @PostMapping("/filterByCCDv")
+    public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV){
+        System.out.printf(filterCCDV.toString());
+        return new ResponseEntity<>(iUserProfileService.getAllCCDVByFilter(filterCCDV), HttpStatus.OK);
     }
 }
 
