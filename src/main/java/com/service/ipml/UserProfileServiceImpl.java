@@ -1,11 +1,8 @@
 package com.service.ipml;
 
 import com.model.Supply;
-import com.model.Comment;
-import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.UserDTO;
-import com.model.dto.UserProfileFilterDTO;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
 import com.service.IUserProfileService;
@@ -136,10 +133,5 @@ public class UserProfileServiceImpl implements IUserProfileService {
             userProfiles.get(i).setSupplies(supplies);
         }
         return userProfiles;
-    }
-
-    @Override
-    public List<UserProfileFilterDTO> getAllUserProfileByFilter(String first_name, String last_name, int birthday, String gender, String address, long views, String order) {
-        return iUserProfileRepository.getAllUserProfileByFilter(first_name, last_name, birthday, gender, address, views, order);
     }
 }

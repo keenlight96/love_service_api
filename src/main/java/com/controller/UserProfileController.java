@@ -1,8 +1,6 @@
 package com.controller;
 
 import com.model.*;
-import com.model.dto.UserProfileFilterDTO;
-import com.model.pojo.ParamFilterUserProfile;
 import com.model.dto.UserDTO;
 import com.service.*;
 import com.model.dto.UserProfileIMG;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 @CrossOrigin("*")
 @RestController
@@ -49,22 +48,6 @@ public class UserProfileController {
     public List<UserProfile> getTop6HotServiceProviders() {
         return iUserProfileService.getTop6HotServiceProviders();
     }
-
-    @PostMapping("/filter")
-    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile){
-        String firstName = paramFilterUserProfile.getFirstName();
-        String lastName = paramFilterUserProfile.getLastName();
-        int birthDay = paramFilterUserProfile.getBirthday();
-        String  gender = paramFilterUserProfile.getGender();
-        String address = paramFilterUserProfile.getAddress();
-        long views = paramFilterUserProfile.getViews();
-        String order = paramFilterUserProfile.getOrder();
-
-        return new ResponseEntity<>(iUserProfileService.getAllUserProfileByFilter(firstName, lastName, birthDay, gender, address, views, order), HttpStatus.OK);
-    }
-
-
-
 
     @PostMapping("/registerCCDV/{id}")
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
