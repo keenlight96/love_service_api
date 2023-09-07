@@ -2,7 +2,9 @@ package com.service.ipml;
 
 import com.model.Account;
 import com.repository.IAccountRepository;
+import com.repository.IBillRepository;
 import com.service.IAccountService;
+import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class AccountServiceImpl implements IAccountService {
     @Autowired
     IAccountRepository iAccountRepository;
+    @Autowired
+    IBillRepository iBillRepository;
 
     @Override
     public List<Account> getAll() {
@@ -65,6 +69,12 @@ public class AccountServiceImpl implements IAccountService {
     public Optional<Account> login(String username, String password) {
         return iAccountRepository.getAccountByUsernameAndPassword(username,password);
     }
+
+//    @Override
+//    public Optional<Account> getByProviderUserId(long id) {
+//        return (Optional<Account>) iBillRepository.getAccount_User_IdAndBill_IdByAccount_CCDV_Id(id);
+//    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

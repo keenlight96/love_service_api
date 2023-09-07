@@ -83,7 +83,7 @@ public class UserProfileController {
         UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
 
         if (existingProfile != null) {
-            // Nếu đã tồn tại profile, thì bạn có thể cập nhật nó thay vì tạo mới
+            // Nếu đã tồn tại profile, cập nhật nó thay vì tạo mới
 
             existingProfile.setLastName(userProfile.getLastName());// Cập nhật thông tin của profile
             existingProfile.setFirstName(userProfile.getFirstName());// Cập nhật thông tin của profile
