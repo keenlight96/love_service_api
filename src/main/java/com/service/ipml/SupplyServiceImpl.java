@@ -20,7 +20,7 @@ public class SupplyServiceImpl implements ISupplyService {
         return iSupplyRepository.findAll();
     }
 
-    @Override
+
     public Supply getById(long id) {
         Optional<Supply> supply = iSupplyRepository.findById(id);
         if (supply.isPresent()) {
@@ -48,5 +48,10 @@ public class SupplyServiceImpl implements ISupplyService {
     @Override
     public List<Supply> getByIdList(List<Supply> supply) {
         return supply;
+    }
+
+    @Override
+    public List<Supply> getAllActive() {
+        return iSupplyRepository.findAllActive();
     }
 }
