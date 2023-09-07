@@ -73,4 +73,10 @@ public class BillServiceImpl implements IBillService {
             return "Đơn đã được xác nhận rồi";
         }
     }
+
+    @Override
+    public Optional<List<Bill>> getAllByAccountCCDV_IdOrAccountUser_Id(long id) {
+        Sort descendingSortById = Sort.by(Sort.Direction.DESC, "id");
+        return iBillRepository.getBillByAccountCCDV_IdOrAccountUser_Id(id,descendingSortById);
+    }
 }

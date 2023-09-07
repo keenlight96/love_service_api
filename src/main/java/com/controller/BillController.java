@@ -33,5 +33,13 @@ public class BillController {
     public ResponseEntity<String> receivedBill(@PathVariable long idBill) {
         return new ResponseEntity<>(iBillService.confirmBill(idBill), HttpStatus.OK);
     }
-
+    @GetMapping("/getAllBillIdByAccount/{id}")
+    public ResponseEntity<?> getAllBillByIdAccount(@PathVariable long id) {
+        Optional<List<Bill>> optionalBills = iBillService.getAllByAccountCCDV_IdOrAccountUser_Id(id);
+        if (!optionalBills.isPresent()) {
+            return new ResponseEntity<>("chưa có đơn nào", HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(optionalBills, HttpStatus.OK);
+        }
+    }
 }
