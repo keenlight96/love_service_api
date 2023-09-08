@@ -17,8 +17,13 @@ VALUES
     (4, 'wait', true),
     (5, 'recevied', true),
     (6, 'complete', true),
-    (7, 'reporting', true);
-    
+(111, 'inActive', true),
+(7, 'cancel from wait by user', true),
+(8, 'cancel from wait by ccdv', true),
+(9, 'cancel from recevied by user', true),
+(10, 'cancel from recevied by ccdv', true),
+(333, 'emailverify', true);
+
     INSERT INTO Zone (zone, is_active)
 VALUES
     ('Miền Bắc', true),
@@ -110,11 +115,8 @@ VALUES
 
 
 -- bảng phụ 
-<<<<<<<< HEAD:src/recordLover.sql
-   INSERT INTO user_profile_supplies(user_profile_id,supplies_id) 
-========
+
     INSERT INTO user_profile_supplies(user_profile_id,supplies_id)
->>>>>>>> 531be63038ac0bcba2d4bc137184f8112a3f6ebc:src/database_loveservice (2).sql
     values
 	(1,2),(1,7),(1,9),
 	(2,2),(2,3),(2,5),(2,7),
@@ -256,88 +258,87 @@ VALUES
     ('https://img.thuthuattinhoc.vn/uploads/2019/01/13/anh-dep-ve-tinh-ban_104522290.jpg', 20, true);
   
 
-<<<<<<<< HEAD:src/recordLover.sql
-========
 
 
-SELECT u.*
-FROM user_profile u
-JOIN account a ON u.account_id = a.id
-JOIN role r ON a.role_id = r.id
-JOIN status s ON a.status_id = s.id
-JOIN bill b ON a.id = b.accountCCDV_id
-WHERE u.gender = 'nam' AND r.name_role = 'ROLE_CCDV';
+#
+# SELECT u.*
+# FROM user_profile u
+# JOIN account a ON u.account_id = a.id
+# JOIN role r ON a.role_id = r.id
+# JOIN status s ON a.status_id = s.id
+# JOIN bill b ON a.id = b.accountCCDV_id
+# WHERE u.gender = 'nam' AND r.name_role = 'ROLE_CCDV';
+#
+# SELECT
+#     u.last_name,
+#     u.account_id,
+#     u.basic_request,
+#     u.price,
+#     COUNT(b.id) AS billCount,
+#     u.account_id
+# FROM user_profile u
+# JOIN Account a ON u.account_id = a.id
+# JOIN Role r ON a.role_id = r.id
+# JOIN Status s ON a.status_id = s.id
+# JOIN Review rs ON a.id = rs.accountCCDV_id
+# JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
+# WHERE u.gender = 'Nam' AND r.name_role = 'ROLE_CCDV' AND s.name_status = 'complete'
+# GROUP BY u.account_id
+# ORDER BY billCount DESC
+# LIMIT 4;
+#
+#
+# SELECT
+#     u.last_name,
+#     u.account_id,
+#     u.basic_request,
+#     u.price,
+#     COUNT(b.id) AS billCount
+# FROM
+#     user_profile u
+#     JOIN Account a ON u.account_id = a.id
+#     JOIN Role r ON a.role_id = r.id
+#     JOIN Status s ON a.status_id = s.id
+#     JOIN Review rs ON a.id = rs.accountCCDV_id
+#     JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
+# WHERE
+#     u.gender = 'nam'
+#     AND r.name_role = 'ROLE_CCDV'
+#     AND s.name_status ='active'
+#     AND s.name_status = 'complete'
+# GROUP BY
+#     u.last_name, u.account_id, u.basic_request, u.price
+# ORDER BY
+#     billCount DESC
+# LIMIT 4;
 
-SELECT
-    u.last_name,
-    u.account_id,
-    u.basic_request,
-    u.price,
-    COUNT(b.id) AS billCount,
-    u.account_id
-FROM user_profile u
-JOIN Account a ON u.account_id = a.id
-JOIN Role r ON a.role_id = r.id
-JOIN Status s ON a.status_id = s.id
-JOIN Review rs ON a.id = rs.accountCCDV_id
-JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
-WHERE u.gender = 'Nam' AND r.name_role = 'ROLE_CCDV' AND s.name_status = 'complete'
-GROUP BY u.account_id
-ORDER BY billCount DESC
-LIMIT 4;
+#
+# SELECT
+#     account.username AS name,
+#     account.avatar AS image,
+#     account.description AS description,
+#     GROUP_CONCAT(service.name ORDER BY RAND() LIMIT 3) AS services,
+#     account.price_per_hour AS price
+# FROM
+#     account
+#         JOIN
+#     service ON account.id = service.provider_id
+# GROUP BY
+#     account.id
+# ORDER BY
+#     account.view_count DESC
+#     LIMIT
+#     6;
 
-
-SELECT
-    u.last_name,
-    u.account_id,
-    u.basic_request,
-    u.price,
-    COUNT(b.id) AS billCount
-FROM
-    user_profile u
-    JOIN Account a ON u.account_id = a.id
-    JOIN Role r ON a.role_id = r.id
-    JOIN Status s ON a.status_id = s.id
-    JOIN Review rs ON a.id = rs.accountCCDV_id
-    JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
-WHERE
-    u.gender = 'nam'
-    AND r.name_role = 'ROLE_CCDV'
-    AND s.name_status ='active'
-    AND s.name_status = 'complete'
-GROUP BY
-    u.last_name, u.account_id, u.basic_request, u.price
-ORDER BY
-    billCount DESC
-LIMIT 4;
-
-
-SELECT
-    account.username AS name,
-    account.avatar AS image,
-    account.description AS description,
-    GROUP_CONCAT(service.name ORDER BY RAND() LIMIT 3) AS services,
-    account.price_per_hour AS price
-FROM
-    account
-        JOIN
-    service ON account.id = service.provider_id
-GROUP BY
-    account.id
-ORDER BY
-    account.view_count DESC
-    LIMIT
-    6;
-
-select u.id, u.last_name, COUNT(bill.id) AS total_bill
-            from user_profile u
-            join account on account.id = u.account_id
-            join bill on bill.accountccdv_id = account.id
-            where (u.first_name like "a")
-            and (u.last_name like "bb")
-            and (year(u.birthday)= 1999)
-            and (u.gender= "Male")
-            and (u.address= "HN")
-            and (u.views= 100)
-            GROUP BY u.id, u.last_name;
->>>>>>>> 531be63038ac0bcba2d4bc137184f8112a3f6ebc:src/database_loveservice (2).sql
+# select u.id, u.last_name, COUNT(bill.id) AS total_bill
+#             from user_profile u
+#             join account on account.id = u.account_id
+#             join bill on bill.accountccdv_id = account.id
+#             where (u.first_name like "a")
+#             and (u.last_name like "bb")
+#             and (year(u.birthday)= 1999)
+#             and (u.gender= "Male")
+#             and (u.address= "HN")
+#             and (u.views= 100)
+#             GROUP BY u.id, u.last_name;
+#

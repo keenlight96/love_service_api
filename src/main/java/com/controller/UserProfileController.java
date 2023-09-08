@@ -148,5 +148,12 @@ public class UserProfileController {
     public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
         return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
     }
+
+    @GetMapping("/listCCDVHaveProperGender")
+    ResponseEntity<List<UserDTO>> listCCDVHaveProperGender(@RequestParam Long id) {
+        String gender = iUserProfileService.getByAccountId(id).getGender();
+        List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
+        return new ResponseEntity<>(listCCDV, HttpStatus.OK);
+    }
 }
 

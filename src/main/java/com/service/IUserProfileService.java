@@ -16,6 +16,7 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
         UserProfile getUserProfileById(long id);
 
     UserProfile getByAccountId(long id);
+    List<UserDTO> getUserHaveProperGender(String gender);
     Optional<UserProfile> getUserProfileByAccount_Id(long id);
     List<UserProfile> getTop6HotServiceProviders();
     List<UserProfileFilterDTO> getAllUserProfileByFilter(String first_name, String last_name, int birthday, String gender, String address, long views, String order);
