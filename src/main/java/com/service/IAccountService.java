@@ -1,6 +1,8 @@
 package com.service;
 
 import com.model.Account;
+import com.model.dto.AccountDTO;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -15,4 +17,6 @@ public interface IAccountService extends UserDetailsService {
     Optional<Account> findByUsername(String username);
     Optional<Account> findByEmail(String email);
     Optional<Account> login(String username, String password);
+
+    List<AccountDTO> getAllMessageReceiversByAccountId(long id);
 }

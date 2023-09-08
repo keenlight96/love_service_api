@@ -2,6 +2,7 @@ package com.controller;
 
 
 import com.model.dto.AccountCCDVDTO;
+import com.model.dto.AccountDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -115,5 +116,9 @@ public class AccountController {
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
 
+    @GetMapping("/messageReceivers/{id}")
+    ResponseEntity<List<AccountDTO>> getAllMessageReceiversByAccountId(@PathVariable long id) {
+        return new ResponseEntity<>(iAccountService.getAllMessageReceiversByAccountId(id), HttpStatus.OK);
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.service.ipml;
 
 import com.model.Account;
+import com.model.dto.AccountDTO;
 import com.repository.IAccountRepository;
 import com.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,11 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public Optional<Account> login(String username, String password) {
         return iAccountRepository.getAccountByUsernameAndPassword(username,password);
+    }
+
+    @Override
+    public List<AccountDTO> getAllMessageReceiversByAccountId(long id) {
+        return iAccountRepository.getAllMessageReceiversByAccountId(id);
     }
 
     @Override
