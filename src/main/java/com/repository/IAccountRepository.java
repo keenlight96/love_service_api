@@ -15,6 +15,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsername(String username);
     Optional<Account> findByEmail(String email);
     Optional<Account> getAccountByUsernameAndPassword(String username,String password);
+    Account findAccountByEmail(String email);
 
 //    @Query(nativeQuery = true ,value = "select new com.model.dto.AccountDTO(ac.id, ac.username, ac.nickname, ac.avatar, ac.role_id, ac.status_id, ac.is_active) " +
 //            "from Account ac " +

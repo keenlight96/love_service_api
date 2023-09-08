@@ -7,6 +7,7 @@ import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,4 +51,10 @@ public class BillServiceImpl implements IBillService {
     public List<Bill> getAllByAccountCCDV_Id(long id) {
         return iBillRepository.getAllByAccountCCDV_Id(id);
     }
+
+//    @Override
+//    public List<?> getAccountUserIdAndBillIdByAccountCCDVID(long id) {
+//        return Collections.singletonList(iBillRepository.getAccount_User_IdAndBill_IdByAccount_CCDV_Id(id));
+//    }
+
 }

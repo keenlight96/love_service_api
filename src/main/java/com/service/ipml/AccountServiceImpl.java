@@ -3,7 +3,11 @@ package com.service.ipml;
 import com.model.Account;
 import com.model.dto.AccountDTO;
 import com.repository.IAccountRepository;
+import com.repository.IBillRepository;
 import com.service.IAccountService;
+import com.service.IBillService;
+import com.service.IStatusService;
+import com.service.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,15 +15,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
     @Autowired
     IAccountRepository iAccountRepository;
+    @Autowired
+    IBillRepository iBillRepository;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    IStatusService iStatusService;
 
     @Override
     public List<Account> getAll() {
@@ -67,6 +74,12 @@ public class AccountServiceImpl implements IAccountService {
         return iAccountRepository.getAccountByUsernameAndPassword(username,password);
     }
 
+//    @Override
+//    public Optional<Account> getByProviderUserId(long id) {
+//        return (Optional<Account>) iBillRepository.getAccount_User_IdAndBill_IdByAccount_CCDV_Id(id);
+//    }
+
+
     @Override
     public List<AccountDTO> getAllMessageReceiversByAccountId(long id) {
         return iAccountRepository.getAllMessageReceiversByAccountId(id);
@@ -80,5 +93,30 @@ public class AccountServiceImpl implements IAccountService {
         return new User(account.getUsername(), account.getPassword(), roles);
     }
 
+
+    public Account activeAccount(String email){
+        Account account = iAccountRepository.findAccountByEmail(email);
+        account.setStatus(iStatusService.getById(1));
+        return iAccountRepository.save(account);
+    }
+    public String emailActive(String email) {
+
+        String to = email;
+        String subject = "OTP Kích Hoạt";
+        String content = "Xin Chào ...!\n" +
+                "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản tại web Mrdunghr\n" +
+                "\n" +
+
+                "Nhấn vào Link này để kích hoạt nhanh: " +
+                "http://localhost:8080/accounts/active-account?email="+email +
+                "\n" +
+                "--------------------------------------\n" +
+                " + Phone  : (+84)382.564.626\n" +
+                " + Email  : mrdunghr@gmail.com\n" +
+                " + Address: Mông Dương - TP Cẩm Phả - Quảng Ninh\n";
+        emailService.sendMail(to, subject, content);
+        return content;
+
+    }
 
 }

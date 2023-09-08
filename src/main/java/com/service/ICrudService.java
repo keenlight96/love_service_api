@@ -1,5 +1,8 @@
 package com.service;
 
+import com.model.Account;
+import com.model.UserProfile;
+
 import java.util.List;
 
 public interface ICrudService<E> {
@@ -8,4 +11,5 @@ public interface ICrudService<E> {
     E create(E e);
     E edit (E e);
     void deleteById(long id);
+
 }

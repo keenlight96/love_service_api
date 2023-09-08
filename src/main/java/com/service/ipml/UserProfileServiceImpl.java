@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Account;
 import com.model.Supply;
 import com.model.Comment;
 import com.model.Supply;
@@ -62,6 +63,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public void deleteById(long id) {
         iUserProfileRepository.deleteById(id);
     }
+
+
+
+
 
     @Override
     public UserProfile getUserProfileById(long id) {

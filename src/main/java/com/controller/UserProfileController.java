@@ -37,6 +37,14 @@ public class UserProfileController {
     @Autowired
     ISupplyService iSupplyService;
 
+
+    @GetMapping("/checkProfileExists/{id}")
+    ResponseEntity<?> checkProfileExists(@PathVariable Long id) {
+        Account account = iAccountService.getById(id);
+        UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
+        return new ResponseEntity<>(existingProfile, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
         UserProfile userProfile = iUserProfileService.getUserProfileById(id);
@@ -71,22 +79,47 @@ public class UserProfileController {
 
     @PostMapping("/registerCCDV/{id}")
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
-        Role role = iRoleService.getById(3);
         Account account = iAccountService.getById(id);
-        account.setRole(role);
+        UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
 
+        if (existingProfile != null) {
+            // Nếu đã tồn tại profile, cập nhật nó thay vì tạo mới
 
-        Zone zone = iZoneService.getById(userProfile.getZone().getId());
-        userProfile.setZone(zone);
+            existingProfile.setLastName(userProfile.getLastName());// Cập nhật thông tin của profile
+            existingProfile.setFirstName(userProfile.getFirstName());// Cập nhật thông tin của profile
+            existingProfile.setBirthday(userProfile.getBirthday());// Cập nhật thông tin của profile
+            existingProfile.setCountry(userProfile.getCountry());// Cập nhật thông tin của profile
+            existingProfile.setAddress(userProfile.getAddress());// Cập nhật thông tin của profile
+            existingProfile.setBalance(userProfile.getBalance());// Cập nhật thông tin của profile
+            existingProfile.setPhoneNumber(userProfile.getPhoneNumber());// Cập nhật thông tin của profile
+            existingProfile.setPrice(userProfile.getPrice());// Cập nhật thông tin của profile
+            existingProfile.setIdCard(userProfile.getIdCard());// Cập nhật thông tin của profile
+            existingProfile.setGender(userProfile.getGender());// Cập nhật thông tin của profile
+            existingProfile.setHeight(userProfile.getHeight());// Cập nhật thông tin của profile
+            existingProfile.setWeight(userProfile.getWeight());// Cập nhật thông tin của profile
+            existingProfile.setBasicRequest(userProfile.getBasicRequest());// Cập nhật thông tin của profile
+            existingProfile.setFacebookLink(userProfile.getFacebookLink());// Cập nhật thông tin của profile
+            iUserProfileService.edit(existingProfile); // Cập nhật thông tin trong cơ sở dữ liệu
+            return new ResponseEntity<>(existingProfile, HttpStatus.OK);
 
-        userProfile.setIsVIP(false);
-        userProfile.setIsActive(true);
-        userProfile.setAccount(account);
-        iUserProfileService.create(userProfile);
+        } else {
+            // Nếu chưa có profile, thì tạo mới
+            Role role = iRoleService.getById(3);
+            account.setRole(role);
+            Zone zone = iZoneService.getById(userProfile.getZone().getId());
+            userProfile.setZone(zone);
+            userProfile.setIsVIP(false);
+            userProfile.setIsActive(true);
+            userProfile.setAccount(account);
+            iUserProfileService.create(userProfile); // Tạo mới profile
+        }
+
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
+
+
     @PostMapping("/registerAutoCCDV/{id}")
-    ResponseEntity<UserProfile> registerAutoCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile){
+    ResponseEntity<UserProfile> registerAutoCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Role role = iRoleService.getById(3);
         Account account = iAccountService.getById(id);
         account.setRole(role);
@@ -99,7 +132,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/newestCCDVs/{qty}")
-    public ResponseEntity<List<UserDTO>> getRecentCCDVs (@PathVariable int qty) {
+    public ResponseEntity<List<UserDTO>> getRecentCCDVs(@PathVariable int qty) {
         return new ResponseEntity<>(iUserProfileService.getNewestCCDVs(qty), HttpStatus.OK);
     }
 
