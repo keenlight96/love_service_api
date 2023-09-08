@@ -1,5 +1,6 @@
 package com.service;
 
+import com.model.Account;
 import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.AccountCCDVDTO;
@@ -25,4 +26,5 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
     List<AccountCCDVDTO> get4MaleCCDVs(int qty);
     List<AccountCCDVDTO> get8FemaleCCDVs(int qty);
     String receiveMoney(long idBill,long idAccountCCDV);
+
 }

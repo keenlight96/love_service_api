@@ -92,6 +92,6 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
             "group by u.id ")
     List<UserDTO> getBySupplies(List<Supply> list);
-
+    Optional<UserProfile> findUserProfileByAccount_Id(long idAccount);
 
 }
