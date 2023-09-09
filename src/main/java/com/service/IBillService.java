@@ -12,5 +12,5 @@ public interface IBillService extends ICrudService<Bill>{
     String confirmBill(long id);
     Optional<List<Bill>> getBillByAccountUser_IdDesc(long id);
     String completeBill(long idBill);
-    String cancelBill(long idBill, Account cancelerAccount);
+    String cancelBill(long idBill, Account cancelerAccount,String message);
 }

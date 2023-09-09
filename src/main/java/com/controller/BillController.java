@@ -52,9 +52,9 @@ public class BillController {
     public ResponseEntity<String> completeBill(@PathVariable long idBill){
         return new ResponseEntity<>(iBillService.completeBill(idBill),HttpStatus.OK);
     }
-    @PostMapping("/cancelBill/{idBill}/{idAccount}")
-    public ResponseEntity<String> cancelBill(@PathVariable long idBill, @PathVariable long idAccount){
+    @PostMapping("/cancelBill/{idBill}/{idAccount}/{message}")
+    public ResponseEntity<String> cancelBill(@PathVariable long idBill, @PathVariable long idAccount, @PathVariable String message){
         Account cancelerAccount = iAccountService.getById(idAccount);
-        return null;
+        return new ResponseEntity<>(iBillService.cancelBill(idBill,cancelerAccount,message),HttpStatus.OK);
     }
 }

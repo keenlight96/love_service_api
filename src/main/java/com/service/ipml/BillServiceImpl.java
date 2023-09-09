@@ -72,7 +72,7 @@ public class BillServiceImpl implements IBillService {
     public String confirmBill(long id) {
         try {
             Bill bill = getById(id);
-            Status status = iStatusRepository.findById(5L).get();
+            Status status = iStatusRepository.findById(5L).get(); // đã nhận
             bill.setStatus(status);
             edit(bill);
             return "Xác nhận thành công";
@@ -87,20 +87,18 @@ public class BillServiceImpl implements IBillService {
         return iBillRepository.getBillByAccountUser_Id(id,descendingSortById);
     }
 
+    // user xác nhận và tự động cộng tiền cho người ccdv
     @Override
     public String completeBill(long idBill) {
         try {
-            Bill bill = getById(idBill);
+            Bill bill = iBillRepository.findById(idBill).get();
             Status status = iStatusRepository.findById(6L).get(); // tìm ra trạng thái complete
             UserProfile userProfileCCDV = iUserProfileRepository.findUserProfileByAccount_Id(bill.getAccountCCDV().getId()).get();
-            UserProfile userProfileUser = iUserProfileRepository.findUserProfileByAccount_Id(bill.getAccountUser().getId()).get();
             if (bill.getStatus().getNameStatus().equals("recevied")){
                 userProfileCCDV.setBalance(userProfileCCDV.getBalance() + bill.getTotal());
-                userProfileUser.setBalance(userProfileUser.getBalance() - bill.getTotal()); // tạm thời cứ để tạm đợi thống nhất
                 bill.setStatus(status);
                 edit(bill);
                 iUserProfileRepository.save(userProfileCCDV);
-                iUserProfileRepository.save(userProfileUser);
                 return "Xác nhận thành công";
             }else {
                 return "Đơn đã được xác nhận";
@@ -111,19 +109,21 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public String cancelBill(long idBill, Account cancelerAccount) {   // thiếu message đi cùng
+    public String cancelBill(long idBill, Account cancelerAccount, String message) {   // thiếu message đi cùng
         try {
-            UserProfile userProfile = iUserProfileRepository.findUserProfileByAccount_Id(cancelerAccount.getId()).get();
-            Bill bill = getById(idBill);
+            Bill bill = iBillRepository.findById(idBill).get();
+            UserProfile userProfile = iUserProfileRepository.getByAccount_Id(cancelerAccount.getId());
             if (bill.getStatus().getNameStatus().equals("wait")){
                 if (cancelerAccount.getRole().getNameRole().equals("ROLE_USER")){
                     Status status = iStatusRepository.findById(7L).get(); // trạng thái 7 cancel from wait by user
                     bill.setStatus(status);
+                    bill.setUserMessage(message);
                      edit(bill);
                      return "Bạn đã hủy thành công đơn hàng";
                 }else if (cancelerAccount.getRole().getNameRole().equals("ROLE_CCDV")){
                     Status status = iStatusRepository.findById(8L).get(); // trạng thái 8 cancel from wait by ccdv
                     bill.setStatus(status);
+                    bill.setCcdvMessage(message);
                     edit(bill);
                     return "Bạn đã hủy thành công";
                 }
@@ -131,11 +131,14 @@ public class BillServiceImpl implements IBillService {
                 if (cancelerAccount.getRole().getNameRole().equals("ROLE_USER")){
                     Status status = iStatusRepository.findById(9L).get(); // trạng thái 9 cancel from recevied by user
                     bill.setStatus(status);
+                    bill.setUserMessage(message);
+                    userProfile.setBalance((long) (userProfile.getBalance()+(bill.getTotal()*0.75)));
                     edit(bill);
                     return "Bạn đã hủy thành công đơn hàng ";
                 }else if (cancelerAccount.getRole().getNameRole().equals("ROLE_CCDV")){
                     Status status = iStatusRepository.findById(10L).get(); // trạng thái 10 cancel from recevied by ccdv
                     bill.setStatus(status);
+                    bill.setCcdvMessage(message);
                     edit(bill);
                     return "Bạn đã hủy thành công";
                 }
