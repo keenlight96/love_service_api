@@ -129,8 +129,10 @@ public class UserProfileController {
     }
     @PostMapping("/filterByCCDv")
     public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV){
-        System.out.printf(filterCCDV.toString());
-        return new ResponseEntity<>(iUserProfileService.getAllCCDVByFilter(filterCCDV), HttpStatus.OK);
+        System.out.println(filterCCDV.toString());
+        List<UserDTO> userDTOList = iUserProfileService.getAllCCDVByFilter(filterCCDV);
+        System.out.println(userDTOList);
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 }
 

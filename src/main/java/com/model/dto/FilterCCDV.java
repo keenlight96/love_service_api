@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class FilterCCDV {
     private String firstName;
@@ -14,4 +13,11 @@ public class FilterCCDV {
     private String gender;
     private Integer year;
 
+    public FilterCCDV(String firstName, String lastName, String zone, String gender, Integer year) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.zone = zone;
+        this.gender = gender;
+        this.year = year;
+    }
 }

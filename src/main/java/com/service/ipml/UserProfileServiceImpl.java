@@ -247,11 +247,11 @@ public class UserProfileServiceImpl implements IUserProfileService {
     @Override
     public List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV) {
         String lastName = "%" + filterCCDV.getLastName() + "%" ;
-        String fistName = "%" + filterCCDV.getFirstName() + "%";
+        String firstName = "%" + filterCCDV.getFirstName() + "%";
         String zone = "%" + filterCCDV.getZone() + "%" ;
-        String gender = filterCCDV.getGender();
+        String gender = "%" + filterCCDV.getGender() + "%";
         Integer birthday = filterCCDV.getYear();
-        System.out.printf(fistName);
-        return iUserProfileRepository.getAllCCDVByFilter(lastName, fistName, zone, gender, birthday);
+        System.out.printf(firstName);
+        return iUserProfileRepository.getAllCCDVByFilter(lastName, firstName, zone, gender, birthday);
     }
 }
