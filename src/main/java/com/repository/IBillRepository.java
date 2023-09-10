@@ -20,4 +20,5 @@ public interface IBillRepository extends JpaRepository<Bill, Long> {
     //    @Query(nativeQuery = true, value = "select * from bill  where accountccdv_id= :accountccdv_id  ")
 //    List<Bill> getAllBillByAccountCCDV(@Param("accountccdv_id") long accountccdv_id);
     Optional<List<Bill>> getAllByAccountCCDV_Id(long accountId, Sort sort);
+    Optional<List<Bill>> getBillByAccountUser_Id(long accountId, Sort sort);
 }

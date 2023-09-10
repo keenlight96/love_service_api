@@ -1,5 +1,6 @@
 package com.service;
 
+import com.model.Account;
 import com.model.Supply;
 import com.model.UserProfile;
 import com.model.dto.AccountCCDVDTO;
