@@ -41,8 +41,8 @@ public class MessageServiceImpl implements IMessageService {
     }
 
     @Override
-    public List<Message> getAllBySenderAndReceiver(Account sender, Account receiver) {
-        List<Message> messages = iMessageRepository.findAllBySenderAndReceiver(sender.getId(), receiver.getId());
+    public List<Message> getAllBySenderAndReceiver(Long senderId, Long receiverId) {
+        List<Message> messages = iMessageRepository.findAllBySenderAndReceiver(senderId, receiverId);
         messages.sort(new Comparator<Message>() {
             @Override
             public int compare(Message o1, Message o2) {

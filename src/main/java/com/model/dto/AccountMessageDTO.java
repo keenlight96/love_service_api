@@ -9,20 +9,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDTO {
+public class AccountMessageDTO {
     private long id;
     private String username;
-    private String nickName;
+    private String nickname;
     private String avatar;
-
     private Role role;
     private Status status;
     private Boolean isActive;
 
-    public AccountDTO(long id, String username, String nickName, String avatar, long roleId, long statusId, Boolean isActive) {
+
+
+    public AccountMessageDTO(long id, String username, String nickname, String avatar, long roleId, long statusId, Boolean isActive) {
         this.id = id;
         this.username = username;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.avatar = avatar;
         this.role.setId(roleId);
         this.status.setId(statusId);

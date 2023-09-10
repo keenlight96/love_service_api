@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
                 .addEndpoint("/gkz-stomp-endpoint")
-                .setAllowedOrigins("http://localhost:63342")
+                .setAllowedOrigins("http://localhost:3000")
                 .withSockJS();
     }
 }

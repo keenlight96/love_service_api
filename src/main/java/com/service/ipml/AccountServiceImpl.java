@@ -1,11 +1,10 @@
 package com.service.ipml;
 
 import com.model.Account;
-import com.model.dto.AccountDTO;
+import com.model.dto.AccountMessageDTO;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.service.IAccountService;
-import com.service.IBillService;
 import com.service.IStatusService;
 import com.service.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +80,7 @@ public class AccountServiceImpl implements IAccountService {
 
 
     @Override
-    public List<AccountDTO> getAllMessageReceiversByAccountId(long id) {
+    public List<AccountMessageDTO> getAllMessageReceiversByAccountId(long id) {
         return iAccountRepository.getAllMessageReceiversByAccountId(id);
     }
 

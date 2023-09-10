@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.Account;
 import com.model.Hello;
 import com.model.Message;
 import com.service.IAccountService;
@@ -7,6 +8,8 @@ import com.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -31,8 +34,10 @@ public class WebController {
 //        Account receiver = iAccountService.getById(message.getReceiver().getId());
 //        message.setSender(sender);
 //        message.setReceiver(receiver);
+
         iMessageService.create(message);
-        String destination = "/topic/hi/";
+        String destination = "/topic/";
+
         Long senderId  = message.getSender().getId();
         Long receiverId  = message.getReceiver().getId();
         if (senderId < receiverId) {

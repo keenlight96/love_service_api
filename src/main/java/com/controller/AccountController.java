@@ -1,27 +1,19 @@
 package com.controller;
 
 
-import com.model.dto.AccountCCDVDTO;
-import com.model.dto.AccountDTO;
+import com.model.dto.AccountMessageDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
 import com.model.Status;
-import com.cofig.filter.JwtAuthenticationFilter;
 import com.model.*;
-import com.model.Account;
-import com.model.Account;
-import com.model.Role;
-import com.model.Status;
 import com.model.dto.AccountRegisterDTO;
-import com.model.dto.AccountToken;
 import com.model.messageErorr.ValidStatus;
-import com.service.IAccountService;
-import com.service.IRoleService;
-import com.service.IStatusService;
-import com.service.IUserProfileService;
+import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
@@ -137,9 +126,11 @@ public class AccountController {
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
 
-    @GetMapping("/messageReceivers/{id}")
-    ResponseEntity<List<AccountDTO>> getAllMessageReceiversByAccountId(@PathVariable long id) {
-        return new ResponseEntity<>(iAccountService.getAllMessageReceiversByAccountId(id), HttpStatus.OK);
+    @GetMapping("/messageReceivers")
+    ResponseEntity<List<AccountMessageDTO>> getAllMessageReceiversByAccountId() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = iAccountService.findByUsername(userDetails.getUsername()).orElseGet(null);
+        return new ResponseEntity<>(iAccountService.getAllMessageReceiversByAccountId(account.getId()), HttpStatus.OK);
     }
 }
 
