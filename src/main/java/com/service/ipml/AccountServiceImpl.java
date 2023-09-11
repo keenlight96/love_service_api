@@ -1,6 +1,7 @@
 package com.service.ipml;
 
 import com.model.Account;
+import com.model.Message;
 import com.model.dto.AccountMessageDTO;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
@@ -14,10 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
+    @PersistenceContext
+    EntityManager entityManager;
     @Autowired
     IAccountRepository iAccountRepository;
     @Autowired
@@ -81,7 +86,19 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public List<AccountMessageDTO> getAllMessageReceiversByAccountId(long id) {
-        return iAccountRepository.getAllMessageReceiversByAccountId(id);
+        List<AccountMessageDTO> rs = iAccountRepository.getAllMessageReceiversByAccountId(id);
+        for (AccountMessageDTO account :
+                rs) {
+            List<Message> messages = entityManager.createQuery("select m from Message m " +
+                    "where (m.sender.id = :accId or m.receiver.id = :accId) order by m.id desc")
+                    .setParameter("accId", account.getId())
+                    .setMaxResults(1)
+                    .getResultList();
+            account.setLastMessage(messages.get(0));
+        }
+
+        rs.sort((o1, o2) -> (int) (o2.getLastMessage().getId() - o1.getLastMessage().getId()));
+        return rs;
     }
 
     @Override

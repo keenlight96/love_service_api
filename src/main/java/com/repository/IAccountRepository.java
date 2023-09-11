@@ -20,7 +20,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     @Query(value = "select new com.model.dto.AccountMessageDTO(ac.id, ac.username, ac.nickname, ac.avatar, ac.role, ac.status, ac.isActive) " +
             "from Account ac " +
             "where (ac.id in (select m.receiver.id from Message m where m.sender.id = :accId) " +
-            "or ac.id in (select m.sender.id from Message m where m.receiver.id = :accId)) ")
+            "or ac.id in (select m.sender.id from Message m where m.receiver.id = :accId))")
     List<AccountMessageDTO> getAllMessageReceiversByAccountId(@Param("accId") long id);
 
 }

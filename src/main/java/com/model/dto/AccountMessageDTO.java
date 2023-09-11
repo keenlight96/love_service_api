@@ -1,5 +1,6 @@
 package com.model.dto;
 
+import com.model.Message;
 import com.model.Role;
 import com.model.Status;
 import lombok.AllArgsConstructor;
@@ -18,15 +19,15 @@ public class AccountMessageDTO {
     private Status status;
     private Boolean isActive;
 
+    private Message lastMessage;
 
-
-    public AccountMessageDTO(long id, String username, String nickname, String avatar, long roleId, long statusId, Boolean isActive) {
+    public AccountMessageDTO(long id, String username, String nickname, String avatar, Role role, Status status, Boolean isActive) {
         this.id = id;
         this.username = username;
         this.nickname = nickname;
         this.avatar = avatar;
-        this.role.setId(roleId);
-        this.status.setId(statusId);
+        this.role = role;
+        this.status = status;
         this.isActive = isActive;
     }
 }
