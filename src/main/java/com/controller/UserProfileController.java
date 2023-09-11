@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -57,9 +56,9 @@ public class UserProfileController {
         return new ResponseEntity<>(userProfileIMG, HttpStatus.OK);
     }
 
-    @GetMapping("/top6Service")
-    public List<UserProfile> getTop6HotServiceProviders() {
-        return iUserProfileService.getTop6HotServiceProviders();
+    @GetMapping("/topService/{qty}")
+    public List<UserDTO> getTopServiceProviders(@PathVariable int qty) {
+        return iUserProfileService.getTopServiceProviders(qty);
     }
 
     @PostMapping("/filter")
