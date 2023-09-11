@@ -89,8 +89,8 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "AND u.account.status.id = 1 " +
             "AND (u.isActive = true) AND (u.account.isActive = true)" +
             "AND (rev.isActive = true or rev is null)" +
-            "AND (:firstNameParam is null OR u.firstName like :firstNameParam) " +
             "AND (:lastNameParam is null OR u.lastName like :lastNameParam) " +
+            "AND (:firstNameParam is null OR u.firstName like :firstNameParam) " +
             "AND (:zoneParam is null OR u.zone.zone like :zoneParam) " +
             "AND (:genderParam is null OR u.gender like :genderParam) " +
             "AND (:birthdayParam is null OR YEAR(u.birthday) = :birthdayParam) " +

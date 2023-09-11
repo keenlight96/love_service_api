@@ -251,7 +251,6 @@ public class UserProfileServiceImpl implements IUserProfileService {
         String zone = "%" + filterCCDV.getZone() + "%" ;
         String gender = "%" + filterCCDV.getGender() + "%";
         Integer birthday = filterCCDV.getYear();
-        System.out.printf(firstName);
         return iUserProfileRepository.getAllCCDVByFilter(lastName, firstName, zone, gender, birthday);
     }
 }
