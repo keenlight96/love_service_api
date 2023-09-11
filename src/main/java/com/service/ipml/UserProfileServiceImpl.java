@@ -1,7 +1,9 @@
 package com.service.ipml;
 
-import com.model.*;
+import com.model.Account;
 import com.model.Supply;
+import com.model.Comment;
+import com.model.*;
 import com.model.dto.AccountCCDVDTO;
 import com.model.dto.FilterCCDV;
 import com.model.dto.UserDTO;
@@ -95,7 +97,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         " (up.gender != :gender) " +
                         "group by up.id " +
                         " order by up.dateCreate desc  ")
-                .setParameter("gender", "%" + gender + "%")
+                .setParameter("gender", gender)
                 .setMaxResults(5)
                 .getResultList();
         rs.addAll(entityManager.createQuery(" select new com.model.dto.UserDTO(up,'',avg(rev.rating),count(rev.rating))from UserProfile up" +
@@ -105,7 +107,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         " (up.gender != :gender) " +
                         "group by up.id " +
                         " order by up.dateCreate asc  ")
-                .setParameter("gender", "%" + gender + "%")
+                .setParameter("gender", gender)
                 .setMaxResults(5)
                 .getResultList());
         for (UserDTO userDto :
