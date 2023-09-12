@@ -3,16 +3,20 @@ package com.service.ipml;
 import com.model.Account;
 import com.model.Supply;
 import com.model.Comment;
-import com.model.Supply;
-import com.model.UserProfile;
+import com.model.*;
 import com.model.dto.AccountCCDVDTO;
+import com.model.dto.FilterCCDV;
 import com.model.dto.UserDTO;
 import com.model.dto.UserProfileFilterDTO;
 import com.repository.IBillRepository;
+import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
+import com.service.IBillService;
 import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -30,6 +34,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
     EntityManager entityManager;
     @Autowired
     IUserProfileRepository iUserProfileRepository;
+    @Autowired
+    IBillRepository iBillRepository;
+    @Autowired
+    IStatusRepository iStatusRepository;
 
     @Override
     public List<UserProfile> getAll() {
@@ -39,6 +47,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public Optional<UserProfile> findOne(long id) {
         return iUserProfileRepository.findById(id);
     }
+
     @Override
     public UserProfile getById(long id) {
         Optional<UserProfile> userProfile = iUserProfileRepository.findById(id);
@@ -64,10 +73,6 @@ public class UserProfileServiceImpl implements IUserProfileService {
         iUserProfileRepository.deleteById(id);
     }
 
-
-
-
-
     @Override
     public UserProfile getUserProfileById(long id) {
         return iUserProfileRepository.findById(id).orElse(null);
@@ -92,7 +97,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         " (up.gender != :gender) " +
                         "group by up.id " +
                         " order by up.dateCreate desc  ")
-                .setParameter("gender", "%" + gender + "%")
+                .setParameter("gender", gender)
                 .setMaxResults(5)
                 .getResultList();
         rs.addAll(entityManager.createQuery(" select new com.model.dto.UserDTO(up,'',avg(rev.rating),count(rev.rating))from UserProfile up" +
@@ -102,7 +107,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         " (up.gender != :gender) " +
                         "group by up.id " +
                         " order by up.dateCreate asc  ")
-                .setParameter("gender", "%" + gender + "%")
+                .setParameter("gender", gender)
                 .setMaxResults(5)
                 .getResultList());
         for (UserDTO userDto :
@@ -180,25 +185,25 @@ public class UserProfileServiceImpl implements IUserProfileService {
     @Override
     public List<AccountCCDVDTO> get4MaleCCDVs(int qty) {
         List<AccountCCDVDTO> accountMaleCCDVs = entityManager.createQuery("SELECT new com.model.dto.AccountCCDVDTO(u, a, '', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
-                "FROM UserProfile u " +
-                "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
-                "LEFT JOIN Account a ON a.id = u.account.id " +
-                "LEFT JOIN Bill b ON b.accountCCDV.id = a.id " +
-                "WHERE (u.account.role.id = 3) " +
-                "AND (u.account.status.id = 1) " +
-                "AND (b.isActive = true) " +
-                "AND (b.status.id = 6) " +
-                "AND (u.account.isActive = true) " +
-                "AND (rev.isActive = true OR rev IS NULL) " +
-                "AND (u.gender = 'nam')" +
-                "GROUP BY u.id " +
-                "ORDER BY COUNT(DISTINCT b.id) DESC")
+                        "FROM UserProfile u " +
+                        "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
+                        "LEFT JOIN Account a ON a.id = u.account.id " +
+                        "LEFT JOIN Bill b ON b.accountCCDV.id = a.id " +
+                        "WHERE (u.account.role.id = 3) " +
+                        "AND (u.account.status.id = 1) " +
+                        "AND (b.isActive = true) " +
+                        "AND (b.status.id = 6) " +
+                        "AND (u.account.isActive = true) " +
+                        "AND (rev.isActive = true OR rev IS NULL) " +
+                        "AND (u.gender = 'nam')" +
+                        "GROUP BY u.id " +
+                        "ORDER BY COUNT(DISTINCT b.id) DESC")
                 .setMaxResults(qty)
                 .getResultList();
-        for (AccountCCDVDTO accountCCDVDTO: accountMaleCCDVs) {
+        for (AccountCCDVDTO accountCCDVDTO : accountMaleCCDVs) {
             accountCCDVDTO.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(accountCCDVDTO.getUserProfile().getSupplies(), 3)));
         }
-        return  accountMaleCCDVs;
+        return accountMaleCCDVs;
     }
 
     @Override
@@ -219,10 +224,35 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         "ORDER BY COUNT(DISTINCT b.id) DESC")
                 .setMaxResults(qty)
                 .getResultList();
-        for (AccountCCDVDTO accountCCDVDTO: account8FemaleCCDVs) {
+        for (AccountCCDVDTO accountCCDVDTO : account8FemaleCCDVs) {
             accountCCDVDTO.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(accountCCDVDTO.getUserProfile().getSupplies(), 3)));
         }
-        return  account8FemaleCCDVs;
+        return account8FemaleCCDVs;
     }
 
+    @Override
+    public String receiveMoney(long idBill, long idAccountCCDV) {
+        Optional<UserProfile> optionalUserProfile = getUserProfileByAccount_Id(idAccountCCDV);
+        Optional<Bill> bill = iBillRepository.findById(idBill);
+        Optional<Status> status = iStatusRepository.findById(Long.valueOf(6)); // trạng thái báo cáo
+        if (bill.get().getStatus().equals("reporting")) {
+            optionalUserProfile.get().setBalance(optionalUserProfile.get().getBalance() + bill.get().getTotal());
+            bill.get().setStatus(status.get());
+            edit(optionalUserProfile.get());
+            iBillRepository.save(bill.get());
+            return "Nhận tiền thành công";
+        } else {
+            return "bạn đã nhận tiền rồi";
+        }
+    }
+
+    @Override
+    public List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV) {
+        String lastName = "%" + filterCCDV.getLastName() + "%" ;
+        String firstName = "%" + filterCCDV.getFirstName() + "%";
+        String zone = "%" + filterCCDV.getZone() + "%" ;
+        String gender = "%" + filterCCDV.getGender() + "%";
+        Integer birthday = filterCCDV.getYear();
+        return iUserProfileRepository.getAllCCDVByFilter(lastName, firstName, zone, gender, birthday);
+    }
 }

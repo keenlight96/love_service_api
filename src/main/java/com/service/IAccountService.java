@@ -1,6 +1,7 @@
 package com.service;
 
 import com.model.Account;
+import com.model.dto.AccountMessageDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IAccountService extends UserDetailsService {
     public String emailActive(String email) ;
 
 //  Optional<Account> getByProviderUserId(long id);
+
+    List<AccountMessageDTO> getAllMessageReceiversByAccountId(long id);
 }

@@ -1,12 +1,9 @@
 package com.controller;
 
 import com.model.*;
-import com.model.dto.UserProfileFilterDTO;
+import com.model.dto.*;
 import com.model.pojo.ParamFilterUserProfile;
-import com.model.dto.AccountCCDVDTO;
-import com.model.dto.UserDTO;
 import com.service.*;
-import com.model.dto.UserProfileIMG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/userDetail")
@@ -36,6 +35,8 @@ public class UserProfileController {
     IZoneService iZoneService;
     @Autowired
     ISupplyService iSupplyService;
+    @Autowired
+    IStatusService iStatusService;
 
 
     @GetMapping("/checkProfileExists/{id}")
@@ -156,6 +157,17 @@ public class UserProfileController {
         String gender = iUserProfileService.getByAccountId(id).getGender();
         List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
         return new ResponseEntity<>(listCCDV, HttpStatus.OK);
+    }
+    @PostMapping("/receiveMoney/{idBill}/{idAccountCCDV}")
+    public ResponseEntity<?> receiveMoney(@PathVariable long idBill,@PathVariable long idAccountCCDV) {
+        return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill,idAccountCCDV),HttpStatus.OK);
+    }
+    @PostMapping("/filterByCCDv")
+    public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV){
+        System.out.println(filterCCDV.toString());
+        List<UserDTO> userDTOList = iUserProfileService.getAllCCDVByFilter(filterCCDV);
+        System.out.println(userDTOList);
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 }
 
