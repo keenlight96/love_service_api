@@ -81,39 +81,41 @@ public class UserProfileController {
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Account account = iAccountService.getById(id);
         UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
+        Role role = iRoleService.getById(3);
+        List<Supply> supplies = userProfile.getSupplies();
+        Zone zone = iZoneService.getById(userProfile.getZone().getId());
 
+        account.setRole(role);
         if (existingProfile != null) {
             // Nếu đã tồn tại profile, cập nhật nó thay vì tạo mới
-
-            existingProfile.setLastName(userProfile.getLastName());// Cập nhật thông tin của profile
-            existingProfile.setFirstName(userProfile.getFirstName());// Cập nhật thông tin của profile
-            existingProfile.setBirthday(userProfile.getBirthday());// Cập nhật thông tin của profile
-            existingProfile.setCountry(userProfile.getCountry());// Cập nhật thông tin của profile
-            existingProfile.setAddress(userProfile.getAddress());// Cập nhật thông tin của profile
-            existingProfile.setBalance(userProfile.getBalance());// Cập nhật thông tin của profile
-            existingProfile.setPhoneNumber(userProfile.getPhoneNumber());// Cập nhật thông tin của profile
-            existingProfile.setPrice(userProfile.getPrice());// Cập nhật thông tin của profile
-            existingProfile.setIdCard(userProfile.getIdCard());// Cập nhật thông tin của profile
-            existingProfile.setGender(userProfile.getGender());// Cập nhật thông tin của profile
-            existingProfile.setHeight(userProfile.getHeight());// Cập nhật thông tin của profile
-            existingProfile.setWeight(userProfile.getWeight());// Cập nhật thông tin của profile
-            existingProfile.setBasicRequest(userProfile.getBasicRequest());// Cập nhật thông tin của profile
-            existingProfile.setFacebookLink(userProfile.getFacebookLink());// Cập nhật thông tin của profile
-            iUserProfileService.edit(existingProfile); // Cập nhật thông tin trong cơ sở dữ liệu
+            existingProfile.setLastName(userProfile.getLastName());
+            existingProfile.setFirstName(userProfile.getFirstName());
+            existingProfile.setBirthday(userProfile.getBirthday());
+            existingProfile.setCountry(userProfile.getCountry());
+            existingProfile.setAddress(userProfile.getAddress());
+            existingProfile.setBalance(userProfile.getBalance());
+            existingProfile.setPhoneNumber(userProfile.getPhoneNumber());
+            existingProfile.setPrice(userProfile.getPrice());
+            existingProfile.setIdCard(userProfile.getIdCard());
+            existingProfile.setGender(userProfile.getGender());
+            existingProfile.setHeight(userProfile.getHeight());
+            existingProfile.setWeight(userProfile.getWeight());
+            existingProfile.setBasicRequest(userProfile.getBasicRequest());
+            existingProfile.setFacebookLink(userProfile.getFacebookLink());
+            existingProfile.setSupplies(supplies);
+            existingProfile.setZone(zone);
+            iUserProfileService.edit(existingProfile);
             return new ResponseEntity<>(existingProfile, HttpStatus.OK);
-
         } else {
             // Nếu chưa có profile, thì tạo mới
-            Role role = iRoleService.getById(3);
             account.setRole(role);
-            Zone zone = iZoneService.getById(userProfile.getZone().getId());
             userProfile.setZone(zone);
             userProfile.setIsVIP(false);
             userProfile.setIsActive(true);
             userProfile.setAccount(account);
+            userProfile.setSupplies(supplies);
             iUserProfileService.create(userProfile); // Tạo mới profile
         }
-
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 

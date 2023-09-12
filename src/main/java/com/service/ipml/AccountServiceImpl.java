@@ -102,7 +102,7 @@ public class AccountServiceImpl implements IAccountService {
                 "\n" +
 
                 "Nhấn vào Link này để kích hoạt nhanh: " +
-                "http://localhost:8080/accounts/active-account?email="+email +
+                "http://localhost:8080/accounts/active-account?email="+email +"&source=email_activation" +
                 "\n" +
                 "--------------------------------------\n" +
                 " + Phone  : (+84)382.564.626\n" +
