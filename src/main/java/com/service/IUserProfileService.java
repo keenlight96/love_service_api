@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserProfileService extends ICrudService<UserProfile>{
-        UserProfile getUserProfileById(long id);
-
+    UserProfile getUserProfileById(long id);
     UserProfile getByAccountId(long id);
     List<UserDTO> getUserHaveProperGender(String gender);
     Optional<UserProfile> getUserProfileByAccount_Id(long id);

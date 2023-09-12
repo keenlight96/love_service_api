@@ -45,13 +45,24 @@ public class UserProfileController {
         return new ResponseEntity<>(existingProfile, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
-        UserProfile userProfile = iUserProfileService.getUserProfileById(id);
-        List<Image> img = iImageService.getAllImageByAccountId(id);
-        Account account = iAccountService.getById(id);
-        List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(id);
-        List<Bill> bills = iBillService.getAllByAccountCCDV_Id(id);
+//    @GetMapping("/{id}")
+//    public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
+//        UserProfile userProfile = iUserProfileService.getUserProfileById(id);
+//        List<Image> img = iImageService.getAllImageByAccountId(id);
+//        Account account = iAccountService.getById(id);
+//        List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(id);
+//        List<Bill> bills = iBillService.getAllByAccountCCDV_Id(id);
+//        UserProfileIMG userProfileIMG = new UserProfileIMG(userProfile, img, account, interests, bills);
+//        return new ResponseEntity<>(userProfileIMG, HttpStatus.OK);
+//    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserProfileIMG> getAll(@PathVariable String username) {
+        Account account = iAccountService.findByUsername(username).orElseGet(null);
+        UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
+        List<Image> img = iImageService.getAllImageByAccountId(account.getId());
+        List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(account.getId());
+        List<Bill> bills = iBillService.getAllByAccountCCDV_Id(account.getId());
         UserProfileIMG userProfileIMG = new UserProfileIMG(userProfile, img, account, interests, bills);
         return new ResponseEntity<>(userProfileIMG, HttpStatus.OK);
     }
