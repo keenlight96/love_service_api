@@ -75,9 +75,14 @@ public class UserProfileController {
         return new ResponseEntity<>(iUserProfileService.getAllUserProfileByFilter(firstName, lastName, birthDay, gender, address, views, order), HttpStatus.OK);
     }
 
-
-
-
+    @PostMapping("/change-price/{id}")
+    ResponseEntity<?> changePrice(@PathVariable Long id, @RequestBody UserProfile userProfile){
+        Account account = iAccountService.getById(id);
+        UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
+        existingProfile.setPrice(userProfile.getPrice());
+        iUserProfileService.edit(existingProfile);
+        return new ResponseEntity<>(existingProfile, HttpStatus.OK);
+    }
     @PostMapping("/registerCCDV/{id}")
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Account account = iAccountService.getById(id);
