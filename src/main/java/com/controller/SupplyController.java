@@ -38,6 +38,12 @@ public class SupplyController {
         return new ResponseEntity<>(userProfile,HttpStatus.OK);
     }
 
+    @GetMapping("/getSupplyByUserID2")
+    ResponseEntity<List<Supply>> getPriceAndMinHourByID2(@RequestParam long id){
+        UserProfile userProfile = iUserProfileService.getByAccountId(id);
+        return new ResponseEntity<>(userProfile.getSupplies(),HttpStatus.OK);
+    }
+
     @PostMapping("/createSupply")
     public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id, @RequestParam int cost) {
         UserProfile userProfile = iUserProfileService.getById(id);
