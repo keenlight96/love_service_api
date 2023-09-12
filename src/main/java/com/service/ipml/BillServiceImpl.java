@@ -50,4 +50,16 @@ public class BillServiceImpl implements IBillService {
     public List<Bill> getAllByAccountCCDV_Id(long id) {
         return iBillRepository.getAllByAccountCCDV_Id(id);
     }
+
+    @Override
+    public List<Bill> getAllBillByAccountUser(long id) {
+        return iBillRepository.getAllBillByAccountUser(id);
+    }
+
+//    @Override
+//    public Bill getBillAccountUserById(long idAccountUser, long idBill) {
+//        return iBillRepository.getBillDetailByAccountUser(idAccountUser, idBill);
+//    }
+
+
 }

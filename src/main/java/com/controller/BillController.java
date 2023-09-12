@@ -19,4 +19,13 @@ public class BillController {
     public ResponseEntity<List<Bill>> getAllByAccountCCDV_Id(@PathVariable long accountccdv_id) {
         return new ResponseEntity<>(iBillService.getAllByAccountCCDV_Id(accountccdv_id), HttpStatus.OK);
     }
+    @GetMapping("/listBillByAccountUser/{idAccountUser}")
+    public ResponseEntity<List<Bill>> getAllBillByAccountUser(@PathVariable long idAccountUser){
+        return new ResponseEntity<>(iBillService.getAllBillByAccountUser(idAccountUser),HttpStatus.OK);
+    }
+    @GetMapping("/findBill/{idBill}")
+    public ResponseEntity<Bill> getBillByIdBill(@PathVariable long idBill){
+        Bill bill = iBillService.getById(idBill);
+        return new ResponseEntity<>(bill,HttpStatus.OK);
+    }
 }
