@@ -7,6 +7,8 @@ import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -176,6 +178,21 @@ public class UserProfileController {
         List<UserDTO> userDTOList = iUserProfileService.getAllCCDVByFilter(filterCCDV);
         System.out.println(userDTOList);
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
+    }
+
+    @PostMapping("/checkToken")
+    ResponseEntity<UserProfile> checkToken() {
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Account account = iAccountService.findByUsername(userDetails.getUsername()).orElseGet(null);
+            if (account != null) {
+                return new ResponseEntity<>(iUserProfileService.getByAccountId(account.getId()), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 }
 
