@@ -21,7 +21,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
 
     UserProfile getByAccount_Id(Long id);
 
-    @Query("select ac from Account ac join UserProfile u on u.account.id = ac.id ")
+    @Query("select ac from Account ac join UserProfile u on u.account.id = ac.id where ac.id = :id")
     Optional<UserProfile> getUserProfileByAccount_Id(long id);
     @Query(nativeQuery = true, value = "select * from user_profile  order by views desc limit 5 ")
     List<UserProfile> getTop6HotServiceProviders();
