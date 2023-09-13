@@ -7,11 +7,12 @@ import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -46,20 +47,31 @@ public class UserProfileController {
         return new ResponseEntity<>(existingProfile, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
-        UserProfile userProfile = iUserProfileService.getUserProfileById(id);
-        List<Image> img = iImageService.getAllImageByAccountId(id);
-        Account account = iAccountService.getById(id);
-        List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(id);
-        List<Bill> bills = iBillService.getAllByAccountCCDV_Id(id);
+//    @GetMapping("/{id}")
+//    public ResponseEntity<UserProfileIMG> getAll(@PathVariable long id) {
+//        UserProfile userProfile = iUserProfileService.getUserProfileById(id);
+//        List<Image> img = iImageService.getAllImageByAccountId(id);
+//        Account account = iAccountService.getById(id);
+//        List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(id);
+//        List<Bill> bills = iBillService.getAllByAccountCCDV_Id(id);
+//        UserProfileIMG userProfileIMG = new UserProfileIMG(userProfile, img, account, interests, bills);
+//        return new ResponseEntity<>(userProfileIMG, HttpStatus.OK);
+//    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserProfileIMG> getAll(@PathVariable String username) {
+        Account account = iAccountService.findByUsername(username).orElseGet(null);
+        UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
+        List<Image> img = iImageService.getAllImageByAccountId(account.getId());
+        List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(account.getId());
+        List<Bill> bills = iBillService.getAllByAccountCCDV_Id(account.getId());
         UserProfileIMG userProfileIMG = new UserProfileIMG(userProfile, img, account, interests, bills);
         return new ResponseEntity<>(userProfileIMG, HttpStatus.OK);
     }
 
-    @GetMapping("/top6Service")
-    public List<UserProfile> getTop6HotServiceProviders() {
-        return iUserProfileService.getTop6HotServiceProviders();
+    @GetMapping("/topService/{qty}")
+    public List<UserDTO> getTopServiceProviders(@PathVariable int qty) {
+        return iUserProfileService.getTopServiceProviders(qty);
     }
 
     @PostMapping("/filter")
@@ -166,6 +178,21 @@ public class UserProfileController {
         List<UserDTO> userDTOList = iUserProfileService.getAllCCDVByFilter(filterCCDV);
         System.out.println(userDTOList);
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
+    }
+
+    @PostMapping("/checkToken")
+    ResponseEntity<UserProfile> checkToken() {
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Account account = iAccountService.findByUsername(userDetails.getUsername()).orElseGet(null);
+            if (account != null) {
+                return new ResponseEntity<>(iUserProfileService.getByAccountId(account.getId()), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
     }
 }
 

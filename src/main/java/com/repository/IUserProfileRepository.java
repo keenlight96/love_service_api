@@ -20,6 +20,7 @@ import java.util.Optional;
 public interface IUserProfileRepository extends JpaRepository<UserProfile, Long> {
 
     UserProfile getByAccount_Id(Long id);
+
     Optional<UserProfile> getUserProfileByAccount_Id(long id);
     @Query(nativeQuery = true, value = "select * from user_profile  order by views desc limit 5 ")
     List<UserProfile> getTop6HotServiceProviders();
