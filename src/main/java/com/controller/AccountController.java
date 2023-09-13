@@ -115,5 +115,13 @@ public class AccountController {
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
 
+    @GetMapping("/iDontWantService")
+    public ResponseEntity<String> iDontWantService(@RequestParam Long id) {
+       if( iAccountService.iDontWantService(id)){
+           return new ResponseEntity<>(HttpStatus.OK);
+       }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
 }
 

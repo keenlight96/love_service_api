@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/userDetail")
@@ -54,19 +55,17 @@ public class UserProfileController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile){
+    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile) {
         String firstName = paramFilterUserProfile.getFirstName();
         String lastName = paramFilterUserProfile.getLastName();
         int birthDay = paramFilterUserProfile.getBirthday();
-        String  gender = paramFilterUserProfile.getGender();
+        String gender = paramFilterUserProfile.getGender();
         String address = paramFilterUserProfile.getAddress();
         long views = paramFilterUserProfile.getViews();
         String order = paramFilterUserProfile.getOrder();
 
         return new ResponseEntity<>(iUserProfileService.getAllUserProfileByFilter(firstName, lastName, birthDay, gender, address, views, order), HttpStatus.OK);
     }
-
-
 
 
     @PostMapping("/registerCCDV/{id}")
@@ -85,8 +84,9 @@ public class UserProfileController {
         iUserProfileService.create(userProfile);
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
+
     @PostMapping("/registerAutoCCDV/{id}")
-    ResponseEntity<UserProfile> registerAutoCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile){
+    ResponseEntity<UserProfile> registerAutoCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Role role = iRoleService.getById(3);
         Account account = iAccountService.getById(id);
         account.setRole(role);
@@ -99,7 +99,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/newestCCDVs/{qty}")
-    public ResponseEntity<List<UserDTO>> getRecentCCDVs (@PathVariable int qty) {
+    public ResponseEntity<List<UserDTO>> getRecentCCDVs(@PathVariable int qty) {
         return new ResponseEntity<>(iUserProfileService.getNewestCCDVs(qty), HttpStatus.OK);
     }
 
@@ -107,13 +107,15 @@ public class UserProfileController {
     public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
         return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
+
     @GetMapping("/get4MaleCCDVs/{qty}")
-    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty){
-        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty),HttpStatus.OK);
+    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty), HttpStatus.OK);
     }
+
     @GetMapping("/get8FemaleCCDVs/{qty}")
-    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
-        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
+    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty), HttpStatus.OK);
     }
 
     @GetMapping("/listCCDVHaveProperGender")
@@ -122,5 +124,7 @@ public class UserProfileController {
         List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
         return new ResponseEntity<>(listCCDV, HttpStatus.OK);
     }
+
+
 }
 

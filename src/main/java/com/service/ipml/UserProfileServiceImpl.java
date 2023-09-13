@@ -7,6 +7,7 @@ import com.model.UserProfile;
 import com.model.dto.AccountCCDVDTO;
 import com.model.dto.UserDTO;
 import com.model.dto.UserProfileFilterDTO;
+import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
@@ -29,6 +30,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
     EntityManager entityManager;
     @Autowired
     IUserProfileRepository iUserProfileRepository;
+
 
     @Override
     public List<UserProfile> getAll() {
@@ -87,7 +89,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         " (up.gender != :gender) " +
                         "group by up.id " +
                         " order by up.dateCreate desc  ")
-                .setParameter("gender", "%" + gender + "%")
+                .setParameter("gender", gender)
                 .setMaxResults(5)
                 .getResultList();
         rs.addAll(entityManager.createQuery(" select new com.model.dto.UserDTO(up,'',avg(rev.rating),count(rev.rating))from UserProfile up" +
@@ -97,7 +99,7 @@ public class UserProfileServiceImpl implements IUserProfileService {
                         " (up.gender != :gender) " +
                         "group by up.id " +
                         " order by up.dateCreate asc  ")
-                .setParameter("gender", "%" + gender + "%")
+                .setParameter("gender", gender )
                 .setMaxResults(5)
                 .getResultList());
         for (UserDTO userDto :
@@ -219,5 +221,8 @@ public class UserProfileServiceImpl implements IUserProfileService {
         }
         return  account8FemaleCCDVs;
     }
+
+
+
 
 }

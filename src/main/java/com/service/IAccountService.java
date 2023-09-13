@@ -15,4 +15,5 @@ public interface IAccountService extends UserDetailsService {
     Optional<Account> findByUsername(String username);
     Optional<Account> findByEmail(String email);
     Optional<Account> login(String username, String password);
+    boolean iDontWantService(long id);
 }

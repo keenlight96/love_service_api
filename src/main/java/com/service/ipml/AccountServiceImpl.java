@@ -1,7 +1,9 @@
 package com.service.ipml;
 
 import com.model.Account;
+import com.model.UserProfile;
 import com.repository.IAccountRepository;
+import com.repository.IStatusRepository;
 import com.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class AccountServiceImpl implements IAccountService {
     @Autowired
     IAccountRepository iAccountRepository;
+    @Autowired
+    IStatusRepository iStatusRepository;
 
     @Override
     public List<Account> getAll() {
@@ -64,6 +68,16 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public Optional<Account> login(String username, String password) {
         return iAccountRepository.getAccountByUsernameAndPassword(username,password);
+    }
+
+    @Override
+    public boolean iDontWantService(long id) {
+        Account account=iAccountRepository.findById(id).get();
+        if(account.getRole().getId()==3){
+            account.setStatus(iStatusRepository.findById(111L).get());
+            return true;
+        }
+        return false;
     }
 
     @Override
