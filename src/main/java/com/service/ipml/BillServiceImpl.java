@@ -10,6 +10,8 @@ import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
 import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -149,4 +151,10 @@ public class BillServiceImpl implements IBillService {
         }
         return "Không tìm thấy hóa đơn";
     }
+
+    @Override
+    public List<Bill> getAllBills() {
+        return iBillRepository.getAllBills();
+    }
+
 }

@@ -4,6 +4,8 @@ import com.model.Account;
 import com.model.Bill;
 import com.model.UserProfile;
 import com.model.dto.AccountCCDVDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +22,18 @@ public interface IBillRepository extends JpaRepository<Bill, Long> {
 //    List<Bill> getAllBillByAccountCCDV(@Param("accountccdv_id") long accountccdv_id);
     Optional<List<Bill>> getAllByAccountCCDV_Id(long accountId, Sort sort);
     Optional<List<Bill>> getBillByAccountUser_Id(long accountId, Sort sort);
+    @Query(value = "select b from Bill b order by b.id desc ")
+    List<Bill> getAllBills();
+    @Query(value = "select b from Bill b join Status s on b.status.id = s.id " +
+            "where s.id = 4 order by b.id desc ")
+    List<Bill> getAllBilStatusWait();
+    @Query(value = "select b from Bill b join Status s on b.status.id = s.id " +
+            "where s.id = 5 order by b.id desc ")
+    List<Bill> getAllBillStatusRecevied();
+    @Query(value = "select b from Bill b join Status s on b.status.id = s.id " +
+            "where s.id = 7 order by b.id desc ")
+    List<Bill> getAllBilStatusComplete();
+    @Query(value = "select b from Bill b join Status s on b.status.id = s.id " +
+            "where s.id = 7 or s.id = 8 or s.id = 9 or s.id = 10  order by b.id desc ")
+    List<Bill> getAllBilStatusCancel();
 }
