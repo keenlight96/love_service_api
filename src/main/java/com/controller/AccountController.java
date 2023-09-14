@@ -88,7 +88,7 @@ public class AccountController {
         account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
         iAccountService.create(account);
-        iAccountService.emailActive(account.getEmail());
+//        iAccountService.emailActive(account.getEmail());
         long accountId = account.getId();
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL,accountId), HttpStatus.OK);
     }
