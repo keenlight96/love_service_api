@@ -13,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface IAccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsername(String username);
+    @Query("select ac from Account ac where ac.username = :username and ac.isActive = true")
+    Account findActiveByUsername(String username);
     Optional<Account> findByEmail(String email);
     Optional<Account> getAccountByUsernameAndPassword(String username,String password);
     Account findAccountByEmail(String email);
