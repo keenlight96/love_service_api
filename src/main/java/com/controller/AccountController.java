@@ -2,6 +2,7 @@ package com.controller;
 
 
 import com.model.dto.AccountMessageDTO;
+import com.model.dto.UserDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -132,5 +133,6 @@ public class AccountController {
         Account account = iAccountService.findByUsername(userDetails.getUsername()).orElseGet(null);
         return new ResponseEntity<>(iAccountService.getAllMessageReceiversByAccountId(account.getId()), HttpStatus.OK);
     }
+
 }
 
