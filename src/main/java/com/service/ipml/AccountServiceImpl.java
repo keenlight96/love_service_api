@@ -71,6 +71,10 @@ public class AccountServiceImpl implements IAccountService {
         return iAccountRepository.findByUsername(username);
     }
 
+    @Override
+    public Account findActiveByUsername(String username) {
+        return iAccountRepository.findActiveByUsername(username);
+    }
 
     @Override
     public Optional<Account> findByEmail(String email) {

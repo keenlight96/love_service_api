@@ -43,4 +43,9 @@ public class ReviewServiceImpl implements IReviewService {
     public void deleteById(long id) {
         iReviewRepository.deleteById(id);
     }
+
+    @Override
+    public List<Review> getAllByAccountCCDV_UsernameAndIsActiveIsTrue(String username) {
+        return iReviewRepository.getAllByAccountCCDV_UsernameAndIsActiveIsTrue(username);
+    }
 }
