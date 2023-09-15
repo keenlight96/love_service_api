@@ -2,7 +2,6 @@ package com.controller;
 
 
 import com.model.dto.AccountMessageDTO;
-import com.model.dto.UserDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -67,11 +66,15 @@ public class AccountController {
 
     @PostMapping("/registerUser")
     ResponseEntity<AccountRegisterDTO> createAccountUser(@RequestBody AccountRegisterDTO accountDTO) {
-        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()) {
-            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED), HttpStatus.OK);
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+
         }
-        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()) {
-            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST), HttpStatus.OK);
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        }
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
         }
         Account account = new Account();
         account.setUsername(accountDTO.getUsername());
@@ -95,6 +98,10 @@ public class AccountController {
     }
     @PostMapping("/registerUserAndProfile")
     ResponseEntity<AccountRegisterDTO> createAccountUserAndProfile(@RequestBody AccountRegisterDTO accountDTO) {
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+
+        }
         if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
             return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
         }
