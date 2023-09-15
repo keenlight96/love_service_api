@@ -5,6 +5,7 @@ import com.model.Bill;
 import com.model.UserProfile;
 import com.model.Status;
 import com.model.UserProfile;
+import com.model.*;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
@@ -16,12 +17,16 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BillServiceImpl implements IBillService {
+    @PersistenceContext
+    EntityManager entityManager;
     @Autowired
     IBillRepository iBillRepository;
     @Autowired
@@ -45,7 +50,6 @@ public class BillServiceImpl implements IBillService {
             return null;
         }
     }
-
 
     @Override
     public Bill create(Bill bill) {
@@ -173,5 +177,18 @@ public class BillServiceImpl implements IBillService {
             return "Không tìm thấy hóa đơn";
         }
         return "Không tìm thấy hóa đơn";
+    }
+
+    @Override
+    public Bill getLatestBillBy2Acc(Long ccdvId, Long userId) {
+        List<Bill> results = entityManager.createQuery("select b from Bill b " +
+                        "where b.accountCCDV.id = :ccdvId and b.accountUser.id = :userId " +
+                        "and b.isActive = true and b.status.id = 6 " +
+                        "order by b.id desc")
+                .setMaxResults(1)
+                .setParameter("ccdvId", ccdvId)
+                .setParameter("userId", userId)
+                .getResultList();
+        return results.get(0);
     }
 }
