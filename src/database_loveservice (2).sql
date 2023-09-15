@@ -17,8 +17,13 @@ VALUES
     (4, 'wait', true),
     (5, 'recevied', true),
     (6, 'complete', true),
-    (7, 'reporting', true);
-    
+(111, 'inActive', true),
+(7, 'cancel from wait by user', true),
+(8, 'cancel from wait by ccdv', true),
+(9, 'cancel from recevied by user', true),
+(10, 'cancel from recevied by ccdv', true),
+(333, 'emailverify', true);
+
     INSERT INTO Zone (zone, is_active)
 VALUES
     ('Miền Bắc', true),
@@ -75,7 +80,10 @@ VALUES
     (20,'grroup1', 'pass123', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'Người Nữ 10', 2, 1, true),
     (21,'grroup2', 'pass123', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'Hello ae', 2, 1, true),
     (22,'grroup3', 'pass123', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'Hi ae', 2, 1, true),
-    (23,'admin', 'admin', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'Hi ae', 1, 1, true);
+    (23,'admin', 'admin', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'ADMIN', 1, 1, true),
+    (24,'long1', 'admin', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'long1', 2, 3, true),
+    (25,'long2', 'admin', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'long2', 2, 2, true),
+    (26,'long3', 'admin', 'https://cdn.vn.alongwalk.info/wp-content/uploads/2023/04/05013955/image-nhung-dia-diem-chup-anh-dep-o-sai-gon-67e8e05b2770ad98129170810a54ec9b.jpg', 'female10@example.com', 'long3', 3, 1, true);
     
     
 
@@ -100,32 +108,58 @@ VALUES
     ('Rodriguez', 'Emily', '1985-06-18', 'Việt nam', '456 Thái Nguyên', 780, '555-3456', 310, '890123456', 'nữ', '163 cm', '54 kg', 'Intermediate request', 'https://facebook.com/emilyrodriguez', true, true, 17, 2,80,'2023-07-08','mô tả 1'),
     ('Wilson', 'Abigail', '1991-09-03', 'Việt nam', '789 Nam Định', 1150, '555-9876', 590, '901234567', 'nữ', '165 cm', '56 kg', 'Advanced request', 'https://facebook.com/abigailwilson', true, true, 18, 1,65,'2023-07-09','mô tả 1'),
     ('Anderson', 'Harper', '1989-02-12', 'Việt nam', '890 Hải Phòng', 1300, '555-2345', 670, '012345678', 'nữ', '170 cm', '58 kg', 'Premium request', 'https://facebook.com/harperanderson', false, true, 19, 2,22,'2023-08-05','mô tả 1'),
-    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 20, 1,29,'2023-08-07','mô tả 1');
+    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 20, 1,29,'2023-08-07','mô tả 1'),
+    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 24, 1,29,'2023-08-07','mô tả 1'),
+    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 25, 1,29,'2023-08-07','mô tả 1'),
+    ('Clark', 'Ella', '1994-07-27', 'Việt nam', '567 Nghện An', 910, '555-8765', 430, '123456789', 'nữ', '166 cm', '53 kg', 'Standard request', 'https://facebook.com/ellaclark', true, true, 26, 1,29,'2023-08-07','mô tả 1');
 
 
 -- bảng phụ 
+
     INSERT INTO user_profile_supplies(user_profile_id,supplies_id)
     values
-	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),  
-    (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),
-    (3,1),(3,2),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),
-    (4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8),(4,9),
-    (5,1),(5,2),(5,3),(5,4),(5,5),(5,6),(5,7),(5,8),(5,9),
-    (6,1),(6,2),(6,3),(6,4),(6,5),(6,6),(6,7),(6,8),(6,9),
-    (7,1),(7,2),(7,3),(7,4),(7,5),(7,6),(7,7),(7,8),(7,9),
-    (8,1),(8,2),(8,3),(8,4),(8,5),(8,6),(8,7),(8,8),(8,9),
-    (9,1),(9,2),(9,3),(9,4),(9,5),(9,6),(9,7),(9,8),(9,9),
-    (10,1),(10,2),(10,3),(10,4),(10,5),(10,6),(10,7),(10,8),(10,9),
-    (11,1),(11,2),(11,3),(11,4),(11,5),(11,6),(11,7),(11,8),(11,9),
-    (12,1),(12,2),(12,3),(12,4),(12,5),(12,6),(12,7),(12,8),(12,9),
-    (13,1),(13,2),(13,3),(13,4),(13,5),(13,6),(13,7),(13,8),(13,9),
-    (14,1),(14,2),(14,3),(14,4),(14,5),(14,6),(14,7),(14,8),(14,9),
-    (15,1),(15,2),(15,3),(15,4),(15,5),(15,6),(15,7),(15,8),(15,9),
-    (16,1),(16,2),(16,3),(16,4),(16,5),(16,6),(16,7),(16,8),(16,9),
-    (17,1),(17,2),(17,3),(17,4),(17,5),(17,6),(17,7),(17,8),(17,9),
-    (18,1),(18,2),(18,3),(18,4),(18,5),(18,6),(18,7),(18,8),(18,9),
-    (19,1),(19,2),(19,3),(19,4),(19,5),(19,6),(19,7),(19,8),(19,9),
-    (20,1),(20,2),(20,3),(20,4),(20,5),(20,6),(20,7),(20,8),(20,9);
+	(1,2),(1,7),(1,9),
+	(2,2),(2,3),(2,5),(2,7),
+	(3,1),(3,3),(3,6),(3,7),
+	(4,1),(4,2),(4,6),(4,8),
+	(5,1),(5,2),(5,6),(5,9),
+	(6,1),(6,2),(6,5),(6,9),
+	(7,1),(7,2),(7,5),(7,7),(7,9),
+	(8,1),(8,2),(8,4),(8,8),
+	(9,3),(9,5),(9,6),(9,7),(9,8),
+	(10,1),(10,5),(10,7),(10,8),
+	(11,2),(11,3),(11,7),(11,9),
+	(12,1),(12,6),(12,7),(12,9),
+	(13,1),(13,2),(13,4),(13,6),(13,8),
+	(14,1),(14,2),(14,8),(14,9),
+	(15,1),(15,2),(15,4),(15,9),
+	(16,1),(16,2),(16,6),(16,7),(16,8),
+	(17,2),(17,3),(17,5),(17,6),
+	(18,2),(18,6),(18,7),(18,8),
+	(19,2),(19,3),(19,6),(19,8),
+	(20,1),(20,3),(20,5),(20,7),(20,9);
+    
+    INSERT INTO review (content, date, is_active, rating, accountccdv_id, account_user_id)
+VALUES
+    ('Review 1', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 2', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 3', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 4', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3))),
+    ('Review 5', NOW(), 1, FLOOR(1 + (RAND() * 5)), FLOOR(14 + (RAND() * 6)), FLOOR(20 + (RAND() * 3)));
    
    
    INSERT INTO Bill (id,address, date_create,date_start, date_end, price, total, hour, accountccdv_id, account_user_id, status_id, is_active)
@@ -223,89 +257,94 @@ VALUES
     ('https://img.thuthuattinhoc.vn/uploads/2019/01/13/anh-dep-ve-tinh-ban_104522290.jpg', 20, true),
     ('https://img.thuthuattinhoc.vn/uploads/2019/01/13/anh-dep-ve-tinh-ban_104522290.jpg', 20, true);
   
-SELECT b.accountccdv_id, COUNT(b.id)
-FROM bill b
-GROUP BY b.accountccdv_id;
 
 
 
-SELECT u.*
-FROM user_profile u
-JOIN account a ON u.account_id = a.id
-JOIN role r ON a.role_id = r.id
-JOIN status s ON a.status_id = s.id
-JOIN bill b ON a.id = b.accountCCDV_id
-WHERE u.gender = 'nam' AND r.name_role = 'ROLE_CCDV';
+#
+# SELECT u.*
+# FROM user_profile u
+# JOIN account a ON u.account_id = a.id
+# JOIN role r ON a.role_id = r.id
+# JOIN status s ON a.status_id = s.id
+# JOIN bill b ON a.id = b.accountCCDV_id
+# WHERE u.gender = 'nam' AND r.name_role = 'ROLE_CCDV';
+#
+# SELECT
+#     u.last_name,
+#     u.account_id,
+#     u.basic_request,
+#     u.price,
+#     COUNT(b.id) AS billCount,
+#     u.account_id
+# FROM user_profile u
+# JOIN Account a ON u.account_id = a.id
+# JOIN Role r ON a.role_id = r.id
+# JOIN Status s ON a.status_id = s.id
+# JOIN Review rs ON a.id = rs.accountCCDV_id
+# JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
+# WHERE u.gender = 'Nam' AND r.name_role = 'ROLE_CCDV' AND s.name_status = 'complete'
+# GROUP BY u.account_id
+# ORDER BY billCount DESC
+# LIMIT 4;
+#
+#
+# SELECT
+#     u.last_name,
+#     u.account_id,
+#     u.basic_request,
+#     u.price,
+#     COUNT(b.id) AS billCount
+# FROM
+#     user_profile u
+#     JOIN Account a ON u.account_id = a.id
+#     JOIN Role r ON a.role_id = r.id
+#     JOIN Status s ON a.status_id = s.id
+#     JOIN Review rs ON a.id = rs.accountCCDV_id
+#     JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
+# WHERE
+#     u.gender = 'nam'
+#     AND r.name_role = 'ROLE_CCDV'
+#     AND s.name_status ='active'
+#     AND s.name_status = 'complete'
+# GROUP BY
+#     u.last_name, u.account_id, u.basic_request, u.price
+# ORDER BY
+#     billCount DESC
+# LIMIT 4;
 
-SELECT
-    u.last_name,
-    u.account_id,
-    u.basic_request,
-    u.price,
-    COUNT(b.id) AS billCount,
-    u.account_id
-FROM user_profile u
-JOIN Account a ON u.account_id = a.id
-JOIN Role r ON a.role_id = r.id
-JOIN Status s ON a.status_id = s.id
-JOIN Review rs ON a.id = rs.accountCCDV_id
-JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
-WHERE u.gender = 'Nam' AND r.name_role = 'ROLE_CCDV' AND s.name_status = 'complete'
-GROUP BY u.account_id
-ORDER BY billCount DESC
-LIMIT 4;
+#
+# SELECT
+#     account.username AS name,
+#     account.avatar AS image,
+#     account.description AS description,
+#     GROUP_CONCAT(service.name ORDER BY RAND() LIMIT 3) AS services,
+#     account.price_per_hour AS price
+# FROM
+#     account
+#         JOIN
+#     service ON account.id = service.provider_id
+# GROUP BY
+#     account.id
+# ORDER BY
+#     account.view_count DESC
+#     LIMIT
+#     6;
 
-
-SELECT
-    u.last_name,
-    u.account_id,
-    u.basic_request,
-    u.price,
-    COUNT(b.id) AS billCount
-FROM
-    user_profile u
-    JOIN Account a ON u.account_id = a.id
-    JOIN Role r ON a.role_id = r.id
-    JOIN Status s ON a.status_id = s.id
-    JOIN Review rs ON a.id = rs.accountCCDV_id
-    JOIN Bill b ON a.id = b.accountCCDV_id AND b.status_id = s.id
-WHERE
-    u.gender = 'nam'
-    AND r.name_role = 'ROLE_CCDV'
-    AND s.name_status ='active'
-    AND s.name_status = 'complete'
-GROUP BY
-    u.last_name, u.account_id, u.basic_request, u.price
-ORDER BY
-    billCount DESC
-LIMIT 4;
-
-
-SELECT
-    account.username AS name,
-    account.avatar AS image,
-    account.description AS description,
-    GROUP_CONCAT(service.name ORDER BY RAND() LIMIT 3) AS services,
-    account.price_per_hour AS price
-FROM
-    account
-        JOIN
-    service ON account.id = service.provider_id
-GROUP BY
-    account.id
-ORDER BY
-    account.view_count DESC
-    LIMIT
-    6;
-
-select u.id, u.last_name, COUNT(bill.id) AS total_bill
-            from user_profile u
-            join account on account.id = u.account_id
-            join bill on bill.accountccdv_id = account.id
-            where (u.first_name like "a")
-            and (u.last_name like "bb")
-            and (year(u.birthday)= 1999)
-            and (u.gender= "Male")
-            and (u.address= "HN")
-            and (u.views= 100)
-            GROUP BY u.id, u.last_name;
+# select u.id, u.last_name, COUNT(bill.id) AS total_bill
+#             from user_profile u
+#             join account on account.id = u.account_id
+#             join bill on bill.accountccdv_id = account.id
+#             where (u.first_name like "a")
+#             and (u.last_name like "bb")
+#             and (year(u.birthday)= 1999)
+#             and (u.gender= "Male")
+#             and (u.address= "HN")
+#             and (u.views= 100)
+#             GROUP BY u.id, u.last_name;
+#
+SELECT DATE(date_start) AS day, SUM(total) AS daily_total
+FROM Bill b
+WHERE b.accountccdv_id = :idAccountCCDV
+  AND date_start >= :startOfMonth
+  AND date_start < DATE_ADD(:endOfMonth, INTERVAL 1 DAY)
+GROUP BY day

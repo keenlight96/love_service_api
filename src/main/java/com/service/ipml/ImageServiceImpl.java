@@ -51,19 +51,19 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public List<Image> getAllImageByAccountId(long id) {
-        return iImageRepository.getImageByAccount_Id(id);
+        return iImageRepository.getImagesSortedByIdDesc(id);
     }
 
     @Override
-    public ImageDTO finById(long id) {
-        List<Image> imageList = iImageRepository.findAll();
-        List<String> strings = new ArrayList<>();
-        for (Image image :imageList){
-            strings.add(image.getImg());
+    public void save(ImageDTO imageDTO) {
+        for (int i = 0; i < imageDTO.getImg().size(); i++) {
+            Image image = new Image();
+            image.setImg(imageDTO.getImg().get(i));
+            image.setAccount(imageDTO.getAccountCCDV());
+            image.setIsActive(imageDTO.getIsActive());
+            iImageRepository.save(image);
         }
-        Image image = iImageRepository.findById(id).get();
-        ImageDTO imageDTO = new ImageDTO(image.getId(), Collections.singletonList(image.getImg()),image.getAccount(),image.getIsActive());
-    return imageDTO;
     }
+
 
 }

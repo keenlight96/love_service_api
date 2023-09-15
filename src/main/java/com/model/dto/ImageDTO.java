@@ -12,8 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class ImageDTO {
-    private long id;
     private List<String> img;
-    private Account account;
+    private Account accountCCDV;
     private Boolean isActive;
 }

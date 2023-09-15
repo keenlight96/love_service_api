@@ -3,6 +3,7 @@ package com.controller;
 import com.model.Image;
 import com.model.dto.ImageDTO;
 import com.service.IImageService;
+import com.service.ipml.ImageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import java.util.List;
 public class ImageController {
     @Autowired
     IImageService iImageService;
+    @Autowired
+    private ImageServiceImpl imageService;
         @GetMapping("/albumImageCCDV")
     public ResponseEntity<List<Image>> getAllImage(){
         return new ResponseEntity<>(iImageService.getAll(),HttpStatus.OK);
@@ -26,10 +29,10 @@ public class ImageController {
         return new ResponseEntity<>(images, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<ImageDTO> saveImage(@PathVariable long id){
-            ImageDTO imageDTO1 = iImageService.finById(id);
-            return new ResponseEntity<>(imageDTO1,HttpStatus.OK);
+    @PostMapping("/album")
+    public ResponseEntity<ImageDTO> saveImage(@RequestBody ImageDTO imageDTO){
+           imageService.save(imageDTO);
+            return new ResponseEntity<>(imageDTO,HttpStatus.OK);
     }
 
 }

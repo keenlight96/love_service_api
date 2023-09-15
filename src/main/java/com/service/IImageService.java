@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IImageService extends ICrudService<Image>{
     List<Image> getAllImageByAccountId(long id);
-    ImageDTO finById(long id);
+    void save(ImageDTO imageDTO);
 }
