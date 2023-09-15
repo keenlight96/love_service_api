@@ -9,5 +9,11 @@ public class LoveServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LoveServiceApplication.class, args);
+
+
 	}
+
+
+
+
 }

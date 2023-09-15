@@ -3,7 +3,10 @@ package com.controller;
 import com.model.*;
 import com.model.dto.*;
 import com.model.pojo.ParamFilterUserProfile;
+import com.model.dto.AccountCCDVDTO;
+import com.model.dto.UserDTO;
 import com.service.*;
+import com.model.dto.UserProfileIMG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +63,7 @@ public class UserProfileController {
 
     @GetMapping("/{username}")
     public ResponseEntity<UserProfileIMG> getAll(@PathVariable String username) {
-        Account account = iAccountService.findByUsername(username).orElseGet(null);
+        Account account = iAccountService.findActiveByUsername(username);
         UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
         List<Image> img = iImageService.getAllImageByAccountId(account.getId());
         List<Interest> interests = iInterestService.getAllInterestByAccountCCDV_Id(account.getId());
@@ -86,9 +89,6 @@ public class UserProfileController {
 
         return new ResponseEntity<>(iUserProfileService.getAllUserProfileByFilter(firstName, lastName, birthDay, gender, address, views, order), HttpStatus.OK);
     }
-
-
-
 
     @PostMapping("/registerCCDV/{id}")
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
@@ -129,6 +129,7 @@ public class UserProfileController {
 
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
+
 
 
     @PostMapping("/registerAutoCCDV/{id}")

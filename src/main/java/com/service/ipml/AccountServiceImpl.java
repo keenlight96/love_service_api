@@ -5,9 +5,11 @@ import com.model.Message;
 import com.model.Status;
 import com.model.dto.AccountDTO;
 import com.model.dto.AccountMessageDTO;
+import com.model.UserProfile;
 import com.model.dto.FilterAccountByStatusDTO;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
+import com.repository.IStatusRepository;
 import com.service.IAccountService;
 import com.service.IStatusService;
 import com.service.emailService.EmailService;
@@ -36,6 +38,8 @@ public class AccountServiceImpl implements IAccountService {
     private EmailService emailService;
     @Autowired
     IStatusService iStatusService;
+    @Autowired
+    IStatusRepository iStatusRepository;
 
     @Override
     public List<Account> getAll() {
@@ -72,6 +76,10 @@ public class AccountServiceImpl implements IAccountService {
         return iAccountRepository.findByUsername(username);
     }
 
+    @Override
+    public Account findActiveByUsername(String username) {
+        return iAccountRepository.findActiveByUsername(username);
+    }
 
     @Override
     public Optional<Account> findByEmail(String email) {
@@ -104,6 +112,16 @@ public class AccountServiceImpl implements IAccountService {
 
         rs.sort((o1, o2) -> (int) (o2.getLastMessage().getId() - o1.getLastMessage().getId()));
         return rs;
+    }
+
+    @Override
+    public boolean iDontWantService(long id) {
+        Account account=iAccountRepository.findById(id).get();
+        if(account.getRole().getId()==3){
+            account.setStatus(iStatusRepository.findById(111L).get());
+            return true;
+        }
+        return false;
     }
 
     @Override

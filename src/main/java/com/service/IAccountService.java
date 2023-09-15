@@ -19,8 +19,10 @@ public interface IAccountService extends UserDetailsService {
     Account edit(Account account);
     void deleteById (long id);
     Optional<Account> findByUsername(String username);
+    Account findActiveByUsername(String username);
     Optional<Account> findByEmail(String email);
     Optional<Account> login(String username, String password);
+    boolean iDontWantService(long id);
     public Account activeAccount(String email);
     public String emailActive(String email) ;
 

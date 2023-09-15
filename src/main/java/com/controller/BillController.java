@@ -25,6 +25,19 @@ public class BillController {
     public ResponseEntity<List<Bill>> getAllByAccountCCDV_Id(@PathVariable long accountccdv_id) {
         return new ResponseEntity<>(iBillService.getAllByAccountCCDV_Id(accountccdv_id), HttpStatus.OK);
     }
+
+    @GetMapping("/getAllBill7DayByIDCCDV")
+    ResponseEntity<List<Bill>> getAllBill7DayByIDCCDV(@RequestParam long id){
+        return new ResponseEntity<>(iBillService.getBills7DayByAccountCCDV_Id(id),HttpStatus.OK);
+    }
+    @PostMapping("/createBill")
+    ResponseEntity<String> createBill(@RequestBody Bill bill){
+      if( iBillService.createBill(bill)){
+          return new ResponseEntity<>("Thuê thành công",HttpStatus.OK);
+      }
+      return new ResponseEntity<>("Méo đủ tiền",HttpStatus.OK);
+    }
+
     @GetMapping("/getAllBilByIdCCdv/{id}")
     public ResponseEntity<?> getAllBillByIdCCDV(@PathVariable long id) {
         Optional<List<Bill>> optionalBills = iBillService.findAllByAccountCCDV_IOrderByIdDesc(id);

@@ -81,6 +81,7 @@ public class AccountController {
         account.setNickname(accountDTO.getNickName());
         accountDTO.setAvatar("https://cdn0.iconfinder.com/data/icons/avatar-basic-colors-doodle-1/91/Avatar__Basic_Doodle_C-42-512.png");
         account.setAvatar(accountDTO.getAvatar());
+
         Role role = iRoleService.findByName("ROLE_USER");
         accountDTO.setRole(role);
         account.setRole(accountDTO.getRole());
@@ -125,6 +126,14 @@ public class AccountController {
 
 
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
+    }
+
+    @GetMapping("/iDontWantService")
+    public ResponseEntity<String> iDontWantService(@RequestParam Long id) {
+       if( iAccountService.iDontWantService(id)){
+           return new ResponseEntity<>(HttpStatus.OK);
+       }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/messageReceivers")
