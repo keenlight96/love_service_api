@@ -135,7 +135,7 @@ public class AccountServiceImpl implements IAccountService {
 
     public Account activeAccount(String email){
         Account account = iAccountRepository.findAccountByEmail(email);
-        account.setStatus(iStatusService.getById(1));
+        account.setStatus(iStatusService.getById(3));
         return iAccountRepository.save(account);
     }
     public String emailActive(String email) {
@@ -143,16 +143,16 @@ public class AccountServiceImpl implements IAccountService {
         String to = email;
         String subject = "OTP Kích Hoạt";
         String content = "Xin Chào ...!\n" +
-                "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản tại web Mrdunghr\n" +
+                "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản tại web thuenguoiyeu.com.vn\n" +
                 "\n" +
 
                 "Nhấn vào Link này để kích hoạt nhanh: " +
-                "http://localhost:8080/accounts/active-account?email="+email +
+                "http://localhost:8080/accounts/active-account?email="+email +"&source=email_activation" +
                 "\n" +
                 "--------------------------------------\n" +
                 " + Phone  : (+84)382.564.626\n" +
-                " + Email  : mrdunghr@gmail.com\n" +
-                " + Address: Mông Dương - TP Cẩm Phả - Quảng Ninh\n";
+                " + Email  : thuenguoiyeu@gmail.com\n" +
+                " + Address: Hà nội\n";
         emailService.sendMail(to, subject, content);
         return content;
 
