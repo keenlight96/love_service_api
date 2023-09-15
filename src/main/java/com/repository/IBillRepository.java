@@ -36,4 +36,5 @@ public interface IBillRepository extends JpaRepository<Bill, Long> {
     @Query(value = "select b from Bill b join Status s on b.status.id = s.id " +
             "where s.id = 7 or s.id = 8 or s.id = 9 or s.id = 10  order by b.id desc ")
     List<Bill> getAllBilStatusCancel();
+
 }

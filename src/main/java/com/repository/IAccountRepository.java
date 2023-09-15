@@ -38,17 +38,17 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
             "join Role r on a.role.id = r.id " +
             "where (a.isActive = true) and (u.isActive =true )" +
             "and (a.role.id = 2)" +
-            "and (:usernameParam is null or a.username = :usernameParam)" +
+            "and (:usernameParam is null or a.username like :usernameParam)" +
             "and (:statusParam is null or a.status.nameStatus = :statusParam)" +
             "order by a.id desc")
     List<AccountDTO> getAllAccountUserFilter(@Param("statusParam") String status, @Param("usernameParam") String username);
 
-    @Query(value = "select new com.model.dto.AccountDTO(a, u )" +
+    @Query(value = "select new com.model.dto.AccountDTO(a,u)" +
             "from Account a join UserProfile u on a.id = u.account.id join Status s on a.status.id = s.id " +
             "join Role r on a.role.id = r.id " +
             "where (a.isActive = true) and (u.isActive =true )" +
             "and (a.role.id = 3)" +
-            "and (:usernameParam is null or a.username = :usernameParam)" +
+            "and (:usernameParam is null or a.username like :usernameParam)" +
             "and (:statusParam is null or a.status.nameStatus = :statusParam)" +
             "order by a.id desc")
     List<AccountDTO> getAllAccountCCDVFilter(@Param("statusParam") String status, @Param("usernameParam") String username);

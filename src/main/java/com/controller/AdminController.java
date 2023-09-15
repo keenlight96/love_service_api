@@ -39,9 +39,9 @@ public class AdminController {
 
     }
     // khóa tài khoản dùng được cả cho user và ccdv
-    @PostMapping("/blockAccount")
-    public ResponseEntity<String> blockAccount(@RequestBody Account account){
-       String str = iAccountService.blockAccount(account);
+    @PostMapping("/blockAccount/{idAccount}")
+    public ResponseEntity<String> blockAccount(@PathVariable Long idAccount){
+       String str = iAccountService.blockAccount(idAccount);
        return new ResponseEntity<>(str,HttpStatus.OK);
     }
     // danh sách ccdv theo mới nhất

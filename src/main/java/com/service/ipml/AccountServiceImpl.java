@@ -145,11 +145,12 @@ public class AccountServiceImpl implements IAccountService {
         return accountList;
     }
     @Override
-    public String blockAccount(Account account){
+    public String blockAccount(Long idAccount){
         try {
-            Status status = iStatusService.getById(3L);
-            account.setStatus(status);
-            edit(account);
+            Account account1 = iAccountRepository.findById(idAccount).get();
+            Status status = iStatusService.getById(2L);
+            account1.setStatus(status);
+            edit(account1);
             return "Khóa thành công ti khoản";
         }catch (Exception e){
             return "không tìm thấy tài khoản";
@@ -164,7 +165,7 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public List<AccountDTO> getAllAccountUserFilter(FilterAccountByStatusDTO filterAccountByStatusDTO) {
         try {
-            String username = filterAccountByStatusDTO.getUsername();
+            String username = "%" + filterAccountByStatusDTO.getUsername() + "%";
             String status =  filterAccountByStatusDTO.getStatus() ;
             if (username == "") username = null;
             if (status == "") status = null;
@@ -178,7 +179,7 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public List<AccountDTO> getAllAccountCCDVFilter(FilterAccountByStatusDTO filterAccountByStatusDTO ) {
         try {
-            String username = filterAccountByStatusDTO.getUsername();
+            String username = "%" + filterAccountByStatusDTO.getUsername() + "%";
             String status =  filterAccountByStatusDTO.getStatus() ;
             if (username == "") username = null;
             if (status == "") status = null;
@@ -199,12 +200,8 @@ public class AccountServiceImpl implements IAccountService {
     public String activeCCDV(String username) {
         Account account = iAccountRepository.findByUsername(username).get();
         Status status = iStatusService.getById(1L);
-       if (account.getStatus().getId() == 2){
-           account.setStatus(status);
-           edit(account);
-           return "kích hoạt tài khoản thành công";
-       }else {
-        return "tài khoản đã được active";
-    }
+        account.setStatus(status);
+        edit(account);
+        return "kích hoạt tài khoản thành công";
     }
 }

@@ -28,7 +28,7 @@ public interface IAccountService extends UserDetailsService {
 
     List<AccountMessageDTO> getAllMessageReceiversByAccountId(long id);
     List<Account> getAllUserAc( );
-    String blockAccount(Account account);
+    String blockAccount(Long idAccount);
     List<Account> getAllCCDVAc( );
     List<AccountDTO> getAllAccountUserFilter(FilterAccountByStatusDTO filterAccountByStatusDTO);
     List<AccountDTO> getAllAccountCCDVFilter(FilterAccountByStatusDTO filterAccountByStatusDTO);
