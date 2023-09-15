@@ -35,7 +35,7 @@ public class BillController {
       if( iBillService.createBill(bill)){
           return new ResponseEntity<>("Thuê thành công",HttpStatus.OK);
       }
-      return new ResponseEntity<>("Méo đủ tiền",HttpStatus.OK);
+      return new ResponseEntity<>("Không đủ tiền",HttpStatus.OK);
     }
 
     @GetMapping("/getAllBilByIdCCdv/{id}")
