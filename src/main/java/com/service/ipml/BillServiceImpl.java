@@ -73,17 +73,16 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public boolean createBill(Bill bill) {
+    public Bill createBill(Bill bill) {
         UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
         if (userProfile.getBalance() > bill.getTotal()) {
             userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
             bill.setStatus(iStatusRepository.findById(4L).get());
             bill.setIsActive(true);
             iUserProfileRepository.save(userProfile);
-            iBillRepository.save(bill);
-            return true;
+            return iBillRepository.save(bill);
         }
-        return false;
+        return null;
     }
 
     @Override

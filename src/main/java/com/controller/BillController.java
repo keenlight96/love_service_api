@@ -31,11 +31,9 @@ public class BillController {
         return new ResponseEntity<>(iBillService.getBills7DayByAccountCCDV_Id(id),HttpStatus.OK);
     }
     @PostMapping("/createBill")
-    ResponseEntity<String> createBill(@RequestBody Bill bill){
-      if( iBillService.createBill(bill)){
-          return new ResponseEntity<>("Thuê thành công",HttpStatus.OK);
-      }
-      return new ResponseEntity<>("Không đủ tiền",HttpStatus.OK);
+    ResponseEntity<Bill> createBill(@RequestBody Bill bill){
+        Bill newBill = iBillService.createBill(bill);
+      return new ResponseEntity<>(newBill, HttpStatus.OK);
     }
 
     @GetMapping("/getAllBilByIdCCdv/{id}")
