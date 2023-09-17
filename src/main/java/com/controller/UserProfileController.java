@@ -38,6 +38,8 @@ public class UserProfileController {
     ISupplyService iSupplyService;
     @Autowired
     IStatusService iStatusService;
+    @PostMapping("/change-user-profile/{id}")
+
 
 
     @GetMapping("/checkProfileExists/{id}")
