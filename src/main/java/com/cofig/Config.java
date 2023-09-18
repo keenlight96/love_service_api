@@ -34,7 +34,7 @@ public class Config {
         return digest;
     }
 
-    public static String Sha256(String string) {
+    public static String Sha256(String message) {
         String digest = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
