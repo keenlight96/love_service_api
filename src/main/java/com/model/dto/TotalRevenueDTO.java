@@ -11,7 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TotalRevenueDTO {
-    private Date startOfMonth;
-    private long total;
-
+    private long revenue;
+    private Date day;
 }

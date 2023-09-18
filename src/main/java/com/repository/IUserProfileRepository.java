@@ -20,6 +20,7 @@ import java.util.Optional;
 public interface IUserProfileRepository extends JpaRepository<UserProfile, Long> {
 
     UserProfile getByAccount_Id(Long id);
+
     Optional<UserProfile> getUserProfileByAccount_Id(long id);
     @Query(nativeQuery = true, value = "select * from user_profile  order by views desc limit 5 ")
     List<UserProfile> getTop6HotServiceProviders();
@@ -58,7 +59,8 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "GROUP BY u.id " +
             "ORDER BY COUNT(DISTINCT b.id) DESC")
     List<AccountCCDVDTO> findTop4MaleAccountCCDV();
-    @Query("SELECT new com.model.dto.AccountCCDVDTO(u, a, '', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
+    @Query("SELECT new com.model.dto.AccountCCDVDTO(u, a, '" +
+            "', AVG(rev.rating), COUNT( rev.rating), COUNT(DISTINCT b.id)) " +
             "FROM UserProfile u " +
             "LEFT JOIN Review rev ON rev.accountCCDV.id = u.account.id " +
             "LEFT JOIN Account a ON a.id = u.account.id " +

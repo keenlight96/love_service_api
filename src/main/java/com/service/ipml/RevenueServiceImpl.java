@@ -1,5 +1,6 @@
 package com.service.ipml;
 
+import com.model.Bill;
 import com.model.Revenue;
 import com.model.dto.TotalRevenueDTO;
 import com.repository.IRevenueRepository;
@@ -7,9 +8,7 @@ import com.service.IRevenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RevenueServiceImpl implements IRevenueService {
@@ -46,6 +45,16 @@ public class RevenueServiceImpl implements IRevenueService {
         iRevenueRepository.deleteById(id);
     }
 
+    @Override
+    public List<TotalRevenueDTO> getTotalRevenueByDayForAccount(long idAccountCCDV, Date startOfMonth, Date endOfMonth) {
+        List<Date> dateList = iRevenueRepository.getDayDistinct(idAccountCCDV,startOfMonth,endOfMonth);
+        List<TotalRevenueDTO> totalRevenueDTOList = new ArrayList<>();
+        for (int i = 0; i < dateList.size(); i++) {
+            long revenue = iRevenueRepository.getRevenueByDate(idAccountCCDV,dateList.get(i));
+            totalRevenueDTOList.add(new TotalRevenueDTO(revenue,dateList.get(i)));
+        }
+        return totalRevenueDTOList;
+    }
 //    @Override
 //    public List<TotalRevenueDTO> getTotalRevenueByDayForAccount(long idAccountCCDV, Date startOfMonth, Date endOfMonth) {
 //        return iRevenueRepository.getTotalRevenueByDayForAccount(idAccountCCDV, startOfMonth, endOfMonth);

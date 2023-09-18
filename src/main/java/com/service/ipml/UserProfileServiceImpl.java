@@ -12,11 +12,8 @@ import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
-import com.service.IBillService;
 import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -26,7 +23,6 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class UserProfileServiceImpl implements IUserProfileService {
@@ -155,26 +151,21 @@ public class UserProfileServiceImpl implements IUserProfileService {
     }
 
     @Override
-    public List<UserProfile> getTop6HotServiceProviders() {
-        Random random = new Random();
-        List<UserProfile> userProfiles = iUserProfileRepository.getTop6HotServiceProviders();
-        for (int i = 0; i < userProfiles.size(); i++) {
-            List<Supply> supplies = new ArrayList<>();
-            List<Supply> supplies1 = userProfiles.get(i).getSupplies();
-            List<Integer> uniqueIndexes = new ArrayList<>();
-            while (uniqueIndexes.size() < 3 && uniqueIndexes.size() < supplies1.size()) {
-                int randomIndex = random.nextInt(supplies1.size());
-                if (!uniqueIndexes.contains(randomIndex)) {
-                    uniqueIndexes.add(randomIndex);
-                }
-            }
-            for (int j = 0; j < uniqueIndexes.size(); j++) {
-                int randomIndex = uniqueIndexes.get(j);
-                supplies.add(supplies1.get(randomIndex));
-            }
-            userProfiles.get(i).setSupplies(supplies);
+    public List<UserDTO> getTopServiceProviders(int qty) {
+        List<UserDTO> results = entityManager.createQuery("select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) from UserProfile u " +
+                        "join Review rev on rev.accountCCDV.id = u.account.id " +
+                        "where (u.account.role.id = 3) and (u.account.status.id = 1) " +
+                        "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true) " +
+                        "group by u.id " +
+                        "order by u.views desc")
+                .setMaxResults(qty)
+                .getResultList();
+
+        for (UserDTO userDto :
+                results) {
+            userDto.setRandomServices(GeneralService.toStringOfSupplies(GeneralService.getRandomItems(userDto.getUserProfile().getSupplies(), 3)));
         }
-        return userProfiles;
+        return results;
     }
 
     @Override
