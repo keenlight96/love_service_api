@@ -32,10 +32,7 @@ public class BillController {
     }
     @PostMapping("/createBill")
     ResponseEntity<String> createBill(@RequestBody Bill bill){
-      if( iBillService.createBill(bill)){
-          return new ResponseEntity<>("Thuê thành công",HttpStatus.OK);
-      }
-      return new ResponseEntity<>("Méo đủ tiền",HttpStatus.OK);
+      return new ResponseEntity<>(iBillService.createBill(bill),HttpStatus.OK);
     }
 
     @GetMapping("/getAllBilByIdCCdv/{id}")

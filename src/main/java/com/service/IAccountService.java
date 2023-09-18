@@ -17,11 +17,13 @@ public interface IAccountService extends UserDetailsService {
     Account findActiveByUsername(String username);
     Optional<Account> findByEmail(String email);
     Optional<Account> login(String username, String password);
-    boolean iDontWantService(long id);
+    String workOrRest(long id);
     public Account activeAccount(String email);
     public String emailActive(String email) ;
 
 //  Optional<Account> getByProviderUserId(long id);
 
     List<AccountMessageDTO> getAllMessageReceiversByAccountId(long id);
+    boolean hardWork(long id);
+
 }

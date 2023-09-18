@@ -1,11 +1,10 @@
 package com.service.ipml;
 
+import com.model.*;
 import com.model.Account;
 import com.model.Bill;
 import com.model.UserProfile;
 import com.model.Status;
-import com.model.UserProfile;
-import com.model.*;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
@@ -15,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -72,32 +71,35 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public boolean createBill(Bill bill) {
+    public String createBill(Bill bill) {
         UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
         if (userProfile.getBalance() > bill.getTotal()) {
-            userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
-            bill.setStatus(iStatusRepository.findById(4L).get());
-            bill.setIsActive(true);
-            iUserProfileRepository.save(userProfile);
-            iBillRepository.save(bill);
-            return true;
-        }
-        return false;
+            if (bill.getAccountCCDV().getStatus().getId() == 1) {
+                userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
+                bill.setStatus(iStatusRepository.findById(4L).get());
+                bill.setIsActive(true);
+                iUserProfileRepository.save(userProfile);
+                iBillRepository.save(bill);
+                return "Tạo đơn thuê thành công";
+            }
+            return" Người CCDV hiện không khả dụng ";
+        } return " Số dư của bạn không đủ ";
     }
 
     @Override
     public List<Bill> getBills7DayByAccountCCDV_Id(long id) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = sdf.format(now)+" 00:00:00";
-        return iBillRepository.getAllBill7DayByID(id,formattedDate).get();
+        String formattedDate = sdf.format(now) + " 00:00:00";
+        return iBillRepository.getAllBill7DayByID(id, formattedDate).get();
     }
 
     @Override
     public Optional<List<Bill>> findAllByAccountCCDV_IOrderByIdDesc(long id) {
         Sort descendingSortById = Sort.by(Sort.Direction.DESC, "id");
-        return iBillRepository.getAllByAccountCCDV_Id(id,descendingSortById);
+        return iBillRepository.getAllByAccountCCDV_Id(id, descendingSortById);
     }
+
     @Override
     public String confirmBill(long id) {
         try {
@@ -114,7 +116,7 @@ public class BillServiceImpl implements IBillService {
     @Override
     public Optional<List<Bill>> getBillByAccountUser_IdDesc(long id) {
         Sort descendingSortById = Sort.by(Sort.Direction.DESC, "id");
-        return iBillRepository.getBillByAccountUser_Id(id,descendingSortById);
+        return iBillRepository.getBillByAccountUser_Id(id, descendingSortById);
     }
 
     // user xác nhận và tự động cộng tiền cho người ccdv
@@ -124,16 +126,16 @@ public class BillServiceImpl implements IBillService {
             Bill bill = iBillRepository.findById(idBill).get();
             Status status = iStatusRepository.findById(6L).get(); // tìm ra trạng thái complete
             UserProfile userProfileCCDV = iUserProfileRepository.findUserProfileByAccount_Id(bill.getAccountCCDV().getId()).get();
-            if (bill.getStatus().getNameStatus().equals("recevied")){
+            if (bill.getStatus().getNameStatus().equals("recevied")) {
                 userProfileCCDV.setBalance(userProfileCCDV.getBalance() + bill.getTotal());
                 bill.setStatus(status);
                 edit(bill);
                 iUserProfileRepository.save(userProfileCCDV);
                 return "Xác nhận thành công";
-            }else {
+            } else {
                 return "Đơn đã được xác nhận";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return "không tìm thấy hóa đơn";
         }
     }
@@ -143,29 +145,29 @@ public class BillServiceImpl implements IBillService {
         try {
             Bill bill = iBillRepository.findById(idBill).get();
             UserProfile userProfile = iUserProfileRepository.getByAccount_Id(cancelerAccount.getId());
-            if (bill.getStatus().getNameStatus().equals("wait")){
-                if (cancelerAccount.getRole().getNameRole().equals("ROLE_USER")){
+            if (bill.getStatus().getNameStatus().equals("wait")) {
+                if (cancelerAccount.getRole().getNameRole().equals("ROLE_USER")) {
                     Status status = iStatusRepository.findById(7L).get(); // trạng thái 7 cancel from wait by user
                     bill.setStatus(status);
                     bill.setUserMessage(message);
-                     edit(bill);
-                     return "Bạn đã hủy thành công đơn hàng";
-                }else if (cancelerAccount.getRole().getNameRole().equals("ROLE_CCDV")){
+                    edit(bill);
+                    return "Bạn đã hủy thành công đơn hàng";
+                } else if (cancelerAccount.getRole().getNameRole().equals("ROLE_CCDV")) {
                     Status status = iStatusRepository.findById(8L).get(); // trạng thái 8 cancel from wait by ccdv
                     bill.setStatus(status);
                     bill.setCcdvMessage(message);
                     edit(bill);
                     return "Bạn đã hủy thành công";
                 }
-            }else if (bill.getStatus().getNameStatus().equals("recevied")){
-                if (cancelerAccount.getRole().getNameRole().equals("ROLE_USER")){
+            } else if (bill.getStatus().getNameStatus().equals("recevied")) {
+                if (cancelerAccount.getRole().getNameRole().equals("ROLE_USER")) {
                     Status status = iStatusRepository.findById(9L).get(); // trạng thái 9 cancel from recevied by user
                     bill.setStatus(status);
                     bill.setUserMessage(message);
-                    userProfile.setBalance((long) (userProfile.getBalance()+(bill.getTotal()*0.75)));
+                    userProfile.setBalance((long) (userProfile.getBalance() + (bill.getTotal() * 0.75)));
                     edit(bill);
                     return "Bạn đã hủy thành công đơn hàng ";
-                }else if (cancelerAccount.getRole().getNameRole().equals("ROLE_CCDV")){
+                } else if (cancelerAccount.getRole().getNameRole().equals("ROLE_CCDV")) {
                     Status status = iStatusRepository.findById(10L).get(); // trạng thái 10 cancel from recevied by ccdv
                     bill.setStatus(status);
                     bill.setCcdvMessage(message);
@@ -173,7 +175,7 @@ public class BillServiceImpl implements IBillService {
                     return "Bạn đã hủy thành công";
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return "Không tìm thấy hóa đơn";
         }
         return "Không tìm thấy hóa đơn";

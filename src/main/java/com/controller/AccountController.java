@@ -2,7 +2,6 @@ package com.controller;
 
 
 import com.model.dto.AccountMessageDTO;
-import com.model.dto.UserDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -128,12 +127,9 @@ public class AccountController {
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
 
-    @GetMapping("/iDontWantService")
-    public ResponseEntity<String> iDontWantService(@RequestParam Long id) {
-       if( iAccountService.iDontWantService(id)){
-           return new ResponseEntity<>(HttpStatus.OK);
-       }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    @GetMapping("/workOrRest")
+    public ResponseEntity<String> workOrRest(@RequestParam Long id) {
+           return new ResponseEntity<>(iAccountService.workOrRest(id),HttpStatus.OK);
     }
 
     @GetMapping("/messageReceivers")
@@ -142,6 +138,7 @@ public class AccountController {
         Account account = iAccountService.findByUsername(userDetails.getUsername()).orElseGet(null);
         return new ResponseEntity<>(iAccountService.getAllMessageReceiversByAccountId(account.getId()), HttpStatus.OK);
     }
+
 
 }
 
