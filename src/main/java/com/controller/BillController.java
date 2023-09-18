@@ -3,6 +3,7 @@ package com.controller;
 import com.model.Account;
 import com.model.Bill;
 import com.model.dto.AccountCCDVDTO;
+import com.model.dto.BillMessageDTO;
 import com.service.IAccountService;
 import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,16 @@ public class BillController {
     public ResponseEntity<List<Bill>> getAllByAccountCCDV_Id(@PathVariable long accountccdv_id) {
         return new ResponseEntity<>(iBillService.getAllByAccountCCDV_Id(accountccdv_id), HttpStatus.OK);
     }
+
+    @GetMapping("/getAllBill7DayByIDCCDV")
+    ResponseEntity<List<Bill>> getAllBill7DayByIDCCDV(@RequestParam long id){
+        return new ResponseEntity<>(iBillService.getBills7DayByAccountCCDV_Id(id),HttpStatus.OK);
+    }
+    @PostMapping("/createBill")
+    ResponseEntity<BillMessageDTO> createBill(@RequestBody Bill bill){
+      return new ResponseEntity<>(iBillService.createBill(bill),HttpStatus.OK);
+    }
+
     @GetMapping("/getAllBilByIdCCdv/{id}")
     public ResponseEntity<?> getAllBillByIdCCDV(@PathVariable long id) {
         Optional<List<Bill>> optionalBills = iBillService.findAllByAccountCCDV_IOrderByIdDesc(id);

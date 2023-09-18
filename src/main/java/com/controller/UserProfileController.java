@@ -4,7 +4,10 @@ import com.model.*;
 import com.model.dto.*;
 import com.model.messageErorr.ValidStatus;
 import com.model.pojo.ParamFilterUserProfile;
+import com.model.dto.AccountCCDVDTO;
+import com.model.dto.UserDTO;
 import com.service.*;
+import com.model.dto.UserProfileIMG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.http.HttpStatus;
@@ -107,11 +110,11 @@ public class UserProfileController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile){
+    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile) {
         String firstName = paramFilterUserProfile.getFirstName();
         String lastName = paramFilterUserProfile.getLastName();
         int birthDay = paramFilterUserProfile.getBirthday();
-        String  gender = paramFilterUserProfile.getGender();
+        String gender = paramFilterUserProfile.getGender();
         String address = paramFilterUserProfile.getAddress();
         long views = paramFilterUserProfile.getViews();
         String order = paramFilterUserProfile.getOrder();
@@ -194,13 +197,15 @@ public class UserProfileController {
     public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
         return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
+
     @GetMapping("/get4MaleCCDVs/{qty}")
-    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty){
-        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty),HttpStatus.OK);
+    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty), HttpStatus.OK);
     }
+
     @GetMapping("/get8FemaleCCDVs/{qty}")
-    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
-        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
+    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty), HttpStatus.OK);
     }
 
     @GetMapping("/listCCDVHaveProperGender")
@@ -209,12 +214,14 @@ public class UserProfileController {
         List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
         return new ResponseEntity<>(listCCDV, HttpStatus.OK);
     }
+
     @PostMapping("/receiveMoney/{idBill}/{idAccountCCDV}")
-    public ResponseEntity<?> receiveMoney(@PathVariable long idBill,@PathVariable long idAccountCCDV) {
-        return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill,idAccountCCDV),HttpStatus.OK);
+    public ResponseEntity<?> receiveMoney(@PathVariable long idBill, @PathVariable long idAccountCCDV) {
+        return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill, idAccountCCDV), HttpStatus.OK);
     }
+
     @PostMapping("/filterByCCDv")
-    public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV){
+    public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV) {
         System.out.println(filterCCDV.toString());
         List<UserDTO> userDTOList = iUserProfileService.getAllCCDVByFilter(filterCCDV);
         System.out.println(userDTOList);
@@ -235,5 +242,11 @@ public class UserProfileController {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
     }
-}
 
+    @GetMapping("/increaseView")
+    public ResponseEntity<String> increaseView(@RequestParam String username) {
+        Account account = iAccountService.findActiveByUsername(username);
+        return new ResponseEntity<>(iUserProfileService.increaseView(iUserProfileService.getByAccountId(account.getId()).getId()), HttpStatus.OK);
+    }
+
+}
