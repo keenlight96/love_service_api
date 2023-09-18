@@ -69,10 +69,9 @@ public class AdminController {
         return new ResponseEntity<>(accountCCDVRegisterList,HttpStatus.OK);
     }
     // ccdv register => active
-    @PostMapping("/{usernameCCDV}")
-    public ResponseEntity<String> activeCCDV(@PathVariable String usernameCCDV){
-        String str = iAccountService.activeCCDV(usernameCCDV);
+    @PostMapping("/{usernameAccount}")
+    public ResponseEntity<String> unBlockAccount(@PathVariable String usernameAccount){
+        String str = iAccountService.unBlockAccount(usernameAccount);
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
-
 }

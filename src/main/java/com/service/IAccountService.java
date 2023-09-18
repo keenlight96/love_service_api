@@ -35,5 +35,5 @@ public interface IAccountService extends UserDetailsService {
     List<AccountDTO> getAllAccountUserFilter(FilterAccountByStatusDTO filterAccountByStatusDTO);
     List<AccountDTO> getAllAccountCCDVFilter(FilterAccountByStatusDTO filterAccountByStatusDTO);
     List<Account> getAccountCCDVRegister();
-    String activeCCDV(String username);
+    String unBlockAccount(String username);
 }
