@@ -10,12 +10,14 @@ import com.service.*;
 import com.model.dto.UserProfileIMG;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.expression.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,9 +47,6 @@ public class UserProfileController {
     IStatusService iStatusService;
     @PostMapping("/change-user-profile/{id}")
     ResponseEntity<?> changeUserprofile(@PathVariable Long id, @RequestBody InformationDTO informationDTO){
-        if (iAccountService.findByEmail(informationDTO.getEmail()).isPresent()){
-            return new ResponseEntity<>(new InformationDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
-        }
         Account account = iAccountService .getById(id);
         UserProfile userProfile = iUserProfileService.getById(account.getId());
         List<Supply> supplies = informationDTO.getSupplies();
@@ -59,7 +58,15 @@ public class UserProfileController {
         iAccountService.edit(account);
         userProfile.setLastName(informationDTO.getLastName());
         userProfile.setFirstName(informationDTO.getFirstName());
-        userProfile.setBirthday(informationDTO.getBirthday());
+        // Chuyển đổi từ kiểu String thành kiểu Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date birthday = dateFormat.parse(informationDTO.getBirthday());
+            userProfile.setBirthday(birthday);
+        } catch (Exception e) {
+            // Xử lý lỗi ở đây nếu định dạng ngày tháng không hợp lệ
+//            return new ResponseEntity<>(new InformationDTO(ValidStatus.INVALID_DATE_FORMAT), HttpStatus.BAD_REQUEST);
+        }
         userProfile.setCountry(informationDTO.getCountry());
         userProfile.setAddress(informationDTO.getAddress());
         userProfile.setPhoneNumber(informationDTO.getPhoneNumber());

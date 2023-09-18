@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
 
@@ -59,7 +60,12 @@ public class AccountController {
         informationDTO.setNickname(account.getNickname());
         informationDTO.setFirstName(userProfile.getFirstName());
         informationDTO.setLastName(userProfile.getLastName());
-        informationDTO.setBirthday(userProfile.getBirthday());
+
+        // Định dạng ngày tháng thành chuỗi "yyyy-MM-dd"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedBirthday = dateFormat.format(userProfile.getBirthday());
+
+        informationDTO.setBirthday(formattedBirthday);
         informationDTO.setCountry(userProfile.getCountry());
         informationDTO.setAddress(userProfile.getAddress());
         informationDTO.setPhoneNumber(userProfile.getPhoneNumber());

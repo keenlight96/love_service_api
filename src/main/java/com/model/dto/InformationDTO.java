@@ -21,7 +21,7 @@ public class InformationDTO {
     private String nickname;
     private String lastName;
     private String firstName;
-    private Date birthday;
+    private String birthday;
     private String country;
     private String address;
     private String phoneNumber;
