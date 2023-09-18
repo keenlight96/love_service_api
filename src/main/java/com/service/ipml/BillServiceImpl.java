@@ -22,7 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.xml.crypto.Data;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -210,5 +212,18 @@ public class BillServiceImpl implements IBillService {
     public List<Bill> getAllBills() {
         return iBillRepository.getAllBills();
     }
+
+
+    @Override
+    public List<Bill> getAllBillByAccountUser(long id) {
+        return iBillRepository.getAllBillByAccountUser(id);
+    }
+
+
+//    @Override
+//    public Bill getBillAccountUserById(long idAccountUser, long idBill) {
+//        return iBillRepository.getBillDetailByAccountUser(idAccountUser, idBill);
+//    }
+
 
 }

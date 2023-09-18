@@ -11,8 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @CrossOrigin("*")
 @RestController
@@ -68,4 +72,15 @@ public class BillController {
         Account cancelerAccount = iAccountService.getById(idAccount);
         return new ResponseEntity<>(iBillService.cancelBill(idBill,cancelerAccount,message),HttpStatus.OK);
     }
+    @GetMapping("/listBillByAccountUser/{idAccountUser}")
+    public ResponseEntity<List<Bill>> getAllBillByAccountUser(@PathVariable long idAccountUser){
+        return new ResponseEntity<>(iBillService.getAllBillByAccountUser(idAccountUser),HttpStatus.OK);
+    }
+    @GetMapping("/findBill/{idBill}")
+    public ResponseEntity<Bill> getBillByIdBill(@PathVariable long idBill){
+        Bill bill = iBillService.getById(idBill);
+        return new ResponseEntity<>(bill,HttpStatus.OK);
+    }
+
+
 }
