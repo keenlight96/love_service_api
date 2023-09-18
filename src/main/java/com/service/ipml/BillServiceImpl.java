@@ -191,15 +191,19 @@ public class BillServiceImpl implements IBillService {
 
     @Override
     public Bill getLatestBillBy2Acc(Long ccdvId, Long userId) {
-        List<Bill> results = entityManager.createQuery("select b from Bill b " +
-                        "where b.accountCCDV.id = :ccdvId and b.accountUser.id = :userId " +
-                        "and b.isActive = true and b.status.id = 6 " +
-                        "order by b.id desc")
-                .setMaxResults(1)
-                .setParameter("ccdvId", ccdvId)
-                .setParameter("userId", userId)
-                .getResultList();
-        return results.get(0);
+        try {
+            List<Bill> results = entityManager.createQuery("select b from Bill b " +
+                            "where b.accountCCDV.id = :ccdvId and b.accountUser.id = :userId " +
+                            "and b.isActive = true and b.status.id = 6 " +
+                            "order by b.id desc")
+                    .setMaxResults(1)
+                    .setParameter("ccdvId", ccdvId)
+                    .setParameter("userId", userId)
+                    .getResultList();
+            return results.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
