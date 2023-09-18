@@ -1,17 +1,21 @@
 package com.model.dto;
 
+import com.model.Supply;
+import com.model.Zone;
 import com.model.messageErorr.ValidStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class InformationDTO {
     private long id;
-    private String username;
+
     private String avatar;
     private String email;
     private String nickname;
@@ -27,6 +31,11 @@ public class InformationDTO {
     private String describes;
     private String basicRequest;
     private String facebookLink;
+    private List<Supply> supplies;
+    private Zone zone;
     private ValidStatus validStatus;
 
+    public InformationDTO(ValidStatus validStatus) {
+        this.validStatus = validStatus;
+    }
 }

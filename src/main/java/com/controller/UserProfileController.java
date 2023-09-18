@@ -2,9 +2,11 @@ package com.controller;
 
 import com.model.*;
 import com.model.dto.*;
+import com.model.messageErorr.ValidStatus;
 import com.model.pojo.ParamFilterUserProfile;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,8 +41,36 @@ public class UserProfileController {
     @Autowired
     IStatusService iStatusService;
     @PostMapping("/change-user-profile/{id}")
+    ResponseEntity<?> changeUserprofile(@PathVariable Long id, @RequestBody InformationDTO informationDTO){
+        if (iAccountService.findByEmail(informationDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new InformationDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
+        }
+        Account account = iAccountService .getById(id);
+        UserProfile userProfile = iUserProfileService.getById(account.getId());
+        List<Supply> supplies = informationDTO.getSupplies();
+        Zone zone = iZoneService.getById(informationDTO.getZone().getId());
 
-
+        account.setAvatar(informationDTO.getAvatar());
+        account.setEmail(informationDTO.getEmail());
+        account.setNickname(informationDTO.getNickname());
+        iAccountService.edit(account);
+        userProfile.setLastName(informationDTO.getLastName());
+        userProfile.setFirstName(informationDTO.getFirstName());
+        userProfile.setBirthday(informationDTO.getBirthday());
+        userProfile.setCountry(informationDTO.getCountry());
+        userProfile.setAddress(informationDTO.getAddress());
+        userProfile.setPhoneNumber(informationDTO.getPhoneNumber());
+        userProfile.setGender(informationDTO.getGender());
+        userProfile.setHeight(informationDTO.getHeight());
+        userProfile.setWeight(informationDTO.getWeight());
+        userProfile.setDescribes(informationDTO.getDescribes());
+        userProfile.setBasicRequest(informationDTO.getBasicRequest());
+        userProfile.setFacebookLink(informationDTO.getFacebookLink());
+        userProfile.setSupplies(supplies);
+        userProfile.setZone(zone);
+        iUserProfileService.edit(userProfile);
+        return new ResponseEntity<>(new InformationDTO(ValidStatus.SUCCESSFULL),HttpStatus.OK);
+    }
 
     @GetMapping("/checkProfileExists/{id}")
     ResponseEntity<?> checkProfileExists(@PathVariable Long id) {

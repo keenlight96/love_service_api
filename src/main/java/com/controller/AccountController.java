@@ -2,6 +2,7 @@ package com.controller;
 
 
 import com.model.dto.AccountMessageDTO;
+import com.model.dto.InformationDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -48,6 +49,37 @@ public class AccountController {
 
     @Autowired
     IUserProfileService iUserProfileService;
+    @GetMapping("/account-profile/{id}")
+    ResponseEntity<?> getAccount(@PathVariable Long id){
+        Account account = iAccountService.getById(id);
+        UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
+        InformationDTO informationDTO = new InformationDTO();
+        informationDTO.setAvatar(account.getAvatar());
+        informationDTO.setEmail(account.getEmail());
+        informationDTO.setNickname(account.getNickname());
+        informationDTO.setFirstName(userProfile.getFirstName());
+        informationDTO.setLastName(userProfile.getLastName());
+        informationDTO.setBirthday(userProfile.getBirthday());
+        informationDTO.setCountry(userProfile.getCountry());
+        informationDTO.setAddress(userProfile.getAddress());
+        informationDTO.setPhoneNumber(userProfile.getPhoneNumber());
+        informationDTO.setGender(userProfile.getGender());
+        informationDTO.setHeight(userProfile.getHeight());
+        informationDTO.setWeight(userProfile.getWeight());
+        informationDTO.setDescribes(userProfile.getDescribes());
+        informationDTO.setBasicRequest(userProfile.getBasicRequest());
+        informationDTO.setFacebookLink(userProfile.getFacebookLink());
+        informationDTO.setSupplies(userProfile.getSupplies());
+        informationDTO.setZone(userProfile.getZone());
+
+        return new ResponseEntity<>(informationDTO,HttpStatus.OK);
+    }
+    @GetMapping("/profile/{id}")
+    ResponseEntity<?> getProfileByAccountLogin(@PathVariable Long id){
+        Account account =iAccountService.getById(id);
+        UserProfile userProfile = iUserProfileService.getById(account.getId());
+        return new ResponseEntity<>(userProfile,HttpStatus.OK);
+    }
 
     @GetMapping("/active-account")
     public ResponseEntity<?> activeAccount(@RequestParam String email){
@@ -56,11 +88,11 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.FOUND).header("Location", frontendLoginUrl).build();
     }
 
-    @PostMapping("/changeAvata/{id}")
-    ResponseEntity<?> changeAvataInProfileByUserLogin(@PathVariable Long id,@RequestBody Account account){
+    @PostMapping("/changeAvatar/{id}")
+    ResponseEntity<?> changeAvatarInProfileByUserLogin(@PathVariable Long id,@RequestBody Account account){
         Account account1 = iAccountService.getById(id);
         account1.setAvatar(account.getAvatar());
-
+        iAccountService.edit(account1);
         return new ResponseEntity<>(account1,HttpStatus.OK);
     }
 
