@@ -10,6 +10,7 @@ import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
+import com.service.IAccountService;
 import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,8 @@ public class BillServiceImpl implements IBillService {
     IStatusRepository iStatusRepository;
     @Autowired
     IAccountRepository iAccountRepository;
+    @Autowired
+    IAccountService iAccountService;
     @Autowired
     IUserProfileRepository iUserProfileRepository;
 
@@ -76,8 +79,10 @@ public class BillServiceImpl implements IBillService {
     @Override
     public BillMessageDTO createBill(Bill bill) {
         UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
+        Account accountCCDV = iAccountService.getById(bill.getAccountCCDV().getId());
+
         if (userProfile.getBalance() > bill.getTotal()) {
-            if (bill.getAccountCCDV().getStatus().getId() == 1) {
+            if (accountCCDV.getStatus().getId() == 1) {
                 userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
                 bill.setStatus(iStatusRepository.findById(4L).get());
                 bill.setIsActive(true);
