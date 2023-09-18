@@ -2,7 +2,6 @@ package com.controller;
 
 
 import com.model.dto.AccountMessageDTO;
-import com.model.dto.UserDTO;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
@@ -67,11 +66,14 @@ public class AccountController {
 
     @PostMapping("/registerUser")
     ResponseEntity<AccountRegisterDTO> createAccountUser(@RequestBody AccountRegisterDTO accountDTO) {
-        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()) {
-            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED), HttpStatus.OK);
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
         }
-        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()) {
-            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST), HttpStatus.OK);
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        }
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
         }
         Account account = new Account();
         account.setUsername(accountDTO.getUsername());
@@ -90,12 +92,52 @@ public class AccountController {
         account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
         iAccountService.create(account);
-        iAccountService.emailActive(account.getEmail());
+//        iAccountService.emailActive(account.getEmail());
         long accountId = account.getId();
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL,accountId), HttpStatus.OK);
     }
+
+    @PostMapping("/registerUserGoogle")
+    ResponseEntity<AccountRegisterDTO> createAccountUserGoogle(@RequestBody AccountRegisterDTO accountDTO) {
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+        }
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        }
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
+        }
+        Account account = new Account();
+        account.setUsername(accountDTO.getUsername());
+        account.setEmail(accountDTO.getEmail());
+        account.setNickname(accountDTO.getNickName());
+        account.setAvatar(accountDTO.getAvatar());
+
+        int max = 999999;
+        int min = 10000;
+        int range = max - min + 1;
+        account.setPassword("g" + ((int)(Math.random() * range) + min));
+
+        Role role = iRoleService.findByName("ROLE_USER");
+        accountDTO.setRole(role);
+        account.setRole(accountDTO.getRole());
+        Status status = iStatusService.getById(1);
+        accountDTO.setStatus(status);
+        account.setStatus(accountDTO.getStatus());
+        account.setIsActive(true);
+        iAccountService.create(account);
+        long accountId = account.getId();
+
+        return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL, accountId), HttpStatus.OK);
+    }
+
     @PostMapping("/registerUserAndProfile")
     ResponseEntity<AccountRegisterDTO> createAccountUserAndProfile(@RequestBody AccountRegisterDTO accountDTO) {
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+
+        }
         if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
             return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
         }
@@ -122,18 +164,55 @@ public class AccountController {
         UserProfile userProfile = new UserProfile();
         userProfile.setAccount(iAccountService.getById(id));
         userProfile.setDateCreate(new Date());
+        userProfile.setIsActive(true);
         iUserProfileService.create(userProfile);
-
 
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
 
-    @GetMapping("/iDontWantService")
-    public ResponseEntity<String> iDontWantService(@RequestParam Long id) {
-       if( iAccountService.iDontWantService(id)){
-           return new ResponseEntity<>(HttpStatus.OK);
-       }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    @PostMapping("/registerUserAndProfileGoogle")
+    ResponseEntity<AccountRegisterDTO> createAccountUserAndProfileGoogle(@RequestBody AccountRegisterDTO accountDTO) {
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+        }
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        }
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
+        }
+        Account account = new Account();
+        account.setUsername(accountDTO.getUsername());
+        account.setEmail(accountDTO.getEmail());
+        account.setNickname(accountDTO.getNickName());
+        account.setAvatar(accountDTO.getAvatar());
+
+        int max = 999999;
+        int min = 10000;
+        int range = max - min + 1;
+        account.setPassword("g" + ((int)(Math.random() * range) + min));
+
+        Role role = iRoleService.findByName("ROLE_USER");
+        accountDTO.setRole(role);
+        account.setRole(accountDTO.getRole());
+        Status status = iStatusService.getById(1);
+        accountDTO.setStatus(status);
+        account.setStatus(accountDTO.getStatus());
+        account.setIsActive(true);
+        iAccountService.create(account);
+        long id = account.getId();
+        UserProfile userProfile = new UserProfile();
+        userProfile.setAccount(iAccountService.getById(id));
+        userProfile.setDateCreate(new Date());
+        userProfile.setIsActive(true);
+        iUserProfileService.create(userProfile);
+
+        return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
+    }
+
+    @GetMapping("/workOrRest")
+    public ResponseEntity<String> workOrRest(@RequestParam Long id) {
+           return new ResponseEntity<>(iAccountService.workOrRest(id),HttpStatus.OK);
     }
 
     @GetMapping("/messageReceivers")
@@ -142,6 +221,7 @@ public class AccountController {
         Account account = iAccountService.findByUsername(userDetails.getUsername()).orElseGet(null);
         return new ResponseEntity<>(iAccountService.getAllMessageReceiversByAccountId(account.getId()), HttpStatus.OK);
     }
+
 
 }
 

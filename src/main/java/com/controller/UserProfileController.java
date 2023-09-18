@@ -78,11 +78,11 @@ public class UserProfileController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile){
+    public ResponseEntity<List<UserProfileFilterDTO>> getAllUserProfileByFilter(@RequestBody ParamFilterUserProfile paramFilterUserProfile) {
         String firstName = paramFilterUserProfile.getFirstName();
         String lastName = paramFilterUserProfile.getLastName();
         int birthDay = paramFilterUserProfile.getBirthday();
-        String  gender = paramFilterUserProfile.getGender();
+        String gender = paramFilterUserProfile.getGender();
         String address = paramFilterUserProfile.getAddress();
         long views = paramFilterUserProfile.getViews();
         String order = paramFilterUserProfile.getOrder();
@@ -90,46 +90,57 @@ public class UserProfileController {
         return new ResponseEntity<>(iUserProfileService.getAllUserProfileByFilter(firstName, lastName, birthDay, gender, address, views, order), HttpStatus.OK);
     }
 
+    @PostMapping("/change-price/{id}")
+    ResponseEntity<?> changePrice(@PathVariable Long id, @RequestBody UserProfile userProfile){
+        Account account = iAccountService.getById(id);
+        UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
+        existingProfile.setPrice(userProfile.getPrice());
+        iUserProfileService.edit(existingProfile);
+        return new ResponseEntity<>(existingProfile, HttpStatus.OK);
+    }
     @PostMapping("/registerCCDV/{id}")
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Account account = iAccountService.getById(id);
         UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
-
+        Role role = iRoleService.getById(3);
+        List<Supply> supplies = userProfile.getSupplies();
+        Zone zone = iZoneService.getById(userProfile.getZone().getId());
+        account.setRole(role);
         if (existingProfile != null) {
             // Nếu đã tồn tại profile, cập nhật nó thay vì tạo mới
-
-            existingProfile.setLastName(userProfile.getLastName());// Cập nhật thông tin của profile
-            existingProfile.setFirstName(userProfile.getFirstName());// Cập nhật thông tin của profile
-            existingProfile.setBirthday(userProfile.getBirthday());// Cập nhật thông tin của profile
-            existingProfile.setCountry(userProfile.getCountry());// Cập nhật thông tin của profile
-            existingProfile.setAddress(userProfile.getAddress());// Cập nhật thông tin của profile
-            existingProfile.setBalance(userProfile.getBalance());// Cập nhật thông tin của profile
-            existingProfile.setPhoneNumber(userProfile.getPhoneNumber());// Cập nhật thông tin của profile
-            existingProfile.setPrice(userProfile.getPrice());// Cập nhật thông tin của profile
-            existingProfile.setIdCard(userProfile.getIdCard());// Cập nhật thông tin của profile
-            existingProfile.setGender(userProfile.getGender());// Cập nhật thông tin của profile
-            existingProfile.setHeight(userProfile.getHeight());// Cập nhật thông tin của profile
-            existingProfile.setWeight(userProfile.getWeight());// Cập nhật thông tin của profile
-            existingProfile.setBasicRequest(userProfile.getBasicRequest());// Cập nhật thông tin của profile
-            existingProfile.setFacebookLink(userProfile.getFacebookLink());// Cập nhật thông tin của profile
-            iUserProfileService.edit(existingProfile); // Cập nhật thông tin trong cơ sở dữ liệu
+            existingProfile.setLastName(userProfile.getLastName());
+            existingProfile.setFirstName(userProfile.getFirstName());
+            existingProfile.setBirthday(userProfile.getBirthday());
+            existingProfile.setCountry(userProfile.getCountry());
+            existingProfile.setAddress(userProfile.getAddress());
+            existingProfile.setBalance(userProfile.getBalance());
+            existingProfile.setPhoneNumber(userProfile.getPhoneNumber());
+            existingProfile.setPrice(userProfile.getPrice());
+            existingProfile.setIdCard(userProfile.getIdCard());
+            existingProfile.setGender(userProfile.getGender());
+            existingProfile.setHeight(userProfile.getHeight());
+            existingProfile.setWeight(userProfile.getWeight());
+            existingProfile.setBasicRequest(userProfile.getBasicRequest());
+            existingProfile.setFacebookLink(userProfile.getFacebookLink());
+            existingProfile.setSupplies(supplies);
+            existingProfile.setZone(zone);
+            iUserProfileService.edit(existingProfile);
             return new ResponseEntity<>(existingProfile, HttpStatus.OK);
-
         } else {
             // Nếu chưa có profile, thì tạo mới
-            Role role = iRoleService.getById(3);
             account.setRole(role);
-            Zone zone = iZoneService.getById(userProfile.getZone().getId());
             userProfile.setZone(zone);
             userProfile.setIsVIP(false);
             userProfile.setIsActive(true);
             userProfile.setAccount(account);
-            iUserProfileService.create(userProfile); // Tạo mới profile
-        }
+            userProfile.setSupplies(supplies);
+            userProfile.setDateCreate(new Date());
 
+            iUserProfileService.create(userProfile); // Tạo mới profile
+            iAccountService.emailActive(account.getEmail());
+        }
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
-
 
 
     @PostMapping("/registerAutoCCDV/{id}")
@@ -154,13 +165,15 @@ public class UserProfileController {
     public ResponseEntity<List<UserDTO>> searchBySupplies(@RequestBody List<Supply> supplies) {
         return new ResponseEntity<>(iUserProfileService.getBySupplies(supplies), HttpStatus.OK);
     }
+
     @GetMapping("/get4MaleCCDVs/{qty}")
-    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty){
-        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty),HttpStatus.OK);
+    public ResponseEntity<List<AccountCCDVDTO>> get4MaleCCDVs(@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.get4MaleCCDVs(qty), HttpStatus.OK);
     }
+
     @GetMapping("/get8FemaleCCDVs/{qty}")
-    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty){
-        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty),HttpStatus.OK);
+    public ResponseEntity<List<AccountCCDVDTO>> get8FemaleCCDVs(@PathVariable int qty) {
+        return new ResponseEntity<>(iUserProfileService.get8FemaleCCDVs(qty), HttpStatus.OK);
     }
 
     @GetMapping("/listCCDVHaveProperGender")
@@ -169,12 +182,14 @@ public class UserProfileController {
         List<UserDTO> listCCDV = iUserProfileService.getUserHaveProperGender(gender);
         return new ResponseEntity<>(listCCDV, HttpStatus.OK);
     }
+
     @PostMapping("/receiveMoney/{idBill}/{idAccountCCDV}")
-    public ResponseEntity<?> receiveMoney(@PathVariable long idBill,@PathVariable long idAccountCCDV) {
-        return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill,idAccountCCDV),HttpStatus.OK);
+    public ResponseEntity<?> receiveMoney(@PathVariable long idBill, @PathVariable long idAccountCCDV) {
+        return new ResponseEntity<>(iUserProfileService.receiveMoney(idBill, idAccountCCDV), HttpStatus.OK);
     }
+
     @PostMapping("/filterByCCDv")
-    public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV){
+    public ResponseEntity<List<UserDTO>> getAllCCDVByFilter(@RequestBody FilterCCDV filterCCDV) {
         System.out.println(filterCCDV.toString());
         List<UserDTO> userDTOList = iUserProfileService.getAllCCDVByFilter(filterCCDV);
         System.out.println(userDTOList);
@@ -195,5 +210,11 @@ public class UserProfileController {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
     }
-}
 
+    @GetMapping("/increaseView")
+    public ResponseEntity<String> increaseView(@RequestParam String username) {
+        Account account = iAccountService.findActiveByUsername(username);
+        return new ResponseEntity<>(iUserProfileService.increaseView(iUserProfileService.getByAccountId(account.getId()).getId()), HttpStatus.OK);
+    }
+
+}

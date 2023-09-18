@@ -6,11 +6,6 @@ import com.model.messageErorr.ValidStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
 
 @Data
 @AllArgsConstructor
@@ -27,14 +22,15 @@ public class AccountRegisterDTO {
     private Boolean isActive;
     private ValidStatus validStatus;
 
-    public AccountRegisterDTO(ValidStatus validStatus) {
-        this.validStatus = validStatus;
-    }
+
     public AccountRegisterDTO(ValidStatus status, long accountId) {
         this.validStatus = status;
         this.id = accountId;
     }
 
 
-
+    public AccountRegisterDTO(ValidStatus validStatus) {
+        this.validStatus =validStatus;
+    }
 }
+

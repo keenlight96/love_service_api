@@ -239,11 +239,22 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV) {
-        String lastName = "%" + filterCCDV.getLastName() + "%" ;
+        String lastName = "%" + filterCCDV.getLastName() + "%";
         String firstName = "%" + filterCCDV.getFirstName() + "%";
-        String zone = "%" + filterCCDV.getZone() + "%" ;
+        String zone = "%" + filterCCDV.getZone() + "%";
         String gender = "%" + filterCCDV.getGender() + "%";
         Integer birthday = filterCCDV.getYear();
         return iUserProfileRepository.getAllCCDVByFilter(lastName, firstName, zone, gender, birthday);
+    }
+
+    @Override
+    public String increaseView(long id) {
+        UserProfile userProfile = iUserProfileRepository.findById(id).get();
+        if (userProfile.getIsActive()) {
+            userProfile.setViews((userProfile.getViews() + 1));
+            iUserProfileRepository.save(userProfile);
+            return "+1";
+        }
+        return "bug";
     }
 }
