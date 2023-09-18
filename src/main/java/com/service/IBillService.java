@@ -3,13 +3,14 @@ package com.service;
 import com.model.Account;
 import com.model.Bill;
 import com.model.Review;
+import com.model.dto.BillMessageDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IBillService extends ICrudService<Bill>{
     List<Bill> getAllByAccountCCDV_Id(long id);
-    String createBill(Bill bill);
+    BillMessageDTO createBill(Bill bill);
     List<Bill> getBills7DayByAccountCCDV_Id(long id);
     Optional<List<Bill>> findAllByAccountCCDV_IOrderByIdDesc(long id);
     String confirmBill(long id);

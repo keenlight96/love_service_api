@@ -5,6 +5,7 @@ import com.model.Account;
 import com.model.Bill;
 import com.model.UserProfile;
 import com.model.Status;
+import com.model.dto.BillMessageDTO;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
@@ -71,7 +72,7 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public String createBill(Bill bill) {
+    public BillMessageDTO createBill(Bill bill) {
         UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
         if (userProfile.getBalance() > bill.getTotal()) {
             if (bill.getAccountCCDV().getStatus().getId() == 1) {
@@ -80,10 +81,10 @@ public class BillServiceImpl implements IBillService {
                 bill.setIsActive(true);
                 iUserProfileRepository.save(userProfile);
                 iBillRepository.save(bill);
-                return "Tạo đơn thuê thành công";
+                return new BillMessageDTO(bill,"Tạo đơn thuê thành công");
             }
-            return" Người CCDV hiện không khả dụng ";
-        } return " Số dư của bạn không đủ ";
+            return new BillMessageDTO(null," Người CCDV hiện không khả dụng ");
+        } return new BillMessageDTO(null," Số dư của bạn không đủ ");
     }
 
     @Override

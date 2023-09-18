@@ -3,6 +3,7 @@ package com.controller;
 import com.model.Account;
 import com.model.Bill;
 import com.model.dto.AccountCCDVDTO;
+import com.model.dto.BillMessageDTO;
 import com.service.IAccountService;
 import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class BillController {
         return new ResponseEntity<>(iBillService.getBills7DayByAccountCCDV_Id(id),HttpStatus.OK);
     }
     @PostMapping("/createBill")
-    ResponseEntity<String> createBill(@RequestBody Bill bill){
+    ResponseEntity<BillMessageDTO> createBill(@RequestBody Bill bill){
       return new ResponseEntity<>(iBillService.createBill(bill),HttpStatus.OK);
     }
 
