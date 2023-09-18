@@ -3,8 +3,11 @@ package com.service.ipml;
 import com.model.Account;
 import com.model.Message;
 import com.model.Status;
+import com.model.Status;
+import com.model.dto.AccountDTO;
 import com.model.dto.AccountMessageDTO;
 import com.model.UserProfile;
+import com.model.dto.FilterAccountByStatusDTO;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
@@ -12,6 +15,8 @@ import com.service.IAccountService;
 import com.service.IStatusService;
 import com.service.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -99,7 +104,7 @@ public class AccountServiceImpl implements IAccountService {
         for (AccountMessageDTO account :
                 rs) {
             List<Message> messages = entityManager.createQuery("select m from Message m " +
-                            "where (m.sender.id = :accId or m.receiver.id = :accId) order by m.id desc")
+                    "where (m.sender.id = :accId or m.receiver.id = :accId) order by m.id desc")
                     .setParameter("accId", account.getId())
                     .setMaxResults(1)
                     .getResultList();
@@ -110,15 +115,7 @@ public class AccountServiceImpl implements IAccountService {
         return rs;
     }
 
-    @Override
-    public boolean hardWork(long id) {
-        Account account = iAccountRepository.findById(id).get();
-        if (account.getRole().getId() == 3) {
-            account.setStatus(iStatusRepository.findById(1L).get());
-            return true;
-        }
-        return false;
-    }
+
 
     @Override
     public String workOrRest(long id) {
@@ -146,7 +143,7 @@ public class AccountServiceImpl implements IAccountService {
 
     public Account activeAccount(String email) {
         Account account = iAccountRepository.findAccountByEmail(email);
-        account.setStatus(iStatusService.getById(1));
+        account.setStatus(iStatusService.getById(3));
         return iAccountRepository.save(account);
     }
 
@@ -155,19 +152,83 @@ public class AccountServiceImpl implements IAccountService {
         String to = email;
         String subject = "OTP Kích Hoạt";
         String content = "Xin Chào ...!\n" +
-                "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản tại web Mrdunghr\n" +
+                "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản tại web thuenguoiyeu.com.vn\n" +
                 "\n" +
 
                 "Nhấn vào Link này để kích hoạt nhanh: " +
-                "http://localhost:8080/accounts/active-account?email=" + email +
+                "http://localhost:8080/accounts/active-account?email="+email +"&source=email_activation" +
                 "\n" +
                 "--------------------------------------\n" +
                 " + Phone  : (+84)382.564.626\n" +
-                " + Email  : mrdunghr@gmail.com\n" +
-                " + Address: Mông Dương - TP Cẩm Phả - Quảng Ninh\n";
+                " + Email  : thuenguoiyeu@gmail.com\n" +
+                " + Address: Hà nội\n";
         emailService.sendMail(to, subject, content);
         return content;
 
     }
+    @Override
+    public List<Account> getAllUserAc() {
+        List<Account> accountList = iAccountRepository.getAllUserAc();
+        return accountList;
+    }
+    @Override
+    public String blockAccount(Long idAccount){
+        try {
+            Account account1 = iAccountRepository.findById(idAccount).get();
+            Status status = iStatusService.getById(2L);
+            account1.setStatus(status);
+            edit(account1);
+            return "Khóa thành công ti khoản";
+        }catch (Exception e){
+            return "không tìm thấy tài khoản";
+        }
+    }
 
+    @Override
+    public List<Account> getAllCCDVAc() {
+        return iAccountRepository.getAllCCDVAc();
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccountUserFilter(FilterAccountByStatusDTO filterAccountByStatusDTO) {
+        try {
+            String username = "%" + filterAccountByStatusDTO.getUsername() + "%";
+            String status =  filterAccountByStatusDTO.getStatus() ;
+            if (username == "") username = null;
+            if (status == "") status = null;
+            List<AccountDTO> accountDTOList = iAccountRepository.getAllAccountUserFilter(status,username);
+            return accountDTOList;
+        }catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccountCCDVFilter(FilterAccountByStatusDTO filterAccountByStatusDTO ) {
+        try {
+            String username = "%" + filterAccountByStatusDTO.getUsername() + "%";
+            String status =  filterAccountByStatusDTO.getStatus() ;
+            if (username == "") username = null;
+            if (status == "") status = null;
+            List<AccountDTO> accountDTOList = iAccountRepository.getAllAccountCCDVFilter(status,username);
+            return accountDTOList;
+        }catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Account> getAccountCCDVRegister( ) {
+        List<Account> accountCCDVRegisterList = iAccountRepository.getAccountCCDVRegister();
+        return accountCCDVRegisterList;
+    }
+
+    @Override
+    public String activeCCDV(String username) {
+        Account account = iAccountRepository.findByUsername(username).get();
+        Status status = iStatusService.getById(1L);
+        account.setStatus(status);
+        edit(account);
+        return "kích hoạt tài khoản thành công";
+    }
 }

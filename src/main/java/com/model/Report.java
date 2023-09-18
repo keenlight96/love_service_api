@@ -16,9 +16,9 @@ public class Report {
     private String content;
     private Date date;
     @ManyToOne
-    private Account accountCCDV;
+    private Account send;
     @ManyToOne
-    private Account accountUser;
+    private Account receiver;
     @ManyToOne
     private Status status;
     private Boolean isActive;

@@ -19,5 +19,8 @@ public class Message {
     Account receiver;
     @Lob
     String message;
+    String type;
+    String subtype;
+    Boolean isRead = false;
     Date date;
 }

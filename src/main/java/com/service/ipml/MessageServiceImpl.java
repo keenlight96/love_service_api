@@ -52,4 +52,9 @@ public class MessageServiceImpl implements IMessageService {
         return messages;
 //        return iMessageRepository.findAll();
     }
+
+    @Override
+    public List<Message> getAllNotifications(Long userId) {
+        return iMessageRepository.getAllNotifications(userId);
+    }
 }

@@ -2,9 +2,11 @@ package com.service;
 
 import com.model.Account;
 import com.model.Message;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface IMessageService extends ICrudService<Message> {
-    public List<Message> getAllBySenderAndReceiver(Long senderId, Long receiverId);
+    List<Message> getAllBySenderAndReceiver(Long senderId, Long receiverId);
+    List<Message> getAllNotifications(Long userId);
 }

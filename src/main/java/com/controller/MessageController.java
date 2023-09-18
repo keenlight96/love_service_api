@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -39,6 +40,11 @@ public class MessageController {
 
         iMessageService.create(message);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllNotifications/{userId}")
+    public ResponseEntity<List<Message>> getAllNotifications(@PathVariable long userId) {
+        return new ResponseEntity<>(iMessageService.getAllNotifications(userId), HttpStatus.OK);
     }
 
 }
