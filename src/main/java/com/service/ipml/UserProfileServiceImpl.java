@@ -243,11 +243,13 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV) {
-        String lastName = "%" + filterCCDV.getLastName() + "%" ;
-        String firstName = "%" + filterCCDV.getFirstName() + "%";
-        String zone = "%" + filterCCDV.getZone() + "%" ;
-        String gender = "%" + filterCCDV.getGender() + "%";
+        String nickname = "%" + filterCCDV.getNickname() + "%" ;
+        String zone = "%" + filterCCDV.getZone() + "%";
+        String gender = "%" + filterCCDV.getGender() + "%" ;
         Integer birthday = filterCCDV.getYear();
-        return iUserProfileRepository.getAllCCDVByFilter(lastName, firstName, zone, gender, birthday);
+        if(nickname ==" ") nickname = null;
+        if(zone ==" ") zone = null;
+        if(gender ==" ") gender = null;
+        return iUserProfileRepository.getAllCCDVByFilter(nickname, zone, gender, birthday);
     }
 }

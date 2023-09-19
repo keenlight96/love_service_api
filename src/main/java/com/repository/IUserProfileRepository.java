@@ -91,15 +91,13 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "AND u.account.status.id = 1 " +
             "AND (u.isActive = true) AND (u.account.isActive = true)" +
             "AND (rev.isActive = true or rev is null)" +
-            "AND (:lastNameParam is null OR u.lastName like :lastNameParam) " +
-            "AND (:firstNameParam is null OR u.firstName like :firstNameParam) " +
+            "AND (:nickname is null OR u.account.nickname like :nickname) " +
             "AND (:zoneParam is null OR u.zone.zone like :zoneParam) " +
             "AND (:genderParam is null OR u.gender like :genderParam) " +
             "AND (:birthdayParam is null OR YEAR(u.birthday) = :birthdayParam) " +
             "GROUP BY u.id")
     List<UserDTO> getAllCCDVByFilter(
-            @Param("lastNameParam") String lastName,
-            @Param("firstNameParam") String firstName,
+            @Param("nickname") String nickname,
             @Param("zoneParam") String zone,
             @Param("genderParam") String gender,
             @Param("birthdayParam") Integer birthday
