@@ -65,4 +65,14 @@ public class MessageServiceImpl implements IMessageService {
         iMessageRepository.save(notification);
         return notification;
     }
+
+    @Override
+    public void confirmReadAllNotifications(Long userId) {
+        List<Message> notifications = iMessageRepository.getAllUnreadNotifications(userId);
+        for (Message message :
+                notifications) {
+            message.setIsRead(true);
+            iMessageRepository.save(message);
+        }
+    }
 }

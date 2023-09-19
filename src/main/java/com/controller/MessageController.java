@@ -51,4 +51,10 @@ public class MessageController {
     public ResponseEntity<Message> confirmReadNotification(@PathVariable long notificationId) {
         return new ResponseEntity<>(iMessageService.confirmReadNotification(notificationId), HttpStatus.OK);
     }
+
+    @PostMapping("/confirmReadAllNotifications/{userId}")
+    public ResponseEntity<Void> confirmReadAllNotifications(@PathVariable long userId) {
+        iMessageService.confirmReadAllNotifications(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
