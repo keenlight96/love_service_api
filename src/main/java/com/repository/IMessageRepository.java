@@ -11,8 +11,21 @@ import java.util.List;
 @Repository
 public interface IMessageRepository extends JpaRepository<Message, Long> {
     @Query("select m from Message m " +
-            "where ((m.sender.id = :senderId and m.receiver.id = :receiverId) " +
+            "where m.type = 'private' and " +
+            "((m.sender.id = :senderId and m.receiver.id = :receiverId) " +
             "or (m.sender.id = :receiverId and m.receiver.id = :senderId))")
     List<Message> findAllBySenderAndReceiver(@Param("senderId") Long senderId,
                                              @Param("receiverId") Long receiverId);
+
+    @Query("select m from Message m " +
+            "where m.type = 'notification' " +
+            "and m.receiver.id = :userId " +
+            "order by m.id desc")
+    List<Message> getAllNotifications(@Param("userId") Long userId);
+
+    @Query("select m from Message m " +
+            "where m.type = 'notification' " +
+            "and m.receiver.id = :userId " +
+            "and m.isRead = false ")
+    List<Message> getAllUnreadNotifications(@Param("userId") Long userId);
 }

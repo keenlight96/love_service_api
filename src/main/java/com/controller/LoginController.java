@@ -56,4 +56,35 @@ public class LoginController {
             ), HttpStatus.OK);
         }
     }
+
+    @PostMapping("/google")
+    public ResponseEntity<?> getLoginGoogle(@RequestBody Account account) {
+        Optional<Account> optionalAccount = accountService.findByEmail(account.getEmail());
+        if (!optionalAccount.isPresent()) {
+            return new ResponseEntity<>("Chưa có tài khoản", HttpStatus.OK);
+        } else {
+            if (optionalAccount.get().getStatus().getNameStatus().equals("active")) {
+                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(optionalAccount.get().getUsername(), optionalAccount.get().getPassword()));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String token = jwtService.createToken(authentication);
+                UserProfile userProfile = iUserProfileService.getUserProfileByAccount_Id(optionalAccount.get().getId()).orElse(new UserProfile());
+                return new ResponseEntity<>(new AccountToken(
+                        optionalAccount.get().getId(),
+                        optionalAccount.get().getUsername(),
+                        token,
+                        optionalAccount.get().getNickname(),
+                        optionalAccount.get().getAvatar(),
+                        userProfile.getBalance(),
+                        optionalAccount.get().getRole(),
+                        optionalAccount.get().getStatus(),
+                        optionalAccount.get().getIsActive()
+                ), HttpStatus.OK);
+            } else if (optionalAccount.get().getStatus().getNameStatus().equals("register")) {
+                return new ResponseEntity<>("Tài khoản chưa được chấp thuận", HttpStatus.OK);
+            } else if (optionalAccount.get().getStatus().getNameStatus().equals("block")) {
+                return new ResponseEntity<>("Tài khoản đang bị khóa", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Chưa xác định", HttpStatus.OK);
+    }
 }

@@ -3,6 +3,7 @@ package com.service.ipml;
 import com.model.Account;
 import com.model.Message;
 import com.model.Status;
+import com.model.Status;
 import com.model.dto.AccountDTO;
 import com.model.dto.AccountMessageDTO;
 import com.model.UserProfile;
@@ -88,7 +89,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Optional<Account> login(String username, String password) {
-        return iAccountRepository.getAccountByUsernameAndPassword(username,password);
+        return iAccountRepository.getAccountByUsernameAndPassword(username, password);
     }
 
 //    @Override
@@ -103,8 +104,12 @@ public class AccountServiceImpl implements IAccountService {
         for (AccountMessageDTO account :
                 rs) {
             List<Message> messages = entityManager.createQuery("select m from Message m " +
-                    "where (m.sender.id = :accId or m.receiver.id = :accId) order by m.id desc")
+                            "where m.type = 'private' and " +
+                            "((m.sender.id = :accId and m.receiver.id = :mainAccId) " +
+                            "or (m.receiver.id = :accId and m.sender.id = :mainAccId)) " +
+                            "order by m.id desc")
                     .setParameter("accId", account.getId())
+                    .setParameter("mainAccId", id)
                     .setMaxResults(1)
                     .getResultList();
             account.setLastMessage(messages.get(0));
@@ -114,14 +119,21 @@ public class AccountServiceImpl implements IAccountService {
         return rs;
     }
 
+
+
     @Override
-    public boolean iDontWantService(long id) {
-        Account account=iAccountRepository.findById(id).get();
-        if(account.getRole().getId()==3){
+    public String workOrRest(long id) {
+        Account account = iAccountRepository.findById(id).get();
+        if (account.getRole().getId() == 3 && account.getStatus().getId() == 1) {
             account.setStatus(iStatusRepository.findById(111L).get());
-            return true;
+            iAccountRepository.save(account);
+            return "Bạn đã tắt chức năng cung cấp dịch vụ";
+        }else if(account.getRole().getId() == 3 && account.getStatus().getId() == 111){
+            account.setStatus(iStatusRepository.findById(1L).get());
+            iAccountRepository.save(account);
+            return "Bạn đã bật chức năng cung cấp dịch vụ";
         }
-        return false;
+        return "Check lại code vì chỉ có tk bị block mới vào đây";
     }
 
     @Override
@@ -133,11 +145,16 @@ public class AccountServiceImpl implements IAccountService {
     }
 
 
-    public Account activeAccount(String email){
+    public Account activeAccount(String email) {
         Account account = iAccountRepository.findAccountByEmail(email);
-        account.setStatus(iStatusService.getById(3));
+        if (account.getRole().getId() == 3) {
+            account.setStatus(iStatusService.getById(3));
+        } else if (account.getRole().getId() == 2) {
+            account.setStatus(iStatusService.getById(1));
+        }
         return iAccountRepository.save(account);
     }
+
     public String emailActive(String email) {
 
         String to = email;

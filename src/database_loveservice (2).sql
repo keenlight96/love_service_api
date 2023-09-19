@@ -342,3 +342,9 @@ VALUES
 #             and (u.views= 100)
 #             GROUP BY u.id, u.last_name;
 #
+SELECT DATE(date_start) AS day, SUM(total) AS daily_total
+FROM Bill b
+WHERE b.accountccdv_id = :idAccountCCDV
+  AND date_start >= :startOfMonth
+  AND date_start < DATE_ADD(:endOfMonth, INTERVAL 1 DAY)
+GROUP BY day

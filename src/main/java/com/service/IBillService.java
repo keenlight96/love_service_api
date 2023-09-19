@@ -5,13 +5,15 @@ import com.model.Bill;
 import com.model.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.model.dto.BillMessageDTO;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 
 public interface IBillService extends ICrudService<Bill>{
     List<Bill> getAllByAccountCCDV_Id(long id);
-    boolean createBill(Bill bill);
+    BillMessageDTO createBill(Bill bill);
     List<Bill> getBills7DayByAccountCCDV_Id(long id);
     Optional<List<Bill>> findAllByAccountCCDV_IOrderByIdDesc(long id);
     String confirmBill(long id);
@@ -20,4 +22,8 @@ public interface IBillService extends ICrudService<Bill>{
     String cancelBill(long idBill, Account cancelerAccount,String message);
     Bill getLatestBillBy2Acc(Long ccdvId, Long userId);
     List<Bill> getAllBills();
+   List<Bill> getAllBillByAccountUser(long id);
+//   Bill getBillAccountUserById(long idAccountUser, long idBill);
+
+
 }

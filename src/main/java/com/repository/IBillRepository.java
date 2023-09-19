@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,16 @@ public interface IBillRepository extends JpaRepository<Bill, Long> {
     @Query(value = "select b from Bill b join Status s on b.status.id = s.id " +
             "where s.id = 7 or s.id = 8 or s.id = 9 or s.id = 10  order by b.id desc ")
     List<Bill> getAllBilStatusCancel();
+
+
+    //lay ra 1 list bill cua nguoi dung
+    @Query(nativeQuery = true, value = "select * from bill  where account_user_id= :account_user_id  ")
+    List<Bill> getAllBillByAccountUser(@Param("account_user_id") long account_user_id);
+//    @Query(nativeQuery = true, value = "select * from bill  where account_user_id= :account_user_id and id= :id ")
+//    Bill getBillDetailByAccountUser(@Param("account_user_id") long account_user_id, @Param("id") long id);
+
+
+
 
 }
 
