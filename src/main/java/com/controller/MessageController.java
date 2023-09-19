@@ -5,6 +5,7 @@ import com.model.Message;
 import com.service.IAccountService;
 import com.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,17 +32,20 @@ public class MessageController {
         return new ResponseEntity<>(iMessageService.getAllBySenderAndReceiver(account.getId(), receiverId), HttpStatus.OK);
     }
 
-    @PostMapping("/hi/{senderId}/{receiverId}")
-    public ResponseEntity<String> hiMessage(@PathVariable long senderId, @PathVariable long receiverId) {
-        Message message = new Message();
-        message.setSender(iAccountService.getById(senderId));
-        message.setReceiver(iAccountService.getById(receiverId));
-        message.setMessage("Hi");
-
-        iMessageService.create(message);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/setReadMessage/{id}")
+    public ResponseEntity<Message> setReadMessage(@PathVariable Long id) {
+        return new ResponseEntity<>(iMessageService.setReadMessage(id), HttpStatus.OK);
     }
-
+//    @PostMapping("/hi/{senderId}/{receiverId}")
+//    public ResponseEntity<String> hiMessage(@PathVariable long senderId, @PathVariable long receiverId) {
+//        Message message = new Message();
+//        message.setSender(iAccountService.getById(senderId));
+//        message.setReceiver(iAccountService.getById(receiverId));
+//        message.setMessage("Hi");
+//
+//        iMessageService.create(message);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
     @GetMapping("/getAllNotifications/{userId}")
     public ResponseEntity<List<Message>> getAllNotifications(@PathVariable long userId) {
         return new ResponseEntity<>(iMessageService.getAllNotifications(userId), HttpStatus.OK);
