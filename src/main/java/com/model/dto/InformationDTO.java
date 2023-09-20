@@ -1,5 +1,6 @@
 package com.model.dto;
 
+import com.model.Role;
 import com.model.Supply;
 import com.model.Zone;
 import com.model.messageErorr.ValidStatus;
@@ -32,6 +33,7 @@ public class InformationDTO {
     private String basicRequest;
     private String facebookLink;
     private Boolean isGoogle;
+    private Role role;
     private List<Supply> supplies;
     private Zone zone;
     private ValidStatus validStatus;
