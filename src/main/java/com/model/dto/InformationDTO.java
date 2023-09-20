@@ -31,6 +31,7 @@ public class InformationDTO {
     private String describes;
     private String basicRequest;
     private String facebookLink;
+    private Boolean isGoogle;
     private List<Supply> supplies;
     private Zone zone;
     private ValidStatus validStatus;

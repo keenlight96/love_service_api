@@ -46,12 +46,17 @@ public class UserProfileController {
     @Autowired
     IStatusService iStatusService;
     @PostMapping("/change-user-profile/{id}")
-    ResponseEntity<?> changeUserprofile(@PathVariable Long id, @RequestBody InformationDTO informationDTO){
-        Account account = iAccountService .getById(id);
-        UserProfile userProfile = iUserProfileService.getById(account.getId());
+    ResponseEntity<?> changeUserprofile(@PathVariable Long id, @RequestBody InformationDTO informationDTO) {
+        Account account = iAccountService.getById(id);
+        UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
         List<Supply> supplies = informationDTO.getSupplies();
-        Zone zone = iZoneService.getById(informationDTO.getZone().getId());
 
+        Zone zone = informationDTO.getZone();
+
+        // Kiểm tra nếu zone là null, thì không gán zone cho userProfile
+//        if (zone != null) {
+            userProfile.setZone(zone);
+//        }
         account.setAvatar(informationDTO.getAvatar());
         account.setEmail(informationDTO.getEmail());
         account.setNickname(informationDTO.getNickname());
@@ -64,9 +69,8 @@ public class UserProfileController {
             Date birthday = dateFormat.parse(informationDTO.getBirthday());
             userProfile.setBirthday(birthday);
         } catch (Exception e) {
-            // Xử lý lỗi ở đây nếu định dạng ngày tháng không hợp lệ
-//            return new ResponseEntity<>(new InformationDTO(ValidStatus.INVALID_DATE_FORMAT), HttpStatus.BAD_REQUEST);
         }
+
         userProfile.setCountry(informationDTO.getCountry());
         userProfile.setAddress(informationDTO.getAddress());
         userProfile.setPhoneNumber(informationDTO.getPhoneNumber());
@@ -77,11 +81,9 @@ public class UserProfileController {
         userProfile.setBasicRequest(informationDTO.getBasicRequest());
         userProfile.setFacebookLink(informationDTO.getFacebookLink());
         userProfile.setSupplies(supplies);
-        userProfile.setZone(zone);
         iUserProfileService.edit(userProfile);
-        return new ResponseEntity<>(new InformationDTO(ValidStatus.SUCCESSFULL),HttpStatus.OK);
+        return new ResponseEntity<>(new InformationDTO(ValidStatus.SUCCESSFULL), HttpStatus.OK);
     }
-
     @GetMapping("/checkProfileExists/{id}")
     ResponseEntity<?> checkProfileExists(@PathVariable Long id) {
         Account account = iAccountService.getById(id);
