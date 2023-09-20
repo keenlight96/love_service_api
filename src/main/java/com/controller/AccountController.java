@@ -81,6 +81,8 @@ public class AccountController {
         informationDTO.setFacebookLink(userProfile.getFacebookLink());
         informationDTO.setSupplies(userProfile.getSupplies());
         informationDTO.setZone(userProfile.getZone());
+        Role role = iRoleService.getById(account.getRole().getId());
+        informationDTO.setRole(role);
         return new ResponseEntity<>(informationDTO,HttpStatus.OK);
     }
     @GetMapping("/profile/{id}")
