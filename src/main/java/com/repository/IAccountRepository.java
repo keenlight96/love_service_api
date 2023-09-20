@@ -1,6 +1,7 @@
 package com.repository;
 
 import com.model.Account;
+import com.model.Image;
 import com.model.dto.AccountDTO;
 import com.model.dto.AccountMessageDTO;
 import org.springframework.data.domain.Page;

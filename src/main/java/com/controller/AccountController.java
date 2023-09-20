@@ -1,13 +1,13 @@
 package com.controller;
 
 
-import com.model.dto.AccountMessageDTO;
+import com.model.dto.*;
+import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.model.Account;
 import com.model.Role;
 import com.model.Status;
 import com.model.*;
-import com.model.dto.AccountRegisterDTO;
 import com.model.messageErorr.ValidStatus;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
 
@@ -34,6 +35,8 @@ public class AccountController {
     IAccountService iAccountService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private IAccountRepository iAccountRepository;
     @GetMapping("/{id}")
     public ResponseEntity<Account> getAccountById(@PathVariable long id){
         Account account = iAccountService.getById(id);
@@ -48,6 +51,42 @@ public class AccountController {
 
     @Autowired
     IUserProfileService iUserProfileService;
+    @GetMapping("/account-profile/{id}")
+    ResponseEntity<?> getAccount(@PathVariable Long id){
+        Account account = iAccountService.getById(id);
+        UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
+        InformationDTO informationDTO = new InformationDTO();
+        informationDTO.setAvatar(account.getAvatar());
+        informationDTO.setEmail(account.getEmail());
+        informationDTO.setNickname(account.getNickname());
+        informationDTO.setFirstName(userProfile.getFirstName());
+        informationDTO.setLastName(userProfile.getLastName());
+
+        // Định dạng ngày tháng thành chuỗi "yyyy-MM-dd"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedBirthday = dateFormat.format(userProfile.getBirthday());
+
+        informationDTO.setBirthday(formattedBirthday);
+        informationDTO.setCountry(userProfile.getCountry());
+        informationDTO.setAddress(userProfile.getAddress());
+        informationDTO.setPhoneNumber(userProfile.getPhoneNumber());
+        informationDTO.setGender(userProfile.getGender());
+        informationDTO.setHeight(userProfile.getHeight());
+        informationDTO.setWeight(userProfile.getWeight());
+        informationDTO.setDescribes(userProfile.getDescribes());
+        informationDTO.setBasicRequest(userProfile.getBasicRequest());
+        informationDTO.setFacebookLink(userProfile.getFacebookLink());
+        informationDTO.setSupplies(userProfile.getSupplies());
+        informationDTO.setZone(userProfile.getZone());
+
+        return new ResponseEntity<>(informationDTO,HttpStatus.OK);
+    }
+    @GetMapping("/profile/{id}")
+    ResponseEntity<?> getProfileByAccountLogin(@PathVariable Long id){
+        Account account =iAccountService.getById(id);
+        UserProfile userProfile = iUserProfileService.getById(account.getId());
+        return new ResponseEntity<>(userProfile,HttpStatus.OK);
+    }
 
     @GetMapping("/active-account")
     public ResponseEntity<?> activeAccount(@RequestParam String email){
@@ -56,11 +95,11 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.FOUND).header("Location", frontendLoginUrl).build();
     }
 
-    @PostMapping("/changeAvata/{id}")
-    ResponseEntity<?> changeAvataInProfileByUserLogin(@PathVariable Long id,@RequestBody Account account){
+    @PostMapping("/changeAvatar/{id}")
+    ResponseEntity<?> changeAvatarInProfileByUserLogin(@PathVariable Long id,@RequestBody Account account){
         Account account1 = iAccountService.getById(id);
         account1.setAvatar(account.getAvatar());
-
+        iAccountService.edit(account1);
         return new ResponseEntity<>(account1,HttpStatus.OK);
     }
 
@@ -223,5 +262,12 @@ public class AccountController {
     }
 
 
+    @PostMapping("/avatar/{id}")
+    public ResponseEntity<Account> saveImage(@PathVariable long id , @RequestBody AvatarAccountDTO avatarAccountDTO){
+       Account account = iAccountService.getById(id);
+       account.setAvatar(avatarAccountDTO.getAvatar());
+       iAccountRepository.save(account);
+       return new ResponseEntity<>(account,HttpStatus.OK);
+    }
 }
 
