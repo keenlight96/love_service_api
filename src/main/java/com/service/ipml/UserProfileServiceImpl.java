@@ -261,4 +261,9 @@ public class UserProfileServiceImpl implements IUserProfileService {
         }
         return "bug";
     }
+
+    @Override
+    public List<Supply> getSuppliesByIdUser(long id) {
+        return iUserProfileRepository.getUserProfileById(id).getSupplies();
+    }
 }

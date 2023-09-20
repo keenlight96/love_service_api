@@ -91,13 +91,14 @@ public class UserProfileController {
     }
 
     @PostMapping("/change-price/{id}")
-    ResponseEntity<?> changePrice(@PathVariable Long id, @RequestBody UserProfile userProfile){
+    ResponseEntity<?> changePrice(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Account account = iAccountService.getById(id);
         UserProfile existingProfile = iUserProfileService.getByAccountId(account.getId());
         existingProfile.setPrice(userProfile.getPrice());
         iUserProfileService.edit(existingProfile);
         return new ResponseEntity<>(existingProfile, HttpStatus.OK);
     }
+
     @PostMapping("/registerCCDV/{id}")
     ResponseEntity<UserProfile> createAccountCCDV(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         Account account = iAccountService.getById(id);
@@ -217,4 +218,14 @@ public class UserProfileController {
         return new ResponseEntity<>(iUserProfileService.increaseView(iUserProfileService.getByAccountId(account.getId()).getId()), HttpStatus.OK);
     }
 
+    @GetMapping("/setPrice")
+    public ResponseEntity<String> setPrice(@RequestParam String username, @RequestParam long price) {
+        Account account = iAccountService.findActiveByUsername(username);
+        if (account != null) {
+            UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
+            userProfile.setPrice(price);
+            iUserProfileService.edit(userProfile);
+            return new ResponseEntity<>("Thay đổi dịch vụ thành công", HttpStatus.OK);
+        }return new ResponseEntity<>("Tài khoản bị khóa", HttpStatus.OK);
+    }
 }

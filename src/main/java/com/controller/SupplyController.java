@@ -38,11 +38,17 @@ public class SupplyController {
         return new ResponseEntity<>(userProfile,HttpStatus.OK);
     }
 
-    @PostMapping("/createSupply")
-    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id, @RequestParam int cost) {
+    @GetMapping("/getSupplyByUserID2")
+    ResponseEntity<List<Supply>> getSupplyByIdUser(@RequestParam long id){
+        List<Supply> list = iUserProfileService.getSuppliesByIdUser(id);
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
+
+    @PostMapping("/setSupply")
+    public ResponseEntity<String> setSupply(@RequestBody List<Supply> supplyList, @RequestParam long id) {
         UserProfile userProfile = iUserProfileService.getById(id);
         userProfile.setSupplies(supplyList);
-        userProfile.setPrice(cost);
         iUserProfileService.edit(userProfile);
         return new ResponseEntity<>(HttpStatus.OK);
     }

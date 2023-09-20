@@ -25,4 +25,5 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
     String receiveMoney(long idBill,long idAccountCCDV);
     List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV);
     String increaseView(long id);
+    List<Supply> getSuppliesByIdUser(long id);
 }

@@ -105,4 +105,6 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             @Param("birthdayParam") Integer birthday
     );
 
+    UserProfile getUserProfileById(long id);
+
 }
