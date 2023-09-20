@@ -74,4 +74,13 @@ public class AdminController {
         String str = iAccountService.unBlockAccount(usernameAccount);
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
+    @GetMapping("/findBillByIdStatus")
+    public ResponseEntity<List<Bill>> findBill(@RequestParam String idStatus){
+        if ("null".equals(idStatus)) {
+            return new ResponseEntity<>(iBillService.getAllBills(), HttpStatus.OK);
+        } else {
+            Long statusId = Long.parseLong(idStatus);
+            return new ResponseEntity<>(iBillService.findBillByStatus(statusId), HttpStatus.OK);
+        }
+    }
 }

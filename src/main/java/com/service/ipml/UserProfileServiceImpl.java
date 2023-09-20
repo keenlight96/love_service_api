@@ -243,10 +243,12 @@ public class UserProfileServiceImpl implements IUserProfileService {
         String zone = "%" + filterCCDV.getZone() + "%";
         String gender = "%" + filterCCDV.getGender() + "%" ;
         Integer birthday = filterCCDV.getYear();
+        Long minPrice = filterCCDV.getMinPrice();
+        Long maxPrice = filterCCDV.getMaxPrice();
         if(nickname ==" ") nickname = null;
         if(zone ==" ") zone = null;
         if(gender ==" ") gender = null;
-        return iUserProfileRepository.getAllCCDVByFilter(nickname, zone, gender, birthday);
+        return iUserProfileRepository.getAllCCDVByFilter(nickname, zone, gender, birthday,minPrice,maxPrice);
     }
 
     @Override

@@ -11,11 +11,14 @@ public class FilterCCDV {
     private String zone;
     private String gender;
     private Integer year;
+    private Long minPrice;
+    private Long maxPrice;
 
-    public FilterCCDV(String nickname, String zone, String gender, Integer year) {
-        this.nickname = nickname;
+    public FilterCCDV(String zone, String gender, Integer year, Long minPrice, Long maxPrice) {
         this.zone = zone;
         this.gender = gender;
         this.year = year;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
     }
 }

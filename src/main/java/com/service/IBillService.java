@@ -24,6 +24,6 @@ public interface IBillService extends ICrudService<Bill>{
     List<Bill> getAllBills();
    List<Bill> getAllBillByAccountUser(long id);
 //   Bill getBillAccountUserById(long idAccountUser, long idBill);
-
+    List<Bill> findBillByStatus(Long idStatus);
 
 }

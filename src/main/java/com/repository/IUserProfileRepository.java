@@ -95,13 +95,14 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "AND (:zoneParam is null OR u.zone.zone like :zoneParam) " +
             "AND (:genderParam is null OR u.gender like :genderParam) " +
             "AND (:birthdayParam is null OR YEAR(u.birthday) = :birthdayParam) " +
+           " AND ((:minPrice is null AND :maxPrice is null) OR (u.price >= :minPrice AND u.price <= :maxPrice))or (u.price >= :minPrice AND :maxPrice is null) or (:minPrice is null AND u.price <= :maxPrice) " +
             "GROUP BY u.id")
     List<UserDTO> getAllCCDVByFilter(
             @Param("nickname") String nickname,
             @Param("zoneParam") String zone,
             @Param("genderParam") String gender,
-            @Param("birthdayParam") Integer birthday
+            @Param("birthdayParam") Integer birthday,
+            @Param("minPrice") Long minPrice,
+            @Param("maxPrice") Long maxPrice
     );
-
-
 }
