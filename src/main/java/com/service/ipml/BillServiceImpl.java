@@ -82,7 +82,6 @@ public class BillServiceImpl implements IBillService {
     public BillMessageDTO createBill(Bill bill) {
         UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
         Account accountCCDV = iAccountService.getById(bill.getAccountCCDV().getId());
-
         if (userProfile.getBalance() > bill.getTotal()) {
             if (accountCCDV.getStatus().getId() == 1) {
                 userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
