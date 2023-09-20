@@ -37,7 +37,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     List<Account> getAllCCDVAc();
 
     @Query(value = "select new com.model.dto.AccountDTO(a, u )" +
-            "from Account a join UserProfile u on a.id = u.account.id join Status s on a.status.id = s.id " +
+            "from Account a left join UserProfile u on a.id = u.account.id join Status s on a.status.id = s.id " +
             "join Role r on a.role.id = r.id " +
             "where (a.isActive = true) and (u.isActive =true )" +
             "and (a.role.id = 2)" +
@@ -47,7 +47,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     List<AccountDTO> getAllAccountUserFilter(@Param("statusParam") String status, @Param("usernameParam") String username);
 
     @Query(value = "select new com.model.dto.AccountDTO(a,u)" +
-            "from Account a join UserProfile u on a.id = u.account.id join Status s on a.status.id = s.id " +
+            "from Account a left join UserProfile u on a.id = u.account.id join Status s on a.status.id = s.id " +
             "join Role r on a.role.id = r.id " +
             "where (a.isActive = true) and (u.isActive =true )" +
             "and (a.role.id = 3)" +

@@ -81,7 +81,8 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
             "where (u.account.role.id = 3) and (u.account.status.id = 1) and (sup.isActive = true and sup in (:list)) " +
             "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
-            "group by u.id ")
+            "group by u.id " +
+            "order by avg(rev.rating) desc, u.views desc")
     List<UserDTO> getBySupplies(List<Supply> list);
     Optional<UserProfile> findUserProfileByAccount_Id(long idAccount);
     @Query("SELECT new com.model.dto.UserDTO(u, '', AVG(rev.rating), COUNT(rev.rating)) " +
@@ -91,18 +92,19 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "AND u.account.status.id = 1 " +
             "AND (u.isActive = true) AND (u.account.isActive = true)" +
             "AND (rev.isActive = true or rev is null)" +
-            "AND (:lastNameParam is null OR u.lastName like :lastNameParam) " +
-            "AND (:firstNameParam is null OR u.firstName like :firstNameParam) " +
+            "AND (:nickname is null OR u.account.nickname like :nickname) " +
             "AND (:zoneParam is null OR u.zone.zone like :zoneParam) " +
             "AND (:genderParam is null OR u.gender like :genderParam) " +
             "AND (:birthdayParam is null OR YEAR(u.birthday) = :birthdayParam) " +
+           " AND ((:minPrice is null AND :maxPrice is null) OR (u.price >= :minPrice AND u.price <= :maxPrice))or (u.price >= :minPrice AND :maxPrice is null) or (:minPrice is null AND u.price <= :maxPrice) " +
             "GROUP BY u.id")
     List<UserDTO> getAllCCDVByFilter(
-            @Param("lastNameParam") String lastName,
-            @Param("firstNameParam") String firstName,
+            @Param("nickname") String nickname,
             @Param("zoneParam") String zone,
             @Param("genderParam") String gender,
-            @Param("birthdayParam") Integer birthday
+            @Param("birthdayParam") Integer birthday,
+            @Param("minPrice") Long minPrice,
+            @Param("maxPrice") Long maxPrice
     );
 
     UserProfile getUserProfileById(long id);

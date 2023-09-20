@@ -4,19 +4,13 @@ import com.model.Account;
 import com.model.Supply;
 import com.model.Comment;
 import com.model.*;
-import com.model.dto.AccountCCDVDTO;
-import com.model.dto.FilterCCDV;
-import com.model.dto.UserDTO;
-import com.model.dto.UserProfileFilterDTO;
+import com.model.dto.*;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
 import com.service.GeneralService;
-import com.service.IBillService;
 import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -26,7 +20,6 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class UserProfileServiceImpl implements IUserProfileService {
@@ -243,12 +236,16 @@ public class UserProfileServiceImpl implements IUserProfileService {
 
     @Override
     public List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV) {
-        String lastName = "%" + filterCCDV.getLastName() + "%";
-        String firstName = "%" + filterCCDV.getFirstName() + "%";
+        String nickname = "%" + filterCCDV.getNickname() + "%" ;
         String zone = "%" + filterCCDV.getZone() + "%";
-        String gender = "%" + filterCCDV.getGender() + "%";
+        String gender = "%" + filterCCDV.getGender() + "%" ;
         Integer birthday = filterCCDV.getYear();
-        return iUserProfileRepository.getAllCCDVByFilter(lastName, firstName, zone, gender, birthday);
+        Long minPrice = filterCCDV.getMinPrice();
+        Long maxPrice = filterCCDV.getMaxPrice();
+        if(nickname ==" ") nickname = null;
+        if(zone ==" ") zone = null;
+        if(gender ==" ") gender = null;
+        return iUserProfileRepository.getAllCCDVByFilter(nickname, zone, gender, birthday,minPrice,maxPrice);
     }
 
     @Override
@@ -260,6 +257,11 @@ public class UserProfileServiceImpl implements IUserProfileService {
             return "+1";
         }
         return "bug";
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccountUserFilter(String gender, String zone, Long lowPrice, Long highPrice) {
+        return null;
     }
 
     @Override

@@ -61,14 +61,18 @@ public class ReviewServiceImpl implements IReviewService {
 
     @Override
     public Review getLatestReviewBy2Acc(Long ccdvId, Long userId) {
-        List<Review> results = entityManager.createQuery("select r from Review r " +
-                        "where r.accountCCDV.id = :ccdvId and r.accountUser.id = :userId " +
-                        "order by r.id desc")
-                .setMaxResults(1)
-                .setParameter("ccdvId", ccdvId)
-                .setParameter("userId", userId)
-                .getResultList();
-        return results.get(0);
+        try {
+            List<Review> results = entityManager.createQuery("select r from Review r " +
+                            "where r.accountCCDV.id = :ccdvId and r.accountUser.id = :userId " +
+                            "order by r.id desc")
+                    .setMaxResults(1)
+                    .setParameter("ccdvId", ccdvId)
+                    .setParameter("userId", userId)
+                    .getResultList();
+            return results.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

@@ -104,8 +104,12 @@ public class AccountServiceImpl implements IAccountService {
         for (AccountMessageDTO account :
                 rs) {
             List<Message> messages = entityManager.createQuery("select m from Message m " +
-                    "where (m.sender.id = :accId or m.receiver.id = :accId) order by m.id desc")
+                            "where m.type = 'private' and " +
+                            "((m.sender.id = :accId and m.receiver.id = :mainAccId) " +
+                            "or (m.receiver.id = :accId and m.sender.id = :mainAccId)) " +
+                            "order by m.id desc")
                     .setParameter("accId", account.getId())
+                    .setParameter("mainAccId", id)
                     .setMaxResults(1)
                     .getResultList();
             account.setLastMessage(messages.get(0));
@@ -143,7 +147,11 @@ public class AccountServiceImpl implements IAccountService {
 
     public Account activeAccount(String email) {
         Account account = iAccountRepository.findAccountByEmail(email);
-        account.setStatus(iStatusService.getById(3));
+        if (account.getRole().getId() == 3) {
+            account.setStatus(iStatusService.getById(3));
+        } else if (account.getRole().getId() == 2) {
+            account.setStatus(iStatusService.getById(1));
+        }
         return iAccountRepository.save(account);
     }
 
@@ -224,7 +232,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public String activeCCDV(String username) {
+    public String unBlockAccount(String username) {
         Account account = iAccountRepository.findByUsername(username).get();
         Status status = iStatusService.getById(1L);
         account.setStatus(status);
