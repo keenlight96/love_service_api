@@ -140,6 +140,42 @@ public class AccountController {
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL,accountId), HttpStatus.OK);
     }
 
+    @PostMapping("/registerUserGoogle2")
+    ResponseEntity<AccountRegisterDTO> createAccountUserGoogle2(@RequestBody AccountRegisterDTO accountDTO) {
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+        }
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        }
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
+        }
+        Account account = new Account();
+        account.setUsername(accountDTO.getUsername());
+        account.setEmail(accountDTO.getEmail());
+        account.setNickname(accountDTO.getNickName());
+        account.setAvatar(accountDTO.getAvatar());
+
+        int max = 999999;
+        int min = 10000;
+        int range = max - min + 1;
+        account.setPassword("g" + ((int)(Math.random() * range) + min));
+
+        Role role = iRoleService.findByName("ROLE_USER");
+        accountDTO.setRole(role);
+        account.setRole(accountDTO.getRole());
+        Status status = iStatusService.getById(3);
+        accountDTO.setStatus(status);
+        account.setStatus(accountDTO.getStatus());
+        account.setIsActive(true);
+        account.setIsGoogle(true);
+        iAccountService.create(account);
+        long accountId = account.getId();
+
+        return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL, accountId), HttpStatus.OK);
+    }
+
     @PostMapping("/registerUserGoogle")
     ResponseEntity<AccountRegisterDTO> createAccountUserGoogle(@RequestBody AccountRegisterDTO accountDTO) {
         if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
