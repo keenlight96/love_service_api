@@ -232,7 +232,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public String activeCCDV(String username) {
+    public String unBlockAccount(String username) {
         Account account = iAccountRepository.findByUsername(username).get();
         Status status = iStatusService.getById(1L);
         account.setStatus(status);

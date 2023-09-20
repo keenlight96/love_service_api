@@ -69,10 +69,18 @@ public class AdminController {
         return new ResponseEntity<>(accountCCDVRegisterList,HttpStatus.OK);
     }
     // ccdv register => active
-    @PostMapping("/{usernameCCDV}")
-    public ResponseEntity<String> activeCCDV(@PathVariable String usernameCCDV){
-        String str = iAccountService.activeCCDV(usernameCCDV);
+    @PostMapping("/{usernameAccount}")
+    public ResponseEntity<String> unBlockAccount(@PathVariable String usernameAccount){
+        String str = iAccountService.unBlockAccount(usernameAccount);
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
-
+    @GetMapping("/findBillByIdStatus")
+    public ResponseEntity<List<Bill>> findBill(@RequestParam String idStatus){
+        if ("null".equals(idStatus)) {
+            return new ResponseEntity<>(iBillService.getAllBills(), HttpStatus.OK);
+        } else {
+            Long statusId = Long.parseLong(idStatus);
+            return new ResponseEntity<>(iBillService.findBillByStatus(statusId), HttpStatus.OK);
+        }
+    }
 }

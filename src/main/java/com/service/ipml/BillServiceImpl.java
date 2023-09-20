@@ -219,6 +219,11 @@ public class BillServiceImpl implements IBillService {
         return iBillRepository.getAllBillByAccountUser(id);
     }
 
+    @Override
+    public List<Bill> findBillByStatus(Long idStatus) {
+        return iBillRepository.findBillsByStatusIds(idStatus);
+    }
+
 
 //    @Override
 //    public Bill getBillAccountUserById(long idAccountUser, long idBill) {
