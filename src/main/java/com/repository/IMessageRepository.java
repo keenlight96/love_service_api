@@ -22,4 +22,10 @@ public interface IMessageRepository extends JpaRepository<Message, Long> {
             "and m.receiver.id = :userId " +
             "order by m.id desc")
     List<Message> getAllNotifications(@Param("userId") Long userId);
+
+    @Query("select m from Message m " +
+            "where m.type = 'notification' " +
+            "and m.receiver.id = :userId " +
+            "and m.isRead = false ")
+    List<Message> getAllUnreadNotifications(@Param("userId") Long userId);
 }

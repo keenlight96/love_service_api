@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.model.dto.BillMessageDTO;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,8 @@ public interface IBillService extends ICrudService<Bill>{
     String cancelBill(long idBill, Account cancelerAccount,String message);
     Bill getLatestBillBy2Acc(Long ccdvId, Long userId);
     List<Bill> getAllBills();
+   List<Bill> getAllBillByAccountUser(long id);
+//   Bill getBillAccountUserById(long idAccountUser, long idBill);
+    List<Bill> findBillByStatus(Long idStatus);
+
 }

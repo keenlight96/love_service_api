@@ -10,6 +10,7 @@ import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
+import com.service.IAccountService;
 import com.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.xml.crypto.Data;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +38,8 @@ public class BillServiceImpl implements IBillService {
     IStatusRepository iStatusRepository;
     @Autowired
     IAccountRepository iAccountRepository;
+    @Autowired
+    IAccountService iAccountService;
     @Autowired
     IUserProfileRepository iUserProfileRepository;
 
@@ -76,8 +81,10 @@ public class BillServiceImpl implements IBillService {
     @Override
     public BillMessageDTO createBill(Bill bill) {
         UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
+        Account accountCCDV = iAccountService.getById(bill.getAccountCCDV().getId());
+
         if (userProfile.getBalance() > bill.getTotal()) {
-            if (bill.getAccountCCDV().getStatus().getId() == 1) {
+            if (accountCCDV.getStatus().getId() == 1) {
                 userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
                 bill.setStatus(iStatusRepository.findById(4L).get());
                 bill.setIsActive(true);
@@ -186,20 +193,42 @@ public class BillServiceImpl implements IBillService {
 
     @Override
     public Bill getLatestBillBy2Acc(Long ccdvId, Long userId) {
-        List<Bill> results = entityManager.createQuery("select b from Bill b " +
-                        "where b.accountCCDV.id = :ccdvId and b.accountUser.id = :userId " +
-                        "and b.isActive = true and b.status.id = 6 " +
-                        "order by b.id desc")
-                .setMaxResults(1)
-                .setParameter("ccdvId", ccdvId)
-                .setParameter("userId", userId)
-                .getResultList();
-        return results.get(0);
+        try {
+            List<Bill> results = entityManager.createQuery("select b from Bill b " +
+                            "where b.accountCCDV.id = :ccdvId and b.accountUser.id = :userId " +
+                            "and b.isActive = true and b.status.id = 6 " +
+                            "order by b.id desc")
+                    .setMaxResults(1)
+                    .setParameter("ccdvId", ccdvId)
+                    .setParameter("userId", userId)
+                    .getResultList();
+            return results.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public List<Bill> getAllBills() {
         return iBillRepository.getAllBills();
     }
+
+
+    @Override
+    public List<Bill> getAllBillByAccountUser(long id) {
+        return iBillRepository.getAllBillByAccountUser(id);
+    }
+
+    @Override
+    public List<Bill> findBillByStatus(Long idStatus) {
+        return iBillRepository.findBillsByStatusIds(idStatus);
+    }
+
+
+//    @Override
+//    public Bill getBillAccountUserById(long idAccountUser, long idBill) {
+//        return iBillRepository.getBillDetailByAccountUser(idAccountUser, idBill);
+//    }
+
 
 }

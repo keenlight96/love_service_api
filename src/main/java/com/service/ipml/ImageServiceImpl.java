@@ -2,11 +2,14 @@ package com.service.ipml;
 
 import com.model.Comment;
 import com.model.Image;
+import com.model.dto.ImageDTO;
 import com.repository.IImageRepository;
 import com.service.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +51,19 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public List<Image> getAllImageByAccountId(long id) {
-        return iImageRepository.getImageByAccount_Id(id);
+        return iImageRepository.getImagesSortedByIdDesc(id);
     }
+
+    @Override
+    public void save(ImageDTO imageDTO) {
+        for (int i = 0; i < imageDTO.getImg().size(); i++) {
+            Image image = new Image();
+            image.setImg(imageDTO.getImg().get(i));
+            image.setAccount(imageDTO.getAccountCCDV());
+            image.setIsActive(imageDTO.getIsActive());
+            iImageRepository.save(image);
+        }
+    }
+
+
 }

@@ -91,18 +91,18 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "AND u.account.status.id = 1 " +
             "AND (u.isActive = true) AND (u.account.isActive = true)" +
             "AND (rev.isActive = true or rev is null)" +
-            "AND (:lastNameParam is null OR u.lastName like :lastNameParam) " +
-            "AND (:firstNameParam is null OR u.firstName like :firstNameParam) " +
+            "AND (:nickname is null OR u.account.nickname like :nickname) " +
             "AND (:zoneParam is null OR u.zone.zone like :zoneParam) " +
             "AND (:genderParam is null OR u.gender like :genderParam) " +
             "AND (:birthdayParam is null OR YEAR(u.birthday) = :birthdayParam) " +
+           " AND ((:minPrice is null AND :maxPrice is null) OR (u.price >= :minPrice AND u.price <= :maxPrice))or (u.price >= :minPrice AND :maxPrice is null) or (:minPrice is null AND u.price <= :maxPrice) " +
             "GROUP BY u.id")
     List<UserDTO> getAllCCDVByFilter(
-            @Param("lastNameParam") String lastName,
-            @Param("firstNameParam") String firstName,
+            @Param("nickname") String nickname,
             @Param("zoneParam") String zone,
             @Param("genderParam") String gender,
-            @Param("birthdayParam") Integer birthday
+            @Param("birthdayParam") Integer birthday,
+            @Param("minPrice") Long minPrice,
+            @Param("maxPrice") Long maxPrice
     );
-
 }
