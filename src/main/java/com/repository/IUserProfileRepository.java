@@ -81,7 +81,8 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
             "where (u.account.role.id = 3) and (u.account.status.id = 1) and (sup.isActive = true and sup in (:list)) " +
             "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
-            "group by u.id ")
+            "group by u.id " +
+            "order by avg(rev.rating) desc, u.views desc")
     List<UserDTO> getBySupplies(List<Supply> list);
     Optional<UserProfile> findUserProfileByAccount_Id(long idAccount);
     @Query("SELECT new com.model.dto.UserDTO(u, '', AVG(rev.rating), COUNT(rev.rating)) " +
