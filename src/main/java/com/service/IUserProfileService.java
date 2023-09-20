@@ -2,10 +2,9 @@ package com.service;
 
 import com.model.Supply;
 import com.model.UserProfile;
-import com.model.dto.AccountCCDVDTO;
-import com.model.dto.FilterCCDV;
-import com.model.dto.UserDTO;
-import com.model.dto.UserProfileFilterDTO;
+import com.model.dto.*;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,4 +24,15 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
     String receiveMoney(long idBill,long idAccountCCDV);
     List<UserDTO> getAllCCDVByFilter(FilterCCDV filterCCDV);
     String increaseView(long id);
+
+    @Query(value = "select new com.model.dto.UserDTO(u, '', avg(rev.rating), count(rev.rating)) from UserProfile u " +
+            "left outer join Review rev on rev.accountCCDV.id = u.account.id " +
+            "where (u.account.role.id = 3) and (u.account.status.id = 1) " +
+            "and (u.isActive = true) and (u.account.isActive = true) and (rev.isActive = true or rev is null) " +
+            "and (u.gender = :gender) and (u.zone.zone = :zone) " +
+            "and (u.price >= :lowAge and u.price <= :highPrice) " +
+            "group by u.id " +
+            "order by u.id desc")
+    List<AccountDTO> getAllAccountUserFilter(@Param("gender") String gender, @Param("zone") String zone
+            , @Param("lowPrice") Long lowPrice, @Param("highPrice") Long highPrice);
 }

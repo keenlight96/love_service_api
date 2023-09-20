@@ -4,10 +4,7 @@ import com.model.Account;
 import com.model.Supply;
 import com.model.Comment;
 import com.model.*;
-import com.model.dto.AccountCCDVDTO;
-import com.model.dto.FilterCCDV;
-import com.model.dto.UserDTO;
-import com.model.dto.UserProfileFilterDTO;
+import com.model.dto.*;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
 import com.repository.IUserProfileRepository;
@@ -256,5 +253,10 @@ public class UserProfileServiceImpl implements IUserProfileService {
             return "+1";
         }
         return "bug";
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccountUserFilter(String gender, String zone, Long lowPrice, Long highPrice) {
+        return null;
     }
 }
