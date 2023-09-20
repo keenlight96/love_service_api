@@ -4,9 +4,7 @@ import com.model.Account;
 import com.model.dto.AccountDTO;
 import com.model.dto.AccountMessageDTO;
 import com.model.dto.FilterAccountByStatusDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
+import com.model.dto.ImageDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

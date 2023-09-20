@@ -1,13 +1,13 @@
 package com.service.ipml;
 
 import com.model.Account;
+import com.model.Image;
 import com.model.Message;
-import com.model.Status;
 import com.model.Status;
 import com.model.dto.AccountDTO;
 import com.model.dto.AccountMessageDTO;
-import com.model.UserProfile;
 import com.model.dto.FilterAccountByStatusDTO;
+import com.model.dto.ImageDTO;
 import com.repository.IAccountRepository;
 import com.repository.IBillRepository;
 import com.repository.IStatusRepository;
@@ -15,8 +15,6 @@ import com.service.IAccountService;
 import com.service.IStatusService;
 import com.service.emailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
