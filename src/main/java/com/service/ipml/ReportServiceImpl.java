@@ -20,6 +20,7 @@ public class ReportServiceImpl implements IReportService {
     IReportRepository iReportRepository;
     @PersistenceContext
     EntityManager entityManager;
+
     @Override
     public List<Report> getAll() {
         return iReportRepository.findAll();
@@ -68,5 +69,17 @@ public class ReportServiceImpl implements IReportService {
 
         List<Report> reportList = query.getResultList();
         return reportList;
+    }
+
+    @Override
+    public String sendReport(Report report) {
+       List<Report> list = iReportRepository.getAllByBill_IdAndSend_Id(report.getBill().getId(),report.getSend().getId()).get();
+        if (list.size() == 0) {
+            report.setIsActive(true);
+            report.setStatus(null);
+            iReportRepository.save(report);
+            return "Tố cáo thành công";
+        }
+        return "Bạn đã tố cáo rồi";
     }
 }

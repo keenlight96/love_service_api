@@ -106,4 +106,7 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
             @Param("minPrice") Long minPrice,
             @Param("maxPrice") Long maxPrice
     );
+
+    UserProfile getUserProfileById(long id);
+
 }

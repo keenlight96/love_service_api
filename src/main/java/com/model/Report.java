@@ -21,5 +21,7 @@ public class Report {
     private Account receiver;
     @ManyToOne
     private Status status;
+    @ManyToOne
+    private Bill bill;
     private Boolean isActive;
 }

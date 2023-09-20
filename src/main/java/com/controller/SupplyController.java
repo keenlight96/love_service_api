@@ -1,7 +1,9 @@
 package com.controller;
 
+import com.model.Account;
 import com.model.Supply;
 import com.model.UserProfile;
+import com.service.IAccountService;
 import com.service.ISupplyService;
 import com.service.IUserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class SupplyController {
     ISupplyService iSupplyService;
     @Autowired
     IUserProfileService iUserProfileService;
+    @Autowired
+    IAccountService iAccountService;
 
 
     @GetMapping("/getAllSupply")
@@ -32,29 +36,44 @@ public class SupplyController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/getSupplyByUserID")
-    ResponseEntity<UserProfile> getPriceAndMinHourByID(@RequestParam long id){
-        UserProfile userProfile = iUserProfileService.getByAccountId(id);
-        return new ResponseEntity<>(userProfile,HttpStatus.OK);
+    @GetMapping("/getSupplyByAccountID/{id}")
+    ResponseEntity<?> getSupplyByAccountId(@PathVariable Long id) {
+        Account account = iAccountService.getById(id);
+        UserProfile userProfile = iUserProfileService.getByAccountId(account.getId());
+        List<Supply> supply = (List<Supply>) iSupplyService.getById(userProfile.getId());
+        return new ResponseEntity<>(supply, HttpStatus.OK);
     }
 
-    @PostMapping("/createSupply")
-    public ResponseEntity<String> createSupply(@RequestBody List<Supply> supplyList, @RequestParam int id, @RequestParam int cost) {
+    @GetMapping("/getSupplyByUserID")
+    ResponseEntity<UserProfile> getPriceAndMinHourByID(@RequestParam long id) {
+        UserProfile userProfile = iUserProfileService.getByAccountId(id);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
+
+    @GetMapping("/getSupplyByUserID2")
+    ResponseEntity<List<Supply>> getSupplyByIdUser(@RequestParam long id){
+        List<Supply> list = iUserProfileService.getSuppliesByIdUser(id);
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
+
+    @PostMapping("/setSupply")
+    public ResponseEntity<String> setSupply(@RequestBody List<Supply> supplyList, @RequestParam long id) {
         UserProfile userProfile = iUserProfileService.getById(id);
         userProfile.setSupplies(supplyList);
-        userProfile.setPrice(cost);
         iUserProfileService.edit(userProfile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @GetMapping("/getAllActive")
-    public ResponseEntity<List<Supply>> getAllActive(){
+    public ResponseEntity<List<Supply>> getAllActive() {
         return new ResponseEntity<>(iSupplyService.getAllActive(), HttpStatus.OK);
     }
+
     @GetMapping("getSupplyList")
-    ResponseEntity<List<Supply>> getSupplyList(){
+    ResponseEntity<List<Supply>> getSupplyList() {
         List<Supply> supplyList = iSupplyService.getAll();
-        return new ResponseEntity<>(supplyList,HttpStatus.OK);
+        return new ResponseEntity<>(supplyList, HttpStatus.OK);
     }
 }

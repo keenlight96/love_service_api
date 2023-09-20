@@ -22,6 +22,7 @@ public class Account {
     @ManyToOne
     private Status status;
     private Boolean isActive;
+    private Boolean isGoogle;
 
 
 }

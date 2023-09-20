@@ -16,8 +16,15 @@ import java.util.List;
 public class ReportController {
     @Autowired
     IReportService iReportService;
+
     @PostMapping("/getAccountReceiverReport")
-    public ResponseEntity<List<Report>> getAccountReceiverReport(@RequestParam String usernameParam){
-        return new ResponseEntity<>(iReportService.getAccountReceiverReport(usernameParam),HttpStatus.OK);
+    public ResponseEntity<List<Report>> getAccountReceiverReport(@RequestParam String usernameParam) {
+        return new ResponseEntity<>(iReportService.getAccountReceiverReport(usernameParam), HttpStatus.OK);
     }
+
+    @PostMapping("/sendReport")
+    public ResponseEntity<String> sendReport(@RequestBody Report report) {
+        return new ResponseEntity<>(iReportService.sendReport(report), HttpStatus.OK);
+    }
+
 }

@@ -35,4 +35,5 @@ public interface IUserProfileService extends ICrudService<UserProfile>{
             "order by u.id desc")
     List<AccountDTO> getAllAccountUserFilter(@Param("gender") String gender, @Param("zone") String zone
             , @Param("lowPrice") Long lowPrice, @Param("highPrice") Long highPrice);
+    List<Supply> getSuppliesByIdUser(long id);
 }

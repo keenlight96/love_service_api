@@ -263,4 +263,9 @@ public class UserProfileServiceImpl implements IUserProfileService {
     public List<AccountDTO> getAllAccountUserFilter(String gender, String zone, Long lowPrice, Long highPrice) {
         return null;
     }
+
+    @Override
+    public List<Supply> getSuppliesByIdUser(long id) {
+        return iUserProfileRepository.getUserProfileById(id).getSupplies();
+    }
 }

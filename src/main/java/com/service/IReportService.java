@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IReportService extends ICrudService<Report>{
     List<Report> getAccountReceiverReport(String usernameParam);
+
+    String sendReport(Report report);
 }

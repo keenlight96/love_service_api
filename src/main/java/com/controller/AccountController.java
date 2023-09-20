@@ -59,14 +59,18 @@ public class AccountController {
         informationDTO.setAvatar(account.getAvatar());
         informationDTO.setEmail(account.getEmail());
         informationDTO.setNickname(account.getNickname());
+        informationDTO.setIsGoogle(account.getIsGoogle());
         informationDTO.setFirstName(userProfile.getFirstName());
         informationDTO.setLastName(userProfile.getLastName());
 
         // Định dạng ngày tháng thành chuỗi "yyyy-MM-dd"
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedBirthday = dateFormat.format(userProfile.getBirthday());
-
-        informationDTO.setBirthday(formattedBirthday);
+        if (userProfile.getBirthday()== null){
+            informationDTO.setBirthday(null);
+        }else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedBirthday = dateFormat.format(userProfile.getBirthday());
+            informationDTO.setBirthday(formattedBirthday);
+        }
         informationDTO.setCountry(userProfile.getCountry());
         informationDTO.setAddress(userProfile.getAddress());
         informationDTO.setPhoneNumber(userProfile.getPhoneNumber());
@@ -78,7 +82,8 @@ public class AccountController {
         informationDTO.setFacebookLink(userProfile.getFacebookLink());
         informationDTO.setSupplies(userProfile.getSupplies());
         informationDTO.setZone(userProfile.getZone());
-
+        Role role = iRoleService.getById(account.getRole().getId());
+        informationDTO.setRole(role);
         return new ResponseEntity<>(informationDTO,HttpStatus.OK);
     }
     @GetMapping("/profile/{id}")
@@ -102,7 +107,6 @@ public class AccountController {
         iAccountService.edit(account1);
         return new ResponseEntity<>(account1,HttpStatus.OK);
     }
-
     @PostMapping("/registerUser")
     ResponseEntity<AccountRegisterDTO> createAccountUser(@RequestBody AccountRegisterDTO accountDTO) {
         if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
@@ -130,10 +134,47 @@ public class AccountController {
         accountDTO.setStatus(status);
         account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
+        account.setIsGoogle(false);
         iAccountService.create(account);
 //        iAccountService.emailActive(account.getEmail());
         long accountId = account.getId();
         return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL,accountId), HttpStatus.OK);
+    }
+
+    @PostMapping("/registerUserGoogle2")
+    ResponseEntity<AccountRegisterDTO> createAccountUserGoogle2(@RequestBody AccountRegisterDTO accountDTO) {
+        if(iAccountService.findByUsername(accountDTO.getUsername()).isPresent() && iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED_EMAIL_EXIST),HttpStatus.OK);
+        }
+        if (iAccountService.findByUsername(accountDTO.getUsername()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.NAME_EXISTED),HttpStatus.OK);
+        }
+        if (iAccountService.findByEmail(accountDTO.getEmail()).isPresent()){
+            return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.EMAIL_EXIST),HttpStatus.OK);
+        }
+        Account account = new Account();
+        account.setUsername(accountDTO.getUsername());
+        account.setEmail(accountDTO.getEmail());
+        account.setNickname(accountDTO.getNickName());
+        account.setAvatar(accountDTO.getAvatar());
+
+        int max = 999999;
+        int min = 10000;
+        int range = max - min + 1;
+        account.setPassword("g" + ((int)(Math.random() * range) + min));
+
+        Role role = iRoleService.findByName("ROLE_USER");
+        accountDTO.setRole(role);
+        account.setRole(accountDTO.getRole());
+        Status status = iStatusService.getById(3);
+        accountDTO.setStatus(status);
+        account.setStatus(accountDTO.getStatus());
+        account.setIsActive(true);
+        account.setIsGoogle(true);
+        iAccountService.create(account);
+        long accountId = account.getId();
+
+        return new ResponseEntity<>(new AccountRegisterDTO(ValidStatus.SUCCESSFULL, accountId), HttpStatus.OK);
     }
 
     @PostMapping("/registerUserGoogle")
@@ -165,6 +206,7 @@ public class AccountController {
         accountDTO.setStatus(status);
         account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
+        account.setIsGoogle(true);
         iAccountService.create(account);
         long accountId = account.getId();
 
@@ -197,6 +239,7 @@ public class AccountController {
         accountDTO.setStatus(status);
         account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
+        account.setIsGoogle(false);
         iAccountService.create(account);
         iAccountService.emailActive(account.getEmail());
         long id = account.getId();
@@ -238,6 +281,7 @@ public class AccountController {
         accountDTO.setStatus(status);
         account.setStatus(accountDTO.getStatus());
         account.setIsActive(true);
+        account.setIsGoogle(true);
         iAccountService.create(account);
         long id = account.getId();
         UserProfile userProfile = new UserProfile();
