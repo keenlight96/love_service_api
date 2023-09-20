@@ -20,6 +20,7 @@ public class AccountRegisterDTO {
     private Role role;
     private Status status;
     private Boolean isActive;
+    private Boolean isGoogle;
     private ValidStatus validStatus;
 
 
