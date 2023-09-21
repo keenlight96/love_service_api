@@ -80,11 +80,11 @@ public class BillServiceImpl implements IBillService {
 
     @Override
     public BillMessageDTO createBill(Bill bill) {
-        UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
+        UserProfile userProfile = iUserProfileRepository.getByAccount_Id(bill.getAccountUser().getId());
         Account accountCCDV = iAccountService.getById(bill.getAccountCCDV().getId());
         if (userProfile.getBalance() > bill.getTotal()) {
             if (accountCCDV.getStatus().getId() == 1) {
-                userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
+                userProfile.setBalance(userProfile.getBalance() - bill.getTotal());
                 bill.setStatus(iStatusRepository.findById(4L).get());
                 bill.setIsActive(true);
                 iUserProfileRepository.save(userProfile);
