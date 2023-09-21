@@ -96,7 +96,7 @@ public class AccountController {
     @GetMapping("/active-account")
     public ResponseEntity<?> activeAccount(@RequestParam String email){
         iAccountService.activeAccount(email);
-        String frontendLoginUrl = "http://localhost:3000/login"; // Thay thế bằng URL của trang login frontend của bạn
+        String frontendLoginUrl = "http://45.117.179.204:3000/login"; // Thay thế bằng URL của trang login frontend của bạn
         return ResponseEntity.status(HttpStatus.FOUND).header("Location", frontendLoginUrl).build();
     }
 
