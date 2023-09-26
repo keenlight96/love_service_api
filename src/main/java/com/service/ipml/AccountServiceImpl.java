@@ -184,7 +184,7 @@ public class AccountServiceImpl implements IAccountService {
             Status status = iStatusService.getById(2L);
             account1.setStatus(status);
             edit(account1);
-            return "Khóa thành công ti khoản";
+            return "Khóa thành công tài khoản";
         }catch (Exception e){
             return "không tìm thấy tài khoản";
         }

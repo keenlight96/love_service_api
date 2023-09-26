@@ -80,11 +80,15 @@ public class BillServiceImpl implements IBillService {
 
     @Override
     public BillMessageDTO createBill(Bill bill) {
-        UserProfile userProfile = iUserProfileRepository.getById(bill.getAccountUser().getId());
+        UserProfile userProfile = iUserProfileRepository.getByAccount_Id(bill.getAccountUser().getId());
         Account accountCCDV = iAccountService.getById(bill.getAccountCCDV().getId());
+        System.out.println("---------------------------");
+        System.out.println(bill.getAccountUser().getId());
+        System.out.println(userProfile.getBalance());
+        System.out.println(bill.getTotal());
         if (userProfile.getBalance() > bill.getTotal()) {
             if (accountCCDV.getStatus().getId() == 1) {
-                userProfile.setBalance(iUserProfileRepository.getById(bill.getAccountUser().getId()).getBalance() - bill.getTotal());
+                userProfile.setBalance(userProfile.getBalance() - bill.getTotal());
                 bill.setStatus(iStatusRepository.findById(4L).get());
                 bill.setIsActive(true);
                 iUserProfileRepository.save(userProfile);
@@ -219,8 +223,12 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
-    public List<Bill> findBillByStatus(Long idStatus) {
-        return iBillRepository.findBillsByStatusIds(idStatus);
+    public List<Bill> findBillByStatus(Long idStatus,String usernameCCDV,String usernameUser) {
+       String usernameCCDv = "%" + usernameCCDV + "%";
+       String usernameUser1 = "%" + usernameUser + "%";
+       if (usernameCCDv ==" ") usernameCCDv= null;
+       if (usernameUser1 ==" ") usernameUser1= null;
+        return iBillRepository.findBillsByStatusIds(idStatus,usernameCCDv,usernameUser1);
     }
 
 

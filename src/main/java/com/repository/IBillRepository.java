@@ -50,10 +50,15 @@ public interface IBillRepository extends JpaRepository<Bill, Long> {
 //    @Query(nativeQuery = true, value = "select * from bill  where account_user_id= :account_user_id and id= :id ")
 //    Bill getBillDetailByAccountUser(@Param("account_user_id") long account_user_id, @Param("id") long id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Bill b JOIN Status s ON b.status_id = s.id" +
+    @Query( value = "SELECT b FROM Bill b JOIN Status s ON b.status.id = s.id" +
             " WHERE (s.id = :idStatus) OR (s.id IN (7, 8, 9, 10) AND :idStatus = 7)" +
+            " AND (:usernameCCDV is not null  or b.accountCCDV.username like :usernameCCDV) " +
+            " AND (:usernameUser is not null  or b.accountUser.username like :usernameUser) " +
             " ORDER BY b.id DESC")
-    List<Bill> findBillsByStatusIds(@Param("idStatus") Long idStatus);
+    List<Bill> findBillsByStatusIds(
+            @Param("idStatus") Long idStatus,
+            @Param("usernameCCDV") String usernameCCDV,
+            @Param("usernameUser") String usernameUser);
 
 
 

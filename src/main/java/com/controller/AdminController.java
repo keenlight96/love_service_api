@@ -4,6 +4,7 @@ import com.model.Account;
 import com.model.Bill;
 import com.model.dto.AccountDTO;
 import com.model.dto.FilterAccountByStatusDTO;
+import com.model.dto.FilterBill;
 import com.service.IAccountService;
 import com.service.IBillService;
 import com.service.IUserProfileService;
@@ -75,12 +76,15 @@ public class AdminController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
     @GetMapping("/findBillByIdStatus")
-    public ResponseEntity<List<Bill>> findBill(@RequestParam String idStatus){
-        if ("null".equals(idStatus)) {
+    public ResponseEntity<List<Bill>> findBill(@RequestBody FilterBill filterBill){
+        String idStatus = filterBill.getIdStatus();
+        String usernameCCDV = filterBill.getUsernameCCDV();
+        String usernameUser = filterBill.getUsernameUser();
+        if ("null".equals(idStatus) && usernameCCDV.equals("") && usernameCCDV.equals("")) {
             return new ResponseEntity<>(iBillService.getAllBills(), HttpStatus.OK);
         } else {
             Long statusId = Long.parseLong(idStatus);
-            return new ResponseEntity<>(iBillService.findBillByStatus(statusId), HttpStatus.OK);
+            return new ResponseEntity<>(iBillService.findBillByStatus(statusId,usernameCCDV,usernameUser), HttpStatus.OK);
         }
     }
 }
